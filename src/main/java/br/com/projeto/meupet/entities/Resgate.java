@@ -9,6 +9,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "resgate")
@@ -22,16 +23,21 @@ public class Resgate {
     private Blob foto;
 
     @Column(name = "situacao")
+    @NotNull
     private String situacao;
 
     @Column(name = "localizacao")
+    @NotNull
     private String localizacao;
 
+    @Column(name = "id_ong")
     private int idOng;
 
+    @Column(name = "id_user")
     private long idUser;
 
     @Column(name = "data_resgate")
+    @NotNull
     private LocalDateTime dataResgate;
 
     public Resgate(Blob foto, String situacao, String localizacao, int idOng, long idUser, LocalDateTime dataResgate) {

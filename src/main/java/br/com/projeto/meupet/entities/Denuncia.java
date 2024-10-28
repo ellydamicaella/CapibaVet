@@ -9,6 +9,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "denuncia")
@@ -22,15 +23,19 @@ public class Denuncia {
     private String informacaoDoDenunciante;
 
     @Column(name = "localizacao")
+    @NotNull
     private String localizacao;
 
     @Column(name = "animal_envolvido")
+    @NotNull
     private String animalEnvolvido;
 
     @Column(name = "qnts_animais_envolvidos")
+    @NotNull
     private int QtdAnimaisEnvolvidos;
 
     @Column(name = "descricao")
+    @NotNull
     private String descricao;
 
     @Column(name = "foto")
@@ -42,6 +47,7 @@ public class Denuncia {
     @Column(name = "data_denuncia")
     private LocalDateTime dataDenuncia;
 
+    @Column(name = "id_user")
     private long idUser;
 
     public Denuncia(String informacaoDoDenunciante, String localizacao, String animalEnvolvido,

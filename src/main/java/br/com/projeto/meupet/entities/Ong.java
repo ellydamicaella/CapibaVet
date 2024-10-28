@@ -6,6 +6,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "ong")
@@ -16,18 +17,23 @@ public class Ong {
     private int id;
 
     @Column(name = "nome_fantasia")
+    @NotNull
     private String nomeFantasia;
 
     @Column(name = "email")
+    @NotNull
     private String email;
 
     @Column(name = "cnpj")
+    @NotNull
     private String cnpj;
 
     @Column(name = "senha")
+    @NotNull
     private String senha;
 
     @Column(name = "telefone")
+    @NotNull
     private String telefone;
 
     public Ong(String nomeFantasia, String email, String cnpj, String senha, String telefone) {

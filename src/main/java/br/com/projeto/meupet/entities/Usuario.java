@@ -6,6 +6,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "usuario")
@@ -16,15 +17,19 @@ public class Usuario {
     private long id;
 
     @Column(name = "nome_completo")
+    @NotNull
     private String nomeCompleto;
 
     @Column(name = "email")
+    @NotNull
     private String email;
 
     @Column(name = "senha")
+    @NotNull
     private String senha;
 
     @Column(name = "telefone")
+    @NotNull
     private String telefone;
 
     public Usuario(String nomeCompleto, String email, String senha, String telefone) {
