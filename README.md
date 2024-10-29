@@ -151,6 +151,9 @@ O Swagger poderá ser visualizado em [localhost:8080/swagger-ui.html](http://loc
 ### Usando Docker
 
 - Clonar repositório git
+```
+git clone https://github.com/ellydamicaella/AnimalAlert.git
+```
 - Construir o projeto:
 ```
 ./mvnw clean package
