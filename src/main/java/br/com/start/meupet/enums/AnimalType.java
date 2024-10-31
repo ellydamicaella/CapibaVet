@@ -1,4 +1,4 @@
-package br.com.projeto.meupet.enums;
+package br.com.start.meupet.enums;
 
 public enum AnimalType {
     GATO("Gato"),

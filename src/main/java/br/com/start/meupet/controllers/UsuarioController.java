@@ -1,4 +1,4 @@
-package br.com.projeto.meupet.controllers;
+package br.com.start.meupet.controllers;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
