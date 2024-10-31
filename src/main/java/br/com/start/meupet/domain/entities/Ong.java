@@ -6,6 +6,7 @@ import br.com.start.meupet.domain.valueobjects.Cnpj;
 import br.com.start.meupet.domain.valueobjects.Email;
 import br.com.start.meupet.domain.valueobjects.Telefone;
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -32,6 +33,7 @@ public class Ong {
 
 	@Column(name = "cnpj")
 	@NotNull
+	@Embedded
 	private Cnpj cnpj;
 
 	@Column(name = "senha")
@@ -40,16 +42,17 @@ public class Ong {
 
 	@Column(name = "telefone")
 	@NotNull
+	@Embedded
 	private Telefone telefone;
 
 	@Column(name = "createdAt")
 	private LocalDateTime createdAt;
-	
+
 	public Ong() {
 
 	}
 
-	public Ong( @NotNull String nomeFantasia, @NotNull Email email, @NotNull Cnpj cnpj, @NotNull String senha,
+	public Ong(@NotNull String nomeFantasia, @NotNull Email email, @NotNull Cnpj cnpj, @NotNull String senha,
 			@NotNull Telefone telefone) {
 		this.nomeFantasia = nomeFantasia;
 		this.email = email;
@@ -57,11 +60,11 @@ public class Ong {
 		this.senha = senha;
 		this.telefone = telefone;
 	}
-	
+
 	@PrePersist
-    protected void onCreate() {
-        this.createdAt = LocalDateTime.now();
-    }
+	protected void onCreate() {
+		this.createdAt = LocalDateTime.now();
+	}
 
 	public int getId() {
 		return id;

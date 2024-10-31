@@ -25,7 +25,7 @@ public class MeupetApplication {
         teste.put("nome_completo", "Thiago Andrade");
         teste.put("email", "thiago@example.com"); // Exemplo de String
         teste.put("senha", "senhaSecreta"); // Exemplo de String
-        //teste.put("telefone", "123456789"); // Exemplo de String
+        teste.put("telefone", "(55) 81 98599-6672"); // Exemplo de String
         
         Usuario usuario = UsuarioFactory.create(teste);
         

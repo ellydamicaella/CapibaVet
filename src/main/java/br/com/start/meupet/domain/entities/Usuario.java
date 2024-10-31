@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import br.com.start.meupet.domain.valueobjects.Email;
 import br.com.start.meupet.domain.valueobjects.Telefone;
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -27,6 +28,7 @@ public class Usuario {
 
 	@Column(name = "email")
 	@NotNull
+	@Embedded
 	private Email email;
 
 	@Column(name = "senha")
@@ -35,6 +37,7 @@ public class Usuario {
 
 	@Column(name = "telefone")
 	@NotNull
+	@Embedded
 	private Telefone telefone;
 
 	@Column(name = "createdAt")

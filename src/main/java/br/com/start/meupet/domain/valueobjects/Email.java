@@ -2,31 +2,34 @@ package br.com.start.meupet.domain.valueobjects;
 
 import java.util.regex.Pattern;
 
-public class Email {
-    private String email;
+import jakarta.persistence.Embeddable;
 
-    // Regex para validação de email
-    private static final String EMAIL_REGEX = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
-    private static final Pattern EMAIL_PATTERN = Pattern.compile(EMAIL_REGEX);
+@Embeddable
+public final class Email {
+	private String email;
 
-    public Email(String email) {
-        if (!isValidEmail(email)) {
-            throw new IllegalArgumentException("Email inválido: " + email);
-        }
-        this.email = email;
-    }
+	// Regex para validação de email
+	private static final String EMAIL_REGEX = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
+	private static final Pattern EMAIL_PATTERN = Pattern.compile(EMAIL_REGEX);
 
-    // Método para validar o email
-    private boolean isValidEmail(String email) {
-        return email != null && EMAIL_PATTERN.matcher(email).matches();
-    }
+	public Email(String email) {
+		if (!isValidEmail(email)) {
+			throw new IllegalArgumentException("Email inválido: " + email);
+		}
+		this.email = email;
+	}
 
-    public String getEmail() {
-        return email;
-    }
+	// Método para validar o email
+	private boolean isValidEmail(String email) {
+		return email != null && EMAIL_PATTERN.matcher(email).matches();
+	}
 
-    @Override
-    public String toString() {
-        return email;
-    }
+	public String getEmail() {
+		return email;
+	}
+
+	@Override
+	public String toString() {
+		return email;
+	}
 }
