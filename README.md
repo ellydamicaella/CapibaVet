@@ -11,6 +11,51 @@
 Com o crescimento excessivo de animais em situação de rua, viabilizamos um projeto para impactar a situação desses animais presente na Região Metropolitana do Recife.
 O projeto "Meu Pet" visa facilitar a adoção, resgate e cuidados de animais em situação de abandono. A plataforma conecta usuários, ONGs, e prestadores de serviços, criando uma rede de apoio para animais necessitados.
 
+## Tipos de Commits
+
+Os commits possuem os seguintes tipos, que informam a intenção do seu commit aos usuários do seu código:
+
+- **fix**: Indica que o código commitado está solucionando um problema (bug fix). Relaciona-se com o PATCH do versionamento semântico.
+  
+- **feat**: Indica que o código commitado está incluindo um novo recurso. Relaciona-se com o MINOR do versionamento semântico.
+
+- **docs**: Indica que houve mudanças na documentação, como por exemplo no README do seu repositório (não inclui alterações em código).
+
+- **style**: Indica que houve alterações referentes a formatações de código, como semicolons, trailing spaces, lint, etc. (não inclui alterações em código).
+
+- **refactor**: Refere-se a mudanças devido a refatorações que não alterem a funcionalidade do código. Por exemplo, uma alteração no formato de processamento de determinada parte da tela, mantendo a mesma funcionalidade, ou melhorias de performance após um code review.
+
+- **build**: Utilizado quando são realizadas modificações em arquivos de build e dependências.
+
+- **test**: Utilizado quando são realizadas alterações em testes, seja criando, alterando ou excluindo testes unitários (não inclui alterações em código).
+
+- **chore**: Indica atualizações de tarefas de build, configurações de administrador, pacotes, etc., como adicionar um pacote ao .gitignore (não inclui alterações em código).
+
+## Emojis para Commits
+
+| Tipo de Commit              | Emoji                 |
+|-----------------------------|---------------------|
+| Commit inicial              | 🎉 :tada:           |
+| Tag de versão               | 🔖 :bookmark:        |
+| Novo recurso                | ✨ :sparkles:       |
+| Lista de ideias (tasks)     | 🔜 :soon:           |
+| Bugfix                      | 🐛 :bug:            |
+| Documentação                | 📚 :books:          |
+| Testes                      | 🧪 :test_tube:      |
+| Adicionando um teste        | ✅ :white_check_mark:|
+| Teste de aprovação          | ✔️ :heavy_check_mark:|
+| Acessibilidade              | ♿ :wheelchair:     |
+| Texto                       | 📝 :pencil:         |
+| Package.json em JS         | 📦 :package:        |
+| Em progresso                | 🚧 :construction:    |
+| Arquivos de configuração    | 🔧 :wrench:        |
+| Removendo uma dependência   | ➖ :heavy_minus_sign:|
+| Adicionando uma dependência  | ➕ :heavy_plus_sign: |
+| Revertendo mudanças         | 💥 :boom:           |
+| Alterações de revisão de código | 👌 :ok_hand:   |
+| Refatoração                 | ♻️ :recycle:       |
+| Mover/Renomear             | 🚚 :truck:         |
+
 ## Banco de Dados
 
 ### Cadastro de Usuário
