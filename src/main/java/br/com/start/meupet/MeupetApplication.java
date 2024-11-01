@@ -18,17 +18,17 @@ public class MeupetApplication {
         Integer port = context.getEnvironment().getProperty("server.port", Integer.class);
 
         System.out.println("Servidor iniciado na porta: " + port);
-        
+
         Map<String, Object> teste = new HashMap<>();
-        
+
         teste.put("id", 1L);
         teste.put("nome_completo", "Thiago Andrade");
         teste.put("email", "thiago@example.com"); // Exemplo de String
         teste.put("senha", "senhaSecreta"); // Exemplo de String
         teste.put("telefone", "(55) 81 98599-6672"); // Exemplo de String
-        
+
         Usuario usuario = UsuarioFactory.create(teste);
-        
+
         System.out.println("ID: " + usuario.getId());
         System.out.println("Nome: " + usuario.getNomeCompleto());
         System.out.println("Email: " + usuario.getEmail());
