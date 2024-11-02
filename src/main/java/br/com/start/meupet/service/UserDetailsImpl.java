@@ -1,9 +1,14 @@
 package br.com.start.meupet.service;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import br.com.start.meupet.domain.entities.Usuario;
+import br.com.start.meupet.domain.interfaces.Authenticable;
+import br.com.start.meupet.domain.valueobjects.Email;
 
 public class UserDetailsImpl implements UserDetails {
 
@@ -12,14 +17,25 @@ public class UserDetailsImpl implements UserDetails {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private Long id;
+	private Number id;
 
 	private String name;
 
-	private String username;
+	private Email email;
 
 	private String password;
+
+	public static UserDetailsImpl build(Authenticable usuario) {
+		return new UserDetailsImpl(usuario.getId(), usuario.getName(), usuario.getEmail(), new ArrayList<>());
+	}
 	
+	public UserDetailsImpl(Number id, String name, Email email, Collection<? extends GrantedAuthority> authorithies) {
+		this.id = id;
+		this.name = name;
+		this.email = email;
+		this.authorithies = authorithies;
+	}
+
 	private Collection<? extends GrantedAuthority> authorithies;
 
 	@Override
@@ -34,7 +50,7 @@ public class UserDetailsImpl implements UserDetails {
 
 	@Override
 	public String getUsername() {
-		return this.username;
+		return this.email.getEmail();
 	}
 
 	@Override
