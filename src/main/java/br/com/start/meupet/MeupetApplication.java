@@ -30,7 +30,7 @@ public class MeupetApplication {
         Usuario usuario = UsuarioFactory.create(teste);
 
         System.out.println("ID: " + usuario.getId());
-        System.out.println("Nome: " + usuario.getNomeCompleto());
+        System.out.println("Nome: " + usuario.getName());
         System.out.println("Email: " + usuario.getEmail());
         System.out.println("Telefone: " + usuario.getTelefone());
         System.out.println("createdAt: " + usuario.getCreatedAt());
