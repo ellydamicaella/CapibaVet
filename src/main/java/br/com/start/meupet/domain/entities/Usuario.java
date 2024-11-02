@@ -1,7 +1,9 @@
 package br.com.start.meupet.domain.entities;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
+import br.com.start.meupet.domain.interfaces.Authenticable;
 import br.com.start.meupet.domain.valueobjects.Email;
 import br.com.start.meupet.domain.valueobjects.Telefone;
 import jakarta.persistence.Column;
@@ -16,7 +18,7 @@ import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "usuario")
-public class Usuario {
+public class Usuario implements Authenticable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,7 +26,7 @@ public class Usuario {
 
 	@Column(name = "nome_completo")
 	@NotNull
-	private String nomeCompleto;
+	private String name;
 
 	@Column(name = "email")
 	@NotNull
@@ -47,20 +49,19 @@ public class Usuario {
 
 	}
 
-	public Usuario(@NotNull String nomeCompleto, @NotNull Email email, @NotNull String senha,
-			@NotNull Telefone telefone) {
-		this.nomeCompleto = nomeCompleto;
+	public Usuario(@NotNull String name, @NotNull Email email, @NotNull String senha, @NotNull Telefone telefone) {
+		this.name = name;
 		this.email = email;
 		this.senha = senha;
 		this.telefone = telefone;
 	}
-	
-	@PrePersist
-    protected void onCreate() {
-        this.createdAt = LocalDateTime.now();
-    }
 
-	public long getId() {
+	@PrePersist
+	protected void onCreate() {
+		this.createdAt = LocalDateTime.now();
+	}
+
+	public Number getId() {
 		return id;
 	}
 
@@ -68,12 +69,12 @@ public class Usuario {
 		this.id = id;
 	}
 
-	public String getNomeCompleto() {
-		return nomeCompleto;
+	public String getName() {
+		return name;
 	}
 
-	public void setNomeCompleto(String nomeCompleto) {
-		this.nomeCompleto = nomeCompleto;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public Email getEmail() {
@@ -106,6 +107,23 @@ public class Usuario {
 
 	public void setCreatedAt(LocalDateTime createdAt) {
 		this.createdAt = createdAt;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Usuario other = (Usuario) obj;
+		return id == other.id;
 	}
 
 }

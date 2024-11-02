@@ -1,7 +1,9 @@
 package br.com.start.meupet.domain.entities;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
+import br.com.start.meupet.domain.interfaces.Authenticable;
 import br.com.start.meupet.domain.valueobjects.Cnpj;
 import br.com.start.meupet.domain.valueobjects.Email;
 import br.com.start.meupet.domain.valueobjects.Telefone;
@@ -17,7 +19,7 @@ import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "ong")
-public class Ong {
+public class Ong implements Authenticable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,7 +27,7 @@ public class Ong {
 
 	@Column(name = "nome_fantasia")
 	@NotNull
-	private String nomeFantasia;
+	private String name;
 
 	@Column(name = "email")
 	@NotNull
@@ -52,9 +54,9 @@ public class Ong {
 
 	}
 
-	public Ong(@NotNull String nomeFantasia, @NotNull Email email, @NotNull Cnpj cnpj, @NotNull String senha,
+	public Ong(@NotNull String name, @NotNull Email email, @NotNull Cnpj cnpj, @NotNull String senha,
 			@NotNull Telefone telefone) {
-		this.nomeFantasia = nomeFantasia;
+		this.name = name;
 		this.email = email;
 		this.cnpj = cnpj;
 		this.senha = senha;
@@ -66,7 +68,7 @@ public class Ong {
 		this.createdAt = LocalDateTime.now();
 	}
 
-	public int getId() {
+	public Number getId() {
 		return id;
 	}
 
@@ -74,12 +76,12 @@ public class Ong {
 		this.id = id;
 	}
 
-	public String getNomeFantasia() {
-		return nomeFantasia;
+	public String getName() {
+		return name;
 	}
 
-	public void setNomeFantasia(String nomeFantasia) {
-		this.nomeFantasia = nomeFantasia;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public Email getEmail() {
@@ -112,6 +114,23 @@ public class Ong {
 
 	public void setTelefone(Telefone telefone) {
 		this.telefone = telefone;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Ong other = (Ong) obj;
+		return id == other.id;
 	}
 
 }
