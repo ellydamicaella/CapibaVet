@@ -16,7 +16,7 @@ public final class UsuarioFactory {
 		}
 
 		user.setId((Long) lista.get("id"));
-		user.setNomeCompleto((String) lista.get("nome_completo"));
+		user.setName((String) lista.get("nome_completo"));
 		user.setEmail(new Email((String) lista.get("email")));
 		user.setSenha((String) lista.get("senha"));
 		user.setTelefone(new Telefone((String) lista.get("telefone")));
