@@ -10,6 +10,6 @@ public interface Authenticable {
 
 	Email getEmail();
 
-	String getSenha();
+	String getPassword();
 
 }

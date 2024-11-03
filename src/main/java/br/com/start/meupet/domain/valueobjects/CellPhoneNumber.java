@@ -5,36 +5,36 @@ import java.util.regex.Pattern;
 import jakarta.persistence.Embeddable;
 
 @Embeddable
-public final class Telefone {
+public final class CellPhoneNumber {
 
-    private final String telefone;
+    private final String cellPhoneNumber;
 
     // Regex para validação de telefone
     private static final String TELEFONE_REGEX = "^(\\(\\d{2}\\) \\d{2} \\d{5}-\\d{4}|\\(\\d{2}\\) \\d{2} \\d{4}-\\d{4}|\\(\\d{2}\\) \\d{2} \\d{11}|\\(\\d{2}\\) \\d{2} \\d{10})$";
     private static final Pattern TELEFONE_PATTERN = Pattern.compile(TELEFONE_REGEX);
 
-    protected Telefone() {
-        this.telefone = null; // O valor padrão para inicialização pelo JPA
+    protected CellPhoneNumber() {
+        this.cellPhoneNumber = null; // O valor padrão para inicialização pelo JPA
     }
 
-    public Telefone(String telefone) {
-        if (!isValidTelefone(telefone)) {
-            throw new IllegalArgumentException("Telefone inválido: " + telefone);
+    public CellPhoneNumber(String cellPhoneNumber) {
+        if (!isValidCellPhoneNumber(cellPhoneNumber)) {
+            throw new IllegalArgumentException("Telefone inválido: " + cellPhoneNumber);
         }
-        this.telefone = telefone;
+        this.cellPhoneNumber = cellPhoneNumber;
     }
 
     // Método para validar o telefone
-    private boolean isValidTelefone(String telefone) {
-        return telefone != null && TELEFONE_PATTERN.matcher(telefone).matches();
+    private boolean isValidCellPhoneNumber(String cellPhoneNumber) {
+        return cellPhoneNumber != null && TELEFONE_PATTERN.matcher(cellPhoneNumber).matches();
     }
 
-    public String getTelefone() {
-        return telefone;
+    public String getCellPhoneNumber() {
+        return cellPhoneNumber;
     }
 
     @Override
     public String toString() {
-        return telefone;
+        return cellPhoneNumber;
     }
 }

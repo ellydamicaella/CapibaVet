@@ -6,7 +6,7 @@ import java.util.Objects;
 import br.com.start.meupet.domain.interfaces.Authenticable;
 import br.com.start.meupet.domain.valueobjects.Cnpj;
 import br.com.start.meupet.domain.valueobjects.Email;
-import br.com.start.meupet.domain.valueobjects.Telefone;
+import br.com.start.meupet.domain.valueobjects.CellPhoneNumber;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
@@ -40,12 +40,12 @@ public class Ong implements Authenticable {
 
 	@Column(name = "senha")
 	@NotNull
-	private String senha;
+	private String password;
 
 	@Column(name = "telefone")
 	@NotNull
 	@Embedded
-	private Telefone telefone;
+	private CellPhoneNumber cellPhoneNumber;
 
 	@Column(name = "createdAt")
 	private LocalDateTime createdAt;
@@ -54,13 +54,14 @@ public class Ong implements Authenticable {
 
 	}
 
-	public Ong(@NotNull String name, @NotNull Email email, @NotNull Cnpj cnpj, @NotNull String senha,
-			@NotNull Telefone telefone) {
+	public Ong(int id, @NotNull String name, @NotNull Email email, @NotNull Cnpj cnpj, @NotNull String password,
+			@NotNull CellPhoneNumber cellPhoneNumber) {
+		this.id = id;
 		this.name = name;
 		this.email = email;
 		this.cnpj = cnpj;
-		this.senha = senha;
-		this.telefone = telefone;
+		this.password = password;
+		this.cellPhoneNumber = cellPhoneNumber;
 	}
 
 	@PrePersist
@@ -100,20 +101,28 @@ public class Ong implements Authenticable {
 		this.cnpj = cnpj;
 	}
 
-	public String getSenha() {
-		return senha;
+	public String getPassword() {
+		return password;
 	}
 
-	public void setSenha(String senha) {
-		this.senha = senha;
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
-	public Telefone getTelefone() {
-		return telefone;
+	public CellPhoneNumber getCellPhoneNumber() {
+		return cellPhoneNumber;
 	}
 
-	public void setTelefone(Telefone telefone) {
-		this.telefone = telefone;
+	public void setCellPhoneNumber(CellPhoneNumber cellPhoneNumber) {
+		this.cellPhoneNumber = cellPhoneNumber;
+	}
+
+	public LocalDateTime getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(LocalDateTime createdAt) {
+		this.createdAt = createdAt;
 	}
 
 	@Override

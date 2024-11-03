@@ -5,7 +5,7 @@ import java.util.Objects;
 
 import br.com.start.meupet.domain.interfaces.Authenticable;
 import br.com.start.meupet.domain.valueobjects.Email;
-import br.com.start.meupet.domain.valueobjects.Telefone;
+import br.com.start.meupet.domain.valueobjects.CellPhoneNumber;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
@@ -18,7 +18,7 @@ import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "usuario")
-public class Usuario implements Authenticable {
+public class User implements Authenticable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,25 +35,26 @@ public class Usuario implements Authenticable {
 
 	@Column(name = "senha")
 	@NotNull
-	private String senha;
+	private String password;
 
 	@Column(name = "telefone")
 	@NotNull
 	@Embedded
-	private Telefone telefone;
+	private CellPhoneNumber cellPhoneNumber;
 
 	@Column(name = "createdAt")
 	private LocalDateTime createdAt;
 
-	public Usuario() {
+	public User() {
 
 	}
 
-	public Usuario(@NotNull String name, @NotNull Email email, @NotNull String senha, @NotNull Telefone telefone) {
+	public User(long id, @NotNull String name, @NotNull Email email, @NotNull String password, @NotNull CellPhoneNumber cellPhoneNumber) {
+		this.id = id;
 		this.name = name;
 		this.email = email;
-		this.senha = senha;
-		this.telefone = telefone;
+		this.password = password;
+		this.cellPhoneNumber = cellPhoneNumber;
 	}
 
 	@PrePersist
@@ -85,20 +86,20 @@ public class Usuario implements Authenticable {
 		this.email = email;
 	}
 
-	public String getSenha() {
-		return senha;
+	public String getPassword() {
+		return password;
 	}
 
-	public void setSenha(String senha) {
-		this.senha = senha;
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
-	public Telefone getTelefone() {
-		return telefone;
+	public CellPhoneNumber getCellPhoneNumber() {
+		return cellPhoneNumber;
 	}
 
-	public void setTelefone(Telefone telefone) {
-		this.telefone = telefone;
+	public void setCellPhoneNumber(CellPhoneNumber cellPhoneNumber) {
+		this.cellPhoneNumber = cellPhoneNumber;
 	}
 
 	public LocalDateTime getCreatedAt() {
@@ -122,7 +123,7 @@ public class Usuario implements Authenticable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Usuario other = (Usuario) obj;
+		User other = (User) obj;
 		return id == other.id;
 	}
 
