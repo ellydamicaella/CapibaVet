@@ -25,7 +25,7 @@ public class VerifyAuthenticableEntity {
 
 	@ManyToOne
 	@JoinColumn(name = "ID_USUARIO", referencedColumnName = "ID", unique = true)
-	private Usuario user;
+	private User user;
 
 	public VerifyAuthenticableEntity() {
 	}
@@ -54,11 +54,11 @@ public class VerifyAuthenticableEntity {
 		this.expirationDate = expirationDate;
 	}
 
-	public Usuario getUser() {
+	public User getUser() {
 		return user;
 	}
 
-	public void setUser(Usuario user) {
+	public void setUser(User user) {
 		this.user = user;
 	}
 
