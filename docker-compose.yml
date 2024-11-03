@@ -1,30 +1,39 @@
 services:
- db:
-  image: mysql
-  networks:
-    - mynetwork
-  ports:
-    - "3307:3306"
-  environment:
-   - MYSQL_PASSWORD=root
-   - MYSQL_DATABASE=meupet
-   - MYSQL_ROOT_PASSWORD=root
-  volumes:
-    - "./conf.d:/etc/mysql/conf.d:ro"
- api:
-  environment:
-   SPRING_DATASOURCE_URL: jdbc:mysql://db:3307/meupet
-   SPRING_DATASOURCE_USERNAME: root
-   SPRING_DATASOURCE_PASSWORD: root
-  build: .
-  image: meupetapi
-  networks:
-   - mynetwork
-  ports:
-   - "8080:8080"
-  depends_on: 
-   - db
-   
+  db:
+    image: mysql:8.0
+    container_name: database
+    networks:
+      - mynetwork
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: meupet
+      MYSQL_PASSWORD: root
+    volumes:
+      - "./conf.d:/etc/mysql/conf.d:ro"
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "db", "-u", "root", "-proot" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  api:
+    depends_on:
+      db:
+        condition: service_healthy
+    build:
+      context: .
+      dockerfile: Dockerfile
+    networks:
+      - mynetwork
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/meupet
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+
 networks:
- mynetwork:
-  driver: bridge
+  mynetwork:
+    driver: bridge
