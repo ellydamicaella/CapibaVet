@@ -1,6 +1,7 @@
 package br.com.start.meupet.service;
 
 import java.time.Instant;
+
 import java.util.List;
 import java.util.UUID;
 
@@ -8,52 +9,61 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import br.com.start.meupet.domain.entities.Usuario;
+import br.com.start.meupet.domain.entities.User;
 import br.com.start.meupet.domain.entities.VerifyAuthenticableEntity;
-import br.com.start.meupet.domain.repository.UsuarioRepository;
-import br.com.start.meupet.dto.UserDTO;
+import br.com.start.meupet.domain.repository.UserRepository;
+import br.com.start.meupet.domain.valueobjects.CellPhoneNumber;
+import br.com.start.meupet.domain.valueobjects.Email;
+import br.com.start.meupet.dto.UserRequestDTO;
+import br.com.start.meupet.dto.UserResponseDTO;
 
 @Service
 public class UserService {
 
 	@Autowired
-	private UsuarioRepository userRepository;
+	private UserRepository userRepository;
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
-	public List<UserDTO> listAll() {
-		List<Usuario> usuarios = userRepository.findAll();
-		return usuarios.stream().map(UserDTO::new).toList();
+	public List<UserResponseDTO> listAll() {
+		List<User> usuarios = userRepository.findAll();
+		return usuarios.stream().map(UserResponseDTO::new).toList();
 	}
 
-	public void insert(UserDTO usuario) {
-		Usuario user = new Usuario(usuario.getName(), usuario.getEmail(), usuario.getSenha(), usuario.getTelefone());
-		user.setSenha(passwordEncoder.encode(usuario.getSenha()));
+	public UserResponseDTO insert(UserRequestDTO usuario) {
+		User userEntity = new User(0, usuario.getName(), new Email(usuario.getEmail()), usuario.getPassword(),
+				new CellPhoneNumber(usuario.getCellPhoneNumber()));
+		
+		userEntity.setPassword(passwordEncoder.encode(usuario.getPassword()));
 
-		userRepository.save(user);
+		User userResponse = userRepository.save(userEntity);
 
 		VerifyAuthenticableEntity verify = new VerifyAuthenticableEntity();
-		verify.setUser(user);
+		verify.setUser(userEntity);
 		verify.setUuid(UUID.randomUUID());
 		verify.setExpirationDate(Instant.now().plusMillis(300000));
-
+	
+		return new UserResponseDTO(userResponse.getId().longValue(), userResponse.getName(), userResponse.getPassword(), userResponse.getEmail().toString(), userResponse.getCellPhoneNumber().toString());
 	}
 
-	public UserDTO update(UserDTO usuario) {
-		Usuario userEntity = new Usuario(usuario.getName(), usuario.getEmail(), usuario.getSenha(),
-				usuario.getTelefone());
-		userEntity.setSenha(passwordEncoder.encode(userEntity.getSenha()));
-		return new UserDTO(userRepository.save(userEntity));
+	public UserResponseDTO update(UserRequestDTO usuario) {
+		User userEntity = new User(0, usuario.getName(), new Email(usuario.getEmail()), usuario.getPassword(),
+				new CellPhoneNumber(usuario.getCellPhoneNumber()));
+		
+		userEntity.setPassword(passwordEncoder.encode(userEntity.getPassword()));
+		return new UserResponseDTO(userRepository.save(userEntity));
 	}
+	
 
 	public void delete(Long id) {
-		Usuario userEntity = userRepository.findById(id).get();
+		User userEntity = userRepository.findById(id).get();
 		userRepository.delete(userEntity);
 	}
 	
-	public UserDTO findById(Long id) {
-		return new UserDTO(userRepository.findById(id).get());
+	
+	public UserResponseDTO findById(Long id) {
+		return new UserResponseDTO(userRepository.findById(id).get());
 	}
 
 }

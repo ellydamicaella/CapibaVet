@@ -10,20 +10,20 @@ import org.springframework.stereotype.Service;
 
 import br.com.start.meupet.domain.interfaces.Authenticable;
 import br.com.start.meupet.domain.repository.OngRepository;
-import br.com.start.meupet.domain.repository.UsuarioRepository;
+import br.com.start.meupet.domain.repository.UserRepository;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
 	@Autowired
-	private UsuarioRepository usuarioRepository;
+	private UserRepository userRepository;
 
 	@Autowired
 	private OngRepository ongRepository;
 
 	@Override
 	public UserDetails loadUserByUsername(String email) {
-		Optional<Authenticable> usuario = Optional.ofNullable(usuarioRepository.findByEmail(email));
+		Optional<Authenticable> usuario = Optional.ofNullable(userRepository.findByEmail(email));
 		if (usuario.isPresent()) {
 			return UserDetailsImpl.build(usuario.get());
 		}

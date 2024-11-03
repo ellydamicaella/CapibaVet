@@ -6,7 +6,7 @@ import java.util.Collection;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import br.com.start.meupet.domain.entities.Usuario;
+import br.com.start.meupet.domain.entities.User;
 import br.com.start.meupet.domain.interfaces.Authenticable;
 import br.com.start.meupet.domain.valueobjects.Email;
 
