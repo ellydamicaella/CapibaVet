@@ -5,7 +5,7 @@
 <p align="center">
  <img src="https://img.shields.io/static/v1?label=Tipo&message=Plataforma Web&color=8257E5&labelColor=000000" alt="Plataforma Web" />
 </p>
-
+a
 ## Descrição do Projeto
 
 Com o crescimento excessivo de animais em situação de rua, viabilizamos um projeto para impactar a situação desses animais presente na Região Metropolitana do Recife.
