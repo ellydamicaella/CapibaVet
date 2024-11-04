@@ -1,46 +1,47 @@
 package br.com.start.meupet.service;
 
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.Collection;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import br.com.start.meupet.domain.entities.User;
 import br.com.start.meupet.domain.interfaces.Authenticable;
-import br.com.start.meupet.domain.valueobjects.Email;
 
 public class UserDetailsImpl implements UserDetails {
 
 	/**
 	 * 
 	 */
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	private Number id;
 
 	private String name;
 
-	private Email email;
+	private String email;
 
 	private String password;
 
-	public static UserDetailsImpl build(Authenticable usuario) {
-		return new UserDetailsImpl(usuario.getId(), usuario.getName(), usuario.getEmail(), new ArrayList<>());
+	public static UserDetailsImpl build(Authenticable user) {
+		return new UserDetailsImpl(user.getId(), user.getName(), user.getEmail().toString(), new ArrayList<>());
 	}
 	
-	public UserDetailsImpl(Number id, String name, Email email, Collection<? extends GrantedAuthority> authorithies) {
+	public UserDetailsImpl(Number id, String name, String email, Collection<? extends GrantedAuthority> authorities) {
 		this.id = id;
 		this.name = name;
 		this.email = email;
-		this.authorithies = authorithies;
+		this.authorities = authorities;
 	}
 
-	private Collection<? extends GrantedAuthority> authorithies;
+	private final Collection<? extends GrantedAuthority> authorities;
+
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return authorithies;
+		return this.authorities;
 	}
 
 	@Override
@@ -50,27 +51,27 @@ public class UserDetailsImpl implements UserDetails {
 
 	@Override
 	public String getUsername() {
-		return this.email.getEmail();
+		return this.email;
 	}
 
 	@Override
 	public boolean isAccountNonExpired() {
-		return true;
-	}
+        return UserDetails.super.isAccountNonExpired();
+    }
 
 	@Override
 	public boolean isAccountNonLocked() {
-		return true;
+		return UserDetails.super.isAccountNonLocked();
 	}
 
 	@Override
 	public boolean isCredentialsNonExpired() {
-		return true;
+		return UserDetails.super.isCredentialsNonExpired();
 	}
 
 	@Override
 	public boolean isEnabled() {
-		return true;
+		return UserDetails.super.isEnabled();
 	}
 
 }
