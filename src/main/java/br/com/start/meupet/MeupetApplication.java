@@ -30,9 +30,9 @@ public class MeupetApplication {
 
         System.out.println("ID: " + usuario.getId());
         System.out.println("Nome: " + usuario.getName());
-        System.out.println("Email: " + usuario.getEmail());
-        System.out.println("Telefone: " + usuario.getCellPhoneNumber());
-        System.out.println("createdAt: " + usuario.getCreatedAt());
+        //System.out.println("Email: " + usuario.getEmail());
+        //System.out.println("Telefone: " + usuario.getCellPhoneNumber());
+        //System.out.println("createdAt: " + usuario.getCreatedAt());
 
     }
 

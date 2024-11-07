@@ -1,69 +1,91 @@
 package br.com.start.meupet.service;
 
 import br.com.start.meupet.domain.entities.User;
+
 import br.com.start.meupet.domain.entities.VerifyAuthenticableEntity;
 import br.com.start.meupet.domain.repository.UserRepository;
 import br.com.start.meupet.domain.valueobjects.CellPhoneNumber;
 import br.com.start.meupet.domain.valueobjects.Email;
 import br.com.start.meupet.dto.UserRequestDTO;
 import br.com.start.meupet.dto.UserResponseDTO;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
 public class UserService {
+	
+	private static Logger log = LoggerFactory.getLogger(UserService.class);
 
-    private final UserRepository userRepository;
+	private final UserRepository userRepository;
 
-    private final PasswordEncoder passwordEncoder;
+	private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
+	public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+		this.userRepository = userRepository;
+		this.passwordEncoder = passwordEncoder;
+	}
 
-    public List<UserResponseDTO> listAll() {
-        List<User> usuarios = userRepository.findAll();
-        return usuarios.stream().map(UserResponseDTO::new).toList();
-    }
+	public List<UserResponseDTO> listAll() {
+		List<User> usuarios = userRepository.findAll();
+		return usuarios.stream().map(UserResponseDTO::new).toList();
+	}
 
-    public UserResponseDTO insert(UserRequestDTO usuario) {
-        User userEntity = new User(0, usuario.getName(), new Email(usuario.getEmail()), usuario.getPassword(),
-                new CellPhoneNumber(usuario.getCellPhoneNumber()));
+	public UserResponseDTO insert(UserRequestDTO usuario) {
+		User userEntity = new User(0, usuario.getName(), new Email(usuario.getEmail()), usuario.getPassword(),
+				new CellPhoneNumber(usuario.getCellPhoneNumber()));
 
-        userEntity.setPassword(passwordEncoder.encode(usuario.getPassword()));
+		if (!isAlreadyHaveEmail(userEntity.getEmail())) {
+			userEntity.setPassword(passwordEncoder.encode(usuario.getPassword()));
+			User userResponse = userRepository.save(userEntity);
 
-        User userResponse = userRepository.save(userEntity);
+			VerifyAuthenticableEntity verify = new VerifyAuthenticableEntity();
+			verify.setUser(userEntity);
+			verify.setUuid(UUID.randomUUID());
+			verify.setExpirationDate(Instant.now().plusMillis(300000));
+			
+			log.trace("Dentro do insert do if isAlreadyHaveEmail");
+			System.out.println("lancou a excessao");
+			
+			return new UserResponseDTO(userResponse.getId().longValue(), userResponse.getName(),
+					userResponse.getPassword(), userResponse.getEmail().toString(),
+					userResponse.getCellPhoneNumber().toString());
+		}
+		else {
+			throw new RuntimeException("There is already someone with that email: " + usuario.getEmail());			
+		}
+	
+	}
 
-        VerifyAuthenticableEntity verify = new VerifyAuthenticableEntity();
-        verify.setUser(userEntity);
-        verify.setUuid(UUID.randomUUID());
-        verify.setExpirationDate(Instant.now().plusMillis(300000));
+	public UserResponseDTO update(UserRequestDTO usuario) {
+		User userEntity = new User(0, usuario.getName(), new Email(usuario.getEmail()), usuario.getPassword(),
+				new CellPhoneNumber(usuario.getCellPhoneNumber()));
 
-        return new UserResponseDTO(userResponse.getId().longValue(), userResponse.getName(), userResponse.getPassword(), userResponse.getEmail().toString(), userResponse.getCellPhoneNumber().toString());
-    }
+		userEntity.setPassword(passwordEncoder.encode(userEntity.getPassword()));
+		return new UserResponseDTO(userRepository.save(userEntity));
+	}
 
-    public UserResponseDTO update(UserRequestDTO usuario) {
-        User userEntity = new User(0, usuario.getName(), new Email(usuario.getEmail()), usuario.getPassword(),
-                new CellPhoneNumber(usuario.getCellPhoneNumber()));
+	public void delete(Long id) {
+		User userEntity = userRepository.findById(id).get();
+		userRepository.delete(userEntity);
+	}
 
-        userEntity.setPassword(passwordEncoder.encode(userEntity.getPassword()));
-        return new UserResponseDTO(userRepository.save(userEntity));
-    }
+	public UserResponseDTO findById(Long id) {
+		return new UserResponseDTO(userRepository.findById(id).get());
+	}
 
-
-    public void delete(Long id) {
-        User userEntity = userRepository.findById(id).get();
-        userRepository.delete(userEntity);
-    }
-
-
-    public UserResponseDTO findById(Long id) {
-        return new UserResponseDTO(userRepository.findById(id).get());
-    }
+	private boolean isAlreadyHaveEmail(Email email) {
+		Optional<User> result = Optional.ofNullable(userRepository.findByEmail(email));
+		System.out.println("teste dentro do haveEmail");
+		log.trace("Dentro do isAlreadyHaveEmail - Result: {}", result);
+		return result.isPresent();
+	}
 
 }

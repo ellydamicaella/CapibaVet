@@ -66,4 +66,12 @@ public class UserResponseDTO {
 		this.cellPhoneNumber = cellPhoneNumber;
 	}
 
+	@Override
+	public String toString() {
+		return "UserResponseDTO [id=" + id + ", name=" + name + ", password=" + password + ", email=" + email
+				+ ", cellPhoneNumber=" + cellPhoneNumber + "]";
+	}
+	
+	
+
 }

@@ -8,9 +8,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import br.com.start.meupet.domain.entities.User;
 import br.com.start.meupet.domain.interfaces.Authenticable;
 import br.com.start.meupet.domain.repository.OngRepository;
 import br.com.start.meupet.domain.repository.UserRepository;
+import br.com.start.meupet.domain.valueobjects.Email;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
@@ -23,7 +25,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String email) {
-		Optional<Authenticable> usuario = Optional.ofNullable(userRepository.findByEmail(email));
+		User user = new User();
+		user.setEmail(new Email(email));
+		Optional<Authenticable> usuario = Optional.ofNullable(userRepository.findByEmail(user.getEmail()));
 		if (usuario.isPresent()) {
 			return UserDetailsImpl.build(usuario.get());
 		}
