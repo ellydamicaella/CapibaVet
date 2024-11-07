@@ -8,6 +8,8 @@ import br.com.start.meupet.domain.valueobjects.CellPhoneNumber;
 import br.com.start.meupet.domain.valueobjects.Email;
 import br.com.start.meupet.dto.UserRequestDTO;
 import br.com.start.meupet.dto.UserResponseDTO;
+import br.com.start.meupet.exceptions.EmailAlreadyUsedException;
+import br.com.start.meupet.exceptions.UserNotFoundException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +23,7 @@ import java.util.UUID;
 
 @Service
 public class UserService {
-	
+
 	private static Logger log = LoggerFactory.getLogger(UserService.class);
 
 	private final UserRepository userRepository;
@@ -39,37 +41,41 @@ public class UserService {
 	}
 
 	public UserResponseDTO insert(UserRequestDTO usuario) {
-		User userEntity = new User(0, usuario.getName(), new Email(usuario.getEmail()), usuario.getPassword(),
+		User userEntity = new User(usuario.getName(), new Email(usuario.getEmail()), usuario.getPassword(),
 				new CellPhoneNumber(usuario.getCellPhoneNumber()));
 
-		if (!isAlreadyHaveEmail(userEntity.getEmail())) {
-			userEntity.setPassword(passwordEncoder.encode(usuario.getPassword()));
-			User userResponse = userRepository.save(userEntity);
+		if (isAlreadyHaveEmail(userEntity.getEmail())) {
+			throw new EmailAlreadyUsedException("There is already someone with that email: " + usuario.getEmail());
+		}
 
-			VerifyAuthenticableEntity verify = new VerifyAuthenticableEntity();
-			verify.setUser(userEntity);
-			verify.setUuid(UUID.randomUUID());
-			verify.setExpirationDate(Instant.now().plusMillis(300000));
-			
-			log.trace("Dentro do insert do if isAlreadyHaveEmail");
-			System.out.println("lancou a excessao");
-			
-			return new UserResponseDTO(userResponse.getId().longValue(), userResponse.getName(),
-					userResponse.getPassword(), userResponse.getEmail().toString(),
-					userResponse.getCellPhoneNumber().toString());
-		}
-		else {
-			throw new RuntimeException("There is already someone with that email: " + usuario.getEmail());			
-		}
-	
+		userEntity.setPassword(passwordEncoder.encode(usuario.getPassword()));
+		
+		User userResponse = userRepository.save(userEntity);
+
+		VerifyAuthenticableEntity verify = new VerifyAuthenticableEntity();
+		verify.setUser(userEntity);
+		verify.setUuid(UUID.randomUUID());
+		verify.setExpirationDate(Instant.now().plusMillis(300000));
+
+		log.trace("Dentro do insert do if isAlreadyHaveEmail");
+
+		return new UserResponseDTO(userResponse.getId().longValue(), userResponse.getName(), userResponse.getPassword(),
+				userResponse.getEmail().toString(), userResponse.getCellPhoneNumber().toString());
 	}
 
-	public UserResponseDTO update(UserRequestDTO usuario) {
-		User userEntity = new User(0, usuario.getName(), new Email(usuario.getEmail()), usuario.getPassword(),
-				new CellPhoneNumber(usuario.getCellPhoneNumber()));
+	public UserResponseDTO update(long id, UserRequestDTO newUser) {
 
-		userEntity.setPassword(passwordEncoder.encode(userEntity.getPassword()));
-		return new UserResponseDTO(userRepository.save(userEntity));
+		User userEntity = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User not found"));
+
+		userEntity.setName(newUser.getName());
+		userEntity.setEmail(new Email(newUser.getEmail()));
+		userEntity.setCellPhoneNumber(new CellPhoneNumber(newUser.getCellPhoneNumber()));
+		userEntity.setUpdatedAt(Instant.now());
+
+		User updatedUser = userRepository.save(userEntity);
+
+		return new UserResponseDTO(updatedUser);
+
 	}
 
 	public void delete(Long id) {
@@ -83,7 +89,6 @@ public class UserService {
 
 	private boolean isAlreadyHaveEmail(Email email) {
 		Optional<User> result = Optional.ofNullable(userRepository.findByEmail(email));
-		System.out.println("teste dentro do haveEmail");
 		log.trace("Dentro do isAlreadyHaveEmail - Result: {}", result);
 		return result.isPresent();
 	}

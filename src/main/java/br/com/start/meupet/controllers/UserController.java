@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -40,17 +41,15 @@ public class UserController {
 
 	@PostMapping
 	public ResponseEntity<UserResponseDTO> insert(@RequestBody UserRequestDTO usuario) {
-		try {
-			UserResponseDTO user = userService.insert(usuario);
-			return ResponseEntity.status(HttpStatus.CREATED).body(user);
-		} catch (RuntimeException e) {
-			return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
-		}
+		UserResponseDTO user = userService.insert(usuario);
+		log.info("Usuario criado :" + user.toString());
+		return ResponseEntity.status(HttpStatus.CREATED).body(user);
 	}
 
 	@PutMapping
-	public UserResponseDTO update(@RequestBody UserRequestDTO usuario) {
-		return userService.update(usuario);
+	public ResponseEntity<UserResponseDTO> update(@PathVariable long id, @RequestBody UserRequestDTO newUser) {
+		UserResponseDTO updatedUser = userService.update(id, newUser);
+		return ResponseEntity.ok().body(updatedUser);
 	}
 
 	// http://localhost:8080/user?id=3

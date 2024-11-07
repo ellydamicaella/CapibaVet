@@ -1,6 +1,7 @@
 package br.com.start.meupet.domain.entities;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
+
 import java.util.Objects;
 
 import br.com.start.meupet.domain.interfaces.Authenticable;
@@ -12,7 +13,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 
@@ -43,23 +43,30 @@ public class User implements Authenticable {
 	private CellPhoneNumber cellPhoneNumber;
 
 	@Column(name = "createdAt")
-	private LocalDateTime createdAt;
+	private Instant createdAt;
+
+	@Column(name = "updatedAt")
+	private Instant updatedAt;
 
 	public User() {
 
 	}
 
-	public User(long id, @NotNull String name, @NotNull Email email, @NotNull String password, @NotNull CellPhoneNumber cellPhoneNumber) {
-		this.id = id;
+	public User(@NotNull String name, @NotNull Email email, @NotNull String password,
+			@NotNull CellPhoneNumber cellPhoneNumber) {
 		this.name = name;
 		this.email = email;
 		this.password = password;
 		this.cellPhoneNumber = cellPhoneNumber;
 	}
 
-	@PrePersist
-	protected void onCreate() {
-		this.createdAt = LocalDateTime.now();
+	public User(long id, @NotNull String name, @NotNull Email email, @NotNull String password,
+			@NotNull CellPhoneNumber cellPhoneNumber) {
+		this.id = id;
+		this.name = name;
+		this.email = email;
+		this.password = password;
+		this.cellPhoneNumber = cellPhoneNumber;
 	}
 
 	public Number getId() {
@@ -102,12 +109,20 @@ public class User implements Authenticable {
 		this.cellPhoneNumber = cellPhoneNumber;
 	}
 
-	public LocalDateTime getCreatedAt() {
+	public Instant getCreatedAt() {
 		return createdAt;
 	}
 
-	public void setCreatedAt(LocalDateTime createdAt) {
+	public void setCreatedAt(Instant createdAt) {
 		this.createdAt = createdAt;
+	}
+
+	public Instant getUpdatedAt() {
+		return updatedAt;
+	}
+
+	public void setUpdatedAt(Instant updatedAt) {
+		this.updatedAt = updatedAt;
 	}
 
 	@Override
