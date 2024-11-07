@@ -6,6 +6,8 @@ target/
 
 arquivo.log
 
+.env
+
 ### STS ###
 .apt_generated
 .classpath

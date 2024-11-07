@@ -1,145 +1,151 @@
 package br.com.start.meupet.domain.entities;
 
-import java.time.Instant;
-
-import java.util.Objects;
-
 import br.com.start.meupet.domain.interfaces.Authenticable;
-import br.com.start.meupet.domain.valueobjects.Email;
 import br.com.start.meupet.domain.valueobjects.CellPhoneNumber;
-import jakarta.persistence.Column;
-import jakarta.persistence.Embedded;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import br.com.start.meupet.domain.valueobjects.Email;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+
+import java.time.Instant;
+import java.util.Objects;
 
 @Entity
 @Table(name = "usuario")
 public class User implements Authenticable {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
 
-	@Column(name = "nome_completo")
-	@NotNull
-	private String name;
+    @Column(name = "nome_completo")
+    @NotNull
+    private String name;
 
-	@Column(name = "email")
-	@NotNull
-	@Embedded
-	private Email email;
+    @Column(name = "email")
+    @NotNull
+    @Embedded
+    private Email email;
 
-	@Column(name = "senha")
-	@NotNull
-	private String password;
+    @Column(name = "senha")
+    @NotNull
+    private String password;
 
-	@Column(name = "telefone")
-	@NotNull
-	@Embedded
-	private CellPhoneNumber cellPhoneNumber;
+    @Column(name = "telefone")
+    @NotNull
+    @Embedded
+    private CellPhoneNumber cellPhoneNumber;
 
-	@Column(name = "createdAt")
-	private Instant createdAt;
+    @Column(name = "createdAt")
+    private Instant createdAt;
 
-	@Column(name = "updatedAt")
-	private Instant updatedAt;
+    @Column(name = "updatedAt")
+    private Instant updatedAt;
 
-	public User() {
+    public User() {
 
-	}
+    }
 
-	public User(@NotNull String name, @NotNull Email email, @NotNull String password,
-			@NotNull CellPhoneNumber cellPhoneNumber) {
-		this.name = name;
-		this.email = email;
-		this.password = password;
-		this.cellPhoneNumber = cellPhoneNumber;
-	}
+    public User(@NotNull String name, @NotNull Email email, @NotNull String password,
+                @NotNull CellPhoneNumber cellPhoneNumber) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.cellPhoneNumber = cellPhoneNumber;
+    }
 
-	public User(long id, @NotNull String name, @NotNull Email email, @NotNull String password,
-			@NotNull CellPhoneNumber cellPhoneNumber) {
-		this.id = id;
-		this.name = name;
-		this.email = email;
-		this.password = password;
-		this.cellPhoneNumber = cellPhoneNumber;
-	}
+    public User(long id, @NotNull String name, @NotNull Email email, @NotNull String password,
+                @NotNull CellPhoneNumber cellPhoneNumber) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.cellPhoneNumber = cellPhoneNumber;
+    }
 
-	public Number getId() {
-		return id;
-	}
+    public Number getId() {
+        return id;
+    }
 
-	public void setId(long id) {
-		this.id = id;
-	}
+    public void setId(long id) {
+        this.id = id;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public Email getEmail() {
-		return email;
-	}
+    public Email getEmail() {
+        return email;
+    }
 
-	public void setEmail(Email email) {
-		this.email = email;
-	}
+    public void setEmail(Email email) {
+        this.email = email;
+    }
 
-	public String getPassword() {
-		return password;
-	}
+    public String getPassword() {
+        return password;
+    }
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-	public CellPhoneNumber getCellPhoneNumber() {
-		return cellPhoneNumber;
-	}
+    public CellPhoneNumber getCellPhoneNumber() {
+        return cellPhoneNumber;
+    }
 
-	public void setCellPhoneNumber(CellPhoneNumber cellPhoneNumber) {
-		this.cellPhoneNumber = cellPhoneNumber;
-	}
+    public void setCellPhoneNumber(CellPhoneNumber cellPhoneNumber) {
+        this.cellPhoneNumber = cellPhoneNumber;
+    }
 
-	public Instant getCreatedAt() {
-		return createdAt;
-	}
+    public Instant getCreatedAt() {
+        return createdAt;
+    }
 
-	public void setCreatedAt(Instant createdAt) {
-		this.createdAt = createdAt;
-	}
+    public void setCreatedAt(Instant createdAt) {
+        this.createdAt = createdAt;
+    }
 
-	public Instant getUpdatedAt() {
-		return updatedAt;
-	}
+    public Instant getUpdatedAt() {
+        return updatedAt;
+    }
 
-	public void setUpdatedAt(Instant updatedAt) {
-		this.updatedAt = updatedAt;
-	}
+    public void setUpdatedAt(Instant updatedAt) {
+        this.updatedAt = updatedAt;
+    }
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(id);
-	}
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", email=" + email +
+                ", password='" + password + '\'' +
+                ", cellPhoneNumber=" + cellPhoneNumber +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                '}';
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		User other = (User) obj;
-		return id == other.id;
-	}
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        User other = (User) obj;
+        return id == other.id;
+    }
 
 }
