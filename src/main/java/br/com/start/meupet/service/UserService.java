@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.util.List;
@@ -35,11 +36,17 @@ public class UserService {
     }
 
     public List<UserResponseDTO> listAll() {
-        List<User> usuarios = userRepository.findAll();
-        log.info("Usuario listados :{}", usuarios.stream().map(User::getId).collect(Collectors.toList()));
-        return usuarios.stream().map(UserResponseDTO::new).toList();
+        List<User> users = userRepository.findAll();
+        log.info("Usuario listados :{}", users.stream().map(User::getId).collect(Collectors.toList()));
+        return users.stream().map(UserResponseDTO::new).toList();
     }
 
+    public UserResponseDTO getUserById(Long id) {
+        User userEntity = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User not found"));
+        return new UserResponseDTO(userEntity);
+    }
+
+    @Transactional
     public UserResponseDTO insert(UserRequestDTO usuario) {
         User userEntity = new User(usuario.getName(), new Email(usuario.getEmail()), usuario.getPassword(),
                 new CellPhoneNumber(usuario.getCellPhoneNumber()));
@@ -57,11 +64,12 @@ public class UserService {
         verify.setUser(userEntity);
         verify.setUuid(UUID.randomUUID());
         verify.setExpirationDate(Instant.now().plusMillis(300000));
+        
 
-        return new UserResponseDTO(userResponse.getId().longValue(), userResponse.getName(), userResponse.getPassword(),
-                userResponse.getEmail().toString(), userResponse.getCellPhoneNumber().toString());
+        return new UserResponseDTO(userResponse);
     }
 
+    @Transactional
     public UserResponseDTO update(long id, UserRequestDTO newUser) {
 
         User userEntity = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User not found"));
@@ -78,6 +86,7 @@ public class UserService {
 
     }
 
+    @Transactional
     public void delete(Long id) {
         User userEntity = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User not found"));
         userRepository.delete(userEntity);

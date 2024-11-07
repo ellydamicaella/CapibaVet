@@ -29,6 +29,13 @@ public class UserController {
         log.info("Requisicao GET: listando todos usuarios");
         return ResponseEntity.ok(userService.listAll());
     }
+    
+    @GetMapping("/{id}")
+    public ResponseEntity<UserResponseDTO> listOne(@PathVariable Long id) {
+        log.info("Requisicao GET: listando um usuarios");
+        UserResponseDTO user = userService.getUserById(id);
+        return ResponseEntity.ok().body(user);
+    }
 
     @PostMapping
     public ResponseEntity<UserResponseDTO> insert(@RequestBody UserRequestDTO usuario) {
@@ -38,9 +45,9 @@ public class UserController {
     }
 
     @PutMapping
-    public ResponseEntity<UserResponseDTO> update(@PathVariable long id, @RequestBody UserRequestDTO newUser) {
+    public ResponseEntity<UserResponseDTO> update(@RequestParam Long id, @RequestBody UserRequestDTO newUser) {
         UserResponseDTO updatedUser = userService.update(id, newUser);
-        log.info("Requisicao PUT: atualizando um usuario já existente - {}", newUser);
+        log.info("Requisicao PUT: atualizando um usuario já existente - {}", newUser.toString());
         return ResponseEntity.ok().body(updatedUser);
     }
 
@@ -49,7 +56,7 @@ public class UserController {
     public ResponseEntity<Void> delete(@RequestParam Long id) {
         userService.delete(id);
         log.info("Requisicao DELETE: deletando um usuario");
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 
 }
