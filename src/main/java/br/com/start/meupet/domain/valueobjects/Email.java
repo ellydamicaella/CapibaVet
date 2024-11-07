@@ -1,8 +1,8 @@
 package br.com.start.meupet.domain.valueobjects;
 
-import java.util.regex.Pattern;
-
 import jakarta.persistence.Embeddable;
+
+import java.util.regex.Pattern;
 
 @Embeddable
 public final class Email {
@@ -13,7 +13,7 @@ public final class Email {
     private static final String EMAIL_REGEX = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
     private static final Pattern EMAIL_PATTERN = Pattern.compile(EMAIL_REGEX);
 
-    protected Email() {
+    public Email() {
         this.email = null; // O valor padrão para inicialização pelo JPA
     }
 

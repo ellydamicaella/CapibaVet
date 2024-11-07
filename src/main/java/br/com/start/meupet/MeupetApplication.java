@@ -1,15 +1,13 @@
 package br.com.start.meupet;
 
-import java.util.HashMap;
-
-import java.util.Map;
-
+import br.com.start.meupet.domain.entities.User;
+import br.com.start.meupet.domain.factory.UserFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
-import br.com.start.meupet.domain.entities.User;
-import br.com.start.meupet.domain.factory.UsuarioFactory;
+import java.util.HashMap;
+import java.util.Map;
 
 @SpringBootApplication
 public class MeupetApplication {
@@ -28,7 +26,7 @@ public class MeupetApplication {
         teste.put("senha", "senhaSecreta"); // Exemplo de String
         teste.put("telefone", "(55) 81 98599-6672"); // Exemplo de String
 
-        User usuario = UsuarioFactory.create(teste);
+        User usuario = UserFactory.create(teste);
 
         System.out.println("ID: " + usuario.getId());
         System.out.println("Nome: " + usuario.getName());

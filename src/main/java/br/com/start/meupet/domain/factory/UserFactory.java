@@ -6,7 +6,7 @@ import br.com.start.meupet.domain.entities.User;
 import br.com.start.meupet.domain.valueobjects.Email;
 import br.com.start.meupet.domain.valueobjects.CellPhoneNumber;
 
-public final class UsuarioFactory {
+public final class UserFactory {
 
 	public static User create(Map<String, Object> lista) {
 		User user = new User();

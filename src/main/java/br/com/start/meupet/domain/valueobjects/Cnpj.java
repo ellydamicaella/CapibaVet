@@ -7,7 +7,7 @@ public final class Cnpj {
 
     private final String cnpj;
 
-    protected Cnpj() {
+    public Cnpj() {
         this.cnpj = null; // O valor padrão para inicialização pelo JPA
     }
 

@@ -24,7 +24,7 @@ public class VerifyAuthenticableEntity {
 	private Instant expirationDate;
 
 	@ManyToOne
-	@JoinColumn(name = "ID_USUARIO", referencedColumnName = "ID", unique = true)
+	@JoinColumn(name = "id_user", referencedColumnName = "id", unique = true)
 	private User user;
 
 	public VerifyAuthenticableEntity() {

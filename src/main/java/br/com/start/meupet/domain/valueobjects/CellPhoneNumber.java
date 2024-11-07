@@ -13,7 +13,7 @@ public final class CellPhoneNumber {
     private static final String TELEFONE_REGEX = "^(\\(\\d{2}\\) \\d{2} \\d{5}-\\d{4}|\\(\\d{2}\\) \\d{2} \\d{4}-\\d{4}|\\(\\d{2}\\) \\d{2} \\d{11}|\\(\\d{2}\\) \\d{2} \\d{10})$";
     private static final Pattern TELEFONE_PATTERN = Pattern.compile(TELEFONE_REGEX);
 
-    protected CellPhoneNumber() {
+    public CellPhoneNumber() {
         this.cellPhoneNumber = null; // O valor padrão para inicialização pelo JPA
     }
 

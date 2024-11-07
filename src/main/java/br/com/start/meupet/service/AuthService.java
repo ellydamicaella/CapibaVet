@@ -14,11 +14,17 @@ import br.com.start.meupet.security.jwt.JwtUtils;
 @Service
 public class AuthService {
 
-	@Autowired
-	private AuthenticationManager authenticationManager;
+
+	private final AuthenticationManager authenticationManager;
 	
-	@Autowired
-	private JwtUtils jwtUtils;
+
+	private final JwtUtils jwtUtils;
+
+
+	public AuthService(JwtUtils jwtUtils, AuthenticationManager authenticationManager) {
+		this.jwtUtils = jwtUtils;
+		this.authenticationManager = authenticationManager;
+	}
 
 	public AccessDTO login(AuthenticationDTO authDTO) {
 		

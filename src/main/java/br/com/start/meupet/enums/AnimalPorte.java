@@ -6,7 +6,6 @@ public enum AnimalPorte {
     MEDIO("Medio"),
     PEQUENO("Pequeno");
 
-    @SuppressWarnings("unused")
     private final String animalPorte;
 
     private AnimalPorte(String animalPorte) {

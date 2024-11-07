@@ -1,27 +1,24 @@
 package br.com.start.meupet.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import br.com.start.meupet.dto.AuthenticationDTO;
 import br.com.start.meupet.service.AuthService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping(value = "/auth")
 @CrossOrigin
 public class AuthController {
 
-	@Autowired
-	private AuthService authService;
+    private final AuthService authService;
 
-	@PostMapping(value = "/login")
-	public ResponseEntity<?> login(@RequestBody AuthenticationDTO authDto) {
+    public AuthController(AuthService authService) {
+        this.authService = authService;
+    }
 
-		return ResponseEntity.ok(authService.login(authDto));
-	}
+    @PostMapping(value = "/login")
+    public ResponseEntity<?> login(@RequestBody AuthenticationDTO authDto) {
+
+        return ResponseEntity.ok(authService.login(authDto));
+    }
 }

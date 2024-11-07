@@ -26,8 +26,11 @@ import br.com.start.meupet.service.UserService;
 @CrossOrigin
 public class UserController {
 	
-	@Autowired
-	private UserService userService;
+	private final UserService userService;
+
+	public UserController(UserService userService) {
+		this.userService = userService;
+	}
 
 	@GetMapping
 	public ResponseEntity<List<UserResponseDTO>> listAll() {
