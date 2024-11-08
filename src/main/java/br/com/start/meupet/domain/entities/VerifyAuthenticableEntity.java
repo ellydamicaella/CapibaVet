@@ -1,65 +1,65 @@
 package br.com.start.meupet.domain.entities;
 
-import java.time.Instant;
-import java.util.UUID;
+import jakarta.persistence.*;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
 @Table(name = "usuario_verificador")
 public class VerifyAuthenticableEntity {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
 
-	private UUID uuid;
+    private UUID uuid;
 
-	private Instant expirationDate;
+    private LocalDateTime expirationDate;
 
-	@ManyToOne
-	@JoinColumn(name = "id_user", referencedColumnName = "id", unique = true)
-	private User user;
+    @ManyToOne
+    @JoinColumn(name = "id_user", referencedColumnName = "id", unique = true)
+    private User user;
 
-	public VerifyAuthenticableEntity() {
-	}
+    public VerifyAuthenticableEntity() {
+    }
 
-	public long getId() {
-		return id;
-	}
+    public VerifyAuthenticableEntity(UUID uuid, LocalDateTime expirationDate, User user) {
+        this.uuid = uuid;
+        this.expirationDate = expirationDate;
+        this.user = user;
+    }
 
-	public void setId(long id) {
-		this.id = id;
-	}
+    public long getId() {
+        return id;
+    }
 
-	public UUID getUuid() {
-		return uuid;
-	}
+    public void setId(long id) {
+        this.id = id;
+    }
 
-	public void setUuid(UUID uuid) {
-		this.uuid = uuid;
-	}
+    public UUID getUuid() {
+        return uuid;
+    }
 
-	public Instant getExpirationDate() {
-		return expirationDate;
-	}
+    public void setUuid(UUID uuid) {
+        this.uuid = uuid;
+    }
 
-	public void setExpirationDate(Instant expirationDate) {
-		this.expirationDate = expirationDate;
-	}
+    public LocalDateTime getExpirationDate() {
+        return expirationDate;
+    }
 
-	public User getUser() {
-		return user;
-	}
+    public void setExpirationDate(LocalDateTime expirationDate) {
+        this.expirationDate = expirationDate;
+    }
 
-	public void setUser(User user) {
-		this.user = user;
-	}
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
 }

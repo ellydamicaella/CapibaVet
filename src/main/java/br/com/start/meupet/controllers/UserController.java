@@ -29,19 +29,19 @@ public class UserController {
         log.info("Requisicao GET: listando todos usuarios");
         return ResponseEntity.ok(userService.listAll());
     }
-    
+
     @GetMapping("/{id}")
     public ResponseEntity<UserResponseDTO> listOne(@PathVariable Long id) {
         log.info("Requisicao GET: listando um usuarios");
-        UserResponseDTO user = userService.getUserById(id);
-        return ResponseEntity.ok().body(user);
+        UserResponseDTO userResponse = userService.getUserById(id);
+        return ResponseEntity.ok().body(userResponse);
     }
 
     @PostMapping
-    public ResponseEntity<UserResponseDTO> insert(@RequestBody UserRequestDTO usuario) {
-        UserResponseDTO user = userService.insert(usuario);
-        log.info("Requisicao POST: inserindo um novo usuario - {}", usuario);
-        return ResponseEntity.status(HttpStatus.CREATED).body(user);
+    public ResponseEntity<UserResponseDTO> insert(@RequestBody UserRequestDTO userRequest) {
+        UserResponseDTO userResponse = userService.insert(userRequest);
+        log.info("Requisicao POST: inserindo um novo usuario - {}", userRequest);
+        return ResponseEntity.status(HttpStatus.CREATED).body(userResponse);
     }
 
     @PutMapping

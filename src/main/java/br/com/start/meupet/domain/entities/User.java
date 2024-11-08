@@ -1,12 +1,12 @@
 package br.com.start.meupet.domain.entities;
 
 import br.com.start.meupet.domain.interfaces.Authenticable;
-import br.com.start.meupet.domain.valueobjects.CellPhoneNumber;
 import br.com.start.meupet.domain.valueobjects.Email;
+import br.com.start.meupet.domain.valueobjects.PhoneNumber;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
@@ -33,35 +33,41 @@ public class User implements Authenticable {
     @Column(name = "telefone")
     @NotNull
     @Embedded
-    private CellPhoneNumber cellPhoneNumber;
+    private PhoneNumber phoneNumber;
 
     @Column(name = "createdAt")
-    private Instant createdAt;
+    private LocalDateTime createdAt;
 
     @Column(name = "updatedAt")
-    private Instant updatedAt;
+    private LocalDateTime updatedAt;
 
     public User() {
-
     }
 
-    public User(@NotNull String name, @NotNull Email email, @NotNull String password,
-                @NotNull CellPhoneNumber cellPhoneNumber) {
+    public User(String name, Email email, String password,
+                PhoneNumber phoneNumber) {
         this.name = name;
         this.email = email;
         this.password = password;
-        this.cellPhoneNumber = cellPhoneNumber;
+        this.phoneNumber = phoneNumber;
     }
 
-    public User(long id, @NotNull String name, @NotNull Email email, @NotNull String password,
-                @NotNull CellPhoneNumber cellPhoneNumber) {
+    public User(long id, String name, Email email, String password,
+                PhoneNumber phoneNumber) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.password = password;
-        this.cellPhoneNumber = cellPhoneNumber;
+        this.phoneNumber = phoneNumber;
     }
 
+    @PrePersist
+    public void prePersist() {
+        createdAt = LocalDateTime.now();
+        updatedAt = LocalDateTime.now();
+    }
+
+    @Override
     public Number getId() {
         return id;
     }
@@ -70,6 +76,7 @@ public class User implements Authenticable {
         this.id = id;
     }
 
+    @Override
     public String getName() {
         return name;
     }
@@ -78,6 +85,7 @@ public class User implements Authenticable {
         this.name = name;
     }
 
+    @Override
     public Email getEmail() {
         return email;
     }
@@ -86,6 +94,7 @@ public class User implements Authenticable {
         this.email = email;
     }
 
+    @Override
     public String getPassword() {
         return password;
     }
@@ -94,27 +103,28 @@ public class User implements Authenticable {
         this.password = password;
     }
 
-    public CellPhoneNumber getCellPhoneNumber() {
-        return cellPhoneNumber;
+    @Override
+    public PhoneNumber getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setCellPhoneNumber(CellPhoneNumber cellPhoneNumber) {
-        this.cellPhoneNumber = cellPhoneNumber;
+    public void setPhoneNumber(PhoneNumber phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
-    public Instant getCreatedAt() {
+    public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Instant createdAt) {
+    public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
 
-    public Instant getUpdatedAt() {
+    public LocalDateTime getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(Instant updatedAt) {
+    public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
 
@@ -125,7 +135,7 @@ public class User implements Authenticable {
                 ", name='" + name + '\'' +
                 ", email=" + email +
                 ", password='" + password + '\'' +
-                ", cellPhoneNumber=" + cellPhoneNumber +
+                ", phoneNumber=" + phoneNumber +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
                 '}';

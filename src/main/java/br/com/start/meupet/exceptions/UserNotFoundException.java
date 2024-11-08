@@ -1,18 +1,21 @@
 package br.com.start.meupet.exceptions;
 
+import java.io.Serial;
+
 public class UserNotFoundException extends RuntimeException {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+    /**
+     *
+     */
+    @Serial
+    private static final long serialVersionUID = 1L;
 
-	public UserNotFoundException() {
-		super();
-	}
+    public UserNotFoundException() {
+        super();
+    }
 
-	public UserNotFoundException(String message) {
-		super(message);
-	}
+    public UserNotFoundException(String message) {
+        super(message);
+    }
 
 }

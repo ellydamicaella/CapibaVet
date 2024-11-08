@@ -2,20 +2,18 @@ package br.com.start.meupet.exceptions;
 
 import java.io.Serial;
 
-public class EmailAlreadyUsedException extends RuntimeException {
-
+public class PhoneNumberAlreadyUsedException extends RuntimeException {
     /**
      *
      */
     @Serial
     private static final long serialVersionUID = 1L;
 
-    public EmailAlreadyUsedException() {
+    public PhoneNumberAlreadyUsedException() {
         super();
     }
 
-    public EmailAlreadyUsedException(String message) {
+    public PhoneNumberAlreadyUsedException(String message) {
         super(message);
     }
-
 }
