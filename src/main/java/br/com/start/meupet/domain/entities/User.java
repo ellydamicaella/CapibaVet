@@ -3,6 +3,7 @@ package br.com.start.meupet.domain.entities;
 import br.com.start.meupet.domain.interfaces.Authenticable;
 import br.com.start.meupet.domain.valueobjects.Email;
 import br.com.start.meupet.domain.valueobjects.PhoneNumber;
+import br.com.start.meupet.enums.SituationType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
@@ -17,23 +18,22 @@ public class User implements Authenticable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "nome_completo")
     @NotNull
     private String name;
 
-    @Column(name = "email")
     @NotNull
     @Embedded
     private Email email;
 
-    @Column(name = "senha")
     @NotNull
     private String password;
 
-    @Column(name = "telefone")
     @NotNull
     @Embedded
     private PhoneNumber phoneNumber;
+
+    @Enumerated(EnumType.STRING)
+    private SituationType situationType;
 
     @Column(name = "createdAt")
     private LocalDateTime createdAt;
@@ -106,6 +106,14 @@ public class User implements Authenticable {
     @Override
     public PhoneNumber getPhoneNumber() {
         return phoneNumber;
+    }
+
+    public SituationType getSituationType() {
+        return situationType;
+    }
+
+    public void setSituationType(SituationType situationType) {
+        this.situationType = situationType;
     }
 
     public void setPhoneNumber(PhoneNumber phoneNumber) {
