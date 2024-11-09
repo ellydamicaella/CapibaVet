@@ -9,21 +9,24 @@ public class UserResponseDTO {
     private String password;
     private String email;
     private String phoneNumber;
+    private String situationType;
 
     public UserResponseDTO(User user) {
         this.id = user.getId().longValue();
         this.name = user.getName();
         this.password = user.getPassword();
         this.email = user.getEmail().toString();
-        this.phoneNumber = (user.getPhoneNumber().toString() != null) ? user.getPhoneNumber().toString() : "";
+        this.phoneNumber = user.getPhoneNumber().toString();
+        this.situationType = user.getSituationType().name();
     }
 
-    public UserResponseDTO(long id, String name, String password, String email, String phoneNumber) {
+    public UserResponseDTO(long id, String name, String password, String email, String phoneNumber, String situationType) {
         this.id = id;
         this.name = name;
         this.password = password;
         this.email = email;
         this.phoneNumber = phoneNumber;
+        this.situationType = situationType;
     }
 
     public long getId() {
@@ -64,6 +67,14 @@ public class UserResponseDTO {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public String getSituationType() {
+        return situationType;
+    }
+
+    public void setSituationType(String situationType) {
+        this.situationType = situationType;
     }
 
     @Override
