@@ -16,7 +16,7 @@ import java.util.List;
 @CrossOrigin
 public class UserController {
 
-    private static Logger log = LoggerFactory.getLogger(UserController.class);
+    private final Logger log = LoggerFactory.getLogger(UserController.class);
 
     private final UserService userService;
 
@@ -38,7 +38,7 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<UserResponseDTO> insert(@RequestBody UserRequestDTO userRequest) {
+    public ResponseEntity<UserResponseDTO> insertNewUser(@RequestBody UserRequestDTO userRequest) {
         UserResponseDTO userResponse = userService.insert(userRequest);
         log.info("Requisicao POST: inserindo um novo usuario - {}", userRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(userResponse);
