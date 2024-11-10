@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/teste")
+@RequestMapping(value = "/api/verify")
 @CrossOrigin
 public class VerifyAuthenticableController {
 

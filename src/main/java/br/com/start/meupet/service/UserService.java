@@ -82,18 +82,21 @@ public class UserService {
     public UserResponseDTO update(long id, UserRequestDTO newUser) {
         User userEntity = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User not found"));
 
-        if (isAlreadyHaveEmail(userEntity.getEmail())) {
-            log.info("Esse email já existe!, {}", userEntity.getEmail().toString());
-            throw new EmailAlreadyUsedException("There is already someone with that email: " + userEntity.getEmail());
+        if (!newUser.getEmail().equals(userEntity.getEmail().toString())) {
+            if (isAlreadyHaveEmail(new Email(newUser.getEmail()))) {
+                log.info("Esse email já existe!, {}", newUser.getEmail());
+                throw new EmailAlreadyUsedException("There is already someone with that email: " + newUser.getEmail());
+            }
         }
-        if (isAlreadyHavePhoneNumber(userEntity.getPhoneNumber())) {
-            log.info("Esse telefone já existe!, {}", userEntity.getPhoneNumber().toString());
-            throw new PhoneNumberAlreadyUsedException("There is already someone with that phoneNumber: " + userEntity.getPhoneNumber());
+        if (!newUser.getPhoneNumber().equals(userEntity.getPhoneNumber().toString())) {
+            if (isAlreadyHavePhoneNumber(new PhoneNumber(newUser.getPhoneNumber()))) {
+                log.info("Esse telefone já existe!, {}", newUser.getPhoneNumber());
+                throw new PhoneNumberAlreadyUsedException("There is already someone with that phoneNumber: " + newUser.getPhoneNumber());
+            }
         }
 
-        userEntity = UserMapper.userRequestToUser(newUser);
-        userEntity.setUpdatedAt(LocalDateTime.now());
-        User updatedUser = userRepository.save(userEntity);
+        User updatedUser = UserMapper.userBeforeToNewUser(userEntity, UserMapper.userRequestToUser(newUser));
+        userRepository.save(updatedUser);
 
         log.info("Usuario atualizado :{}", updatedUser);
         return UserMapper.userToResponseDTO(updatedUser);

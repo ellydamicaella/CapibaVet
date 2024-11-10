@@ -32,7 +32,7 @@ public class UserController {
 
     @GetMapping("/{id}")
     public ResponseEntity<UserResponseDTO> listOne(@PathVariable Long id) {
-        log.info("Requisicao GET: listando um usuarios");
+        log.info("Requisicao GET: listando um usuario");
         UserResponseDTO userResponse = userService.getUserById(id);
         return ResponseEntity.ok().body(userResponse);
     }

@@ -10,6 +10,7 @@ public class UserResponseDTO {
     private String email;
     private String phoneNumber;
     private String situationType;
+    private int moedaCapiba;
 
     public UserResponseDTO(User user) {
         this.id = user.getId().longValue();
@@ -17,16 +18,18 @@ public class UserResponseDTO {
         this.password = user.getPassword();
         this.email = user.getEmail().toString();
         this.phoneNumber = user.getPhoneNumber().toString();
-        this.situationType = user.getSituationType().name();
+        this.situationType = user.getSituationType().getDescricao();
+        this.moedaCapiba = user.getMoedaCapiba();
     }
 
-    public UserResponseDTO(long id, String name, String password, String email, String phoneNumber, String situationType) {
+    public UserResponseDTO(long id, String name, String password, String email, String phoneNumber, String situationType, int moedaCapiba) {
         this.id = id;
         this.name = name;
         this.password = password;
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.situationType = situationType;
+        this.moedaCapiba = moedaCapiba;
     }
 
     public long getId() {
@@ -75,6 +78,14 @@ public class UserResponseDTO {
 
     public void setSituationType(String situationType) {
         this.situationType = situationType;
+    }
+
+    public int getMoedaCapiba() {
+        return moedaCapiba;
+    }
+
+    public void setMoedaCapiba(int moedaCapiba) {
+        this.moedaCapiba = moedaCapiba;
     }
 
     @Override

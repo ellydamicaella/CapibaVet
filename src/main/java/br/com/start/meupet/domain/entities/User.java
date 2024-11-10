@@ -41,6 +41,8 @@ public class User implements Authenticable {
     @Column(name = "updatedAt")
     private LocalDateTime updatedAt;
 
+    private int moedaCapiba;
+
     public User() {
     }
 
@@ -65,6 +67,7 @@ public class User implements Authenticable {
     public void prePersist() {
         createdAt = LocalDateTime.now();
         updatedAt = LocalDateTime.now();
+        moedaCapiba = 0;
     }
 
     @Override
@@ -134,6 +137,14 @@ public class User implements Authenticable {
 
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public int getMoedaCapiba() {
+        return moedaCapiba;
+    }
+
+    public void setMoedaCapiba(int moedaCapiba) {
+        this.moedaCapiba = moedaCapiba;
     }
 
     @Override
