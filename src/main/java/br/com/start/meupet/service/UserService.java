@@ -72,9 +72,10 @@ public class UserService {
         userRepository.save(userEntity);
         log.info("Usuario criado :{}", userEntity);
         VerifyAuthenticableEntity verifyEntity = new VerifyAuthenticableEntity(UUID.randomUUID(), LocalDateTime.now().plusMinutes(10), userEntity);
+        log.info("verifyEntity :{}", verifyEntity);
         verifyAuthenticableEntityRepository.save(verifyEntity);
 
-        emailService.sendEmailText(userEntity.getEmail().toString(), "Novo usuário cadastrado", "Você está recebendo um email de cadastro o número para validação é " + verifyEntity.getUuid());
+        emailService.sendEmailTemplate(userEntity.getEmail().toString(), "Novo usuário cadastrado", userEntity.getName(), verifyEntity.getUuid().toString());
         return UserMapper.userToResponseDTO(userEntity);
     }
 
@@ -109,24 +110,25 @@ public class UserService {
         log.info("Usuario deletado :{}", userEntity);
     }
 
-
+    @Transactional
     public String verifyNewUser(String uuid) {
         Optional<VerifyAuthenticableEntity> userVerified = Optional.ofNullable(verifyAuthenticableEntityRepository.findByUuid(UUID.fromString(uuid)));
 
         if (userVerified.isPresent()) {
-            if (userVerified.get().getExpirationDate().isBefore(LocalDateTime.now())) {
-
-                User userEntity = userVerified.get().getUser();
+            User userEntity = userVerified.get().getUser();
+            if (userVerified.get().getExpirationDate().isAfter(LocalDateTime.now())) {
                 userEntity.setSituationType(SituationType.ATIVO);
-
                 userRepository.save(userEntity);
+                verifyAuthenticableEntityRepository.delete(userVerified.get());
                 log.info("Usuario verificado :{}", userEntity);
                 return "Usuário Verificado";
             } else {
                 verifyAuthenticableEntityRepository.delete(userVerified.get());
+                userRepository.delete(userEntity);
                 log.error("Tempo de verificação expirado : {}", userVerified.get());
                 return "Tempo de verificação expirado";
             }
+
         } else {
             log.error("Usuario nao verificado :{}", uuid);
             return "Usuario nao verificado";
