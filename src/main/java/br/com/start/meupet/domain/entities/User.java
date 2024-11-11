@@ -63,6 +63,16 @@ public class User implements Authenticable {
         this.phoneNumber = phoneNumber;
     }
 
+    public User(long id, String name, Email email, String password,
+                PhoneNumber phoneNumber, SituationType situationType) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.phoneNumber = phoneNumber;
+        this.situationType = situationType;
+    }
+
     @PrePersist
     public void prePersist() {
         createdAt = LocalDateTime.now();

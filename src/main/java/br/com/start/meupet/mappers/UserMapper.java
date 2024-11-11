@@ -20,16 +20,17 @@ public final class UserMapper {
     }
 
     public static User userBeforeToNewUser(User oldUser, User newUser) {
-        User user = new User();
-        user.setId((long) oldUser.getId());
-        user.setName(newUser.getName());
-        user.setEmail(newUser.getEmail());
+        User user = new User(
+                (long) oldUser.getId(),
+                oldUser.getName(),
+                newUser.getEmail(),
+                newUser.getPassword(),
+                newUser.getPhoneNumber(),
+                oldUser.getSituationType()
+        );
         user.setMoedaCapiba(oldUser.getMoedaCapiba());
-        user.setPassword(newUser.getPassword());
-        user.setPhoneNumber(newUser.getPhoneNumber());
         user.setCreatedAt(oldUser.getCreatedAt());
         user.setUpdatedAt(LocalDateTime.now());
-        user.setSituationType(oldUser.getSituationType());
         return user;
     }
 }
