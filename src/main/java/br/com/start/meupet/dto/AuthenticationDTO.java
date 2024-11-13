@@ -1,6 +1,8 @@
 package br.com.start.meupet.dto;
 
-public record AuthenticationDTO(String email, String password) {
-	
+import jakarta.validation.Valid;
+
+public record AuthenticationDTO(@Valid String email, @Valid String password) {
+
 }
 

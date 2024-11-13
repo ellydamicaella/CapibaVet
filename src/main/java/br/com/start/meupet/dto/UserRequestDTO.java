@@ -1,10 +1,16 @@
 package br.com.start.meupet.dto;
 
+import jakarta.validation.Valid;
+
 public class UserRequestDTO {
 
+    @Valid
     private String name;
+    @Valid
     private String password;
+    @Valid
     private String email;
+    @Valid
     private String phoneNumber;
 
     public UserRequestDTO() {
