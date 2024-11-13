@@ -15,6 +15,8 @@ import br.com.start.meupet.exceptions.UserNotFoundException;
 import br.com.start.meupet.mappers.UserMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,10 +41,12 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
         this.verifyAuthenticableEntityRepository = verifyAuthenticableEntityRepository;
         this.emailService = emailService;
+
     }
 
-    public List<UserResponseDTO> listAll() {
-        List<User> users = userRepository.findAll();
+    public List<UserResponseDTO> listAll(int page, int pageSize) {
+        Pageable pageable = PageRequest.of(page, pageSize);
+        List<User> users = userRepository.findAll(pageable).getContent();
         log.info("Usuario listados :{}", users.stream().map(User::getId).collect(Collectors.toList()));
         return users.stream().map(UserResponseDTO::new).toList();
     }
@@ -108,31 +112,6 @@ public class UserService {
         User userEntity = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User not found"));
         userRepository.delete(userEntity);
         log.info("Usuario deletado :{}", userEntity);
-    }
-
-    @Transactional
-    public String verifyNewUser(String uuid) {
-        Optional<VerifyAuthenticableEntity> userVerified = Optional.ofNullable(verifyAuthenticableEntityRepository.findByUuid(UUID.fromString(uuid)));
-
-        if (userVerified.isPresent()) {
-            User userEntity = userVerified.get().getUser();
-            if (userVerified.get().getExpirationDate().isAfter(LocalDateTime.now())) {
-                userEntity.setSituationType(SituationType.ATIVO);
-                userRepository.save(userEntity);
-                verifyAuthenticableEntityRepository.delete(userVerified.get());
-                log.info("Usuario verificado :{}", userEntity);
-                return "Usuário Verificado";
-            } else {
-                verifyAuthenticableEntityRepository.delete(userVerified.get());
-                userRepository.delete(userEntity);
-                log.error("Tempo de verificação expirado : {}", userVerified.get());
-                return "Tempo de verificação expirado";
-            }
-
-        } else {
-            log.error("Usuario nao verificado :{}", uuid);
-            return "Usuario nao verificado";
-        }
     }
 
     private boolean isAlreadyHavePhoneNumber(PhoneNumber PhoneNumber) {

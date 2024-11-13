@@ -3,6 +3,7 @@ package br.com.start.meupet.controllers;
 import br.com.start.meupet.dto.UserRequestDTO;
 import br.com.start.meupet.dto.UserResponseDTO;
 import br.com.start.meupet.service.UserService;
+import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -25,9 +26,9 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<List<UserResponseDTO>> listAll() {
+    public ResponseEntity<List<UserResponseDTO>> listAll(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int items) {
         log.info("Requisicao GET: listando todos usuarios");
-        return ResponseEntity.ok(userService.listAll());
+        return ResponseEntity.ok(userService.listAll(page, items));
     }
 
     @GetMapping("/{id}")
@@ -38,14 +39,14 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<UserResponseDTO> insertNewUser(@RequestBody UserRequestDTO userRequest) {
+    public ResponseEntity<UserResponseDTO> insertNewUser(@RequestBody @Valid UserRequestDTO userRequest) {
         UserResponseDTO userResponse = userService.insert(userRequest);
         log.info("Requisicao POST: inserindo um novo usuario - {}", userRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(userResponse);
     }
 
     @PutMapping
-    public ResponseEntity<UserResponseDTO> update(@RequestParam Long id, @RequestBody UserRequestDTO newUser) {
+    public ResponseEntity<UserResponseDTO> update(@RequestParam Long id, @RequestBody @Valid UserRequestDTO newUser) {
         UserResponseDTO updatedUser = userService.update(id, newUser);
         log.info("Requisicao PUT: atualizando um usuario já existente - {}", newUser.toString());
         return ResponseEntity.ok().body(updatedUser);
