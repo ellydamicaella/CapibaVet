@@ -1,12 +1,12 @@
 package br.com.start.meupet.mappers;
 
+import java.time.LocalDateTime;
+
 import br.com.start.meupet.domain.entities.User;
 import br.com.start.meupet.domain.valueobjects.Email;
 import br.com.start.meupet.domain.valueobjects.PhoneNumber;
 import br.com.start.meupet.dto.UserRequestDTO;
 import br.com.start.meupet.dto.UserResponseDTO;
-
-import java.time.LocalDateTime;
 
 
 public final class UserMapper {
@@ -25,8 +25,7 @@ public final class UserMapper {
                 oldUser.getName(),
                 newUser.getEmail(),
                 newUser.getPassword(),
-                newUser.getPhoneNumber(),
-                oldUser.getSituationType()
+                newUser.getPhoneNumber()
         );
         user.setMoedaCapiba(oldUser.getMoedaCapiba());
         user.setCreatedAt(oldUser.getCreatedAt());

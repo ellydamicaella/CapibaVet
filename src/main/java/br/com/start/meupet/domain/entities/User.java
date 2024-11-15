@@ -1,14 +1,20 @@
 package br.com.start.meupet.domain.entities;
 
+import java.time.LocalDateTime;
+import java.util.Objects;
+
 import br.com.start.meupet.domain.interfaces.Authenticable;
 import br.com.start.meupet.domain.valueobjects.Email;
 import br.com.start.meupet.domain.valueobjects.PhoneNumber;
-import br.com.start.meupet.enums.SituationType;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
-
-import java.time.LocalDateTime;
-import java.util.Objects;
 
 @Entity
 @Table(name = "usuario")
@@ -31,9 +37,6 @@ public class User implements Authenticable {
     @NotNull
     @Embedded
     private PhoneNumber phoneNumber;
-
-    @Enumerated(EnumType.STRING)
-    private SituationType situationType;
 
     @Column(name = "createdAt")
     private LocalDateTime createdAt;
@@ -63,15 +66,6 @@ public class User implements Authenticable {
         this.phoneNumber = phoneNumber;
     }
 
-    public User(long id, String name, Email email, String password,
-                PhoneNumber phoneNumber, SituationType situationType) {
-        this.id = id;
-        this.name = name;
-        this.email = email;
-        this.password = password;
-        this.phoneNumber = phoneNumber;
-        this.situationType = situationType;
-    }
 
     @PrePersist
     public void prePersist() {
@@ -119,14 +113,6 @@ public class User implements Authenticable {
     @Override
     public PhoneNumber getPhoneNumber() {
         return phoneNumber;
-    }
-
-    public SituationType getSituationType() {
-        return situationType;
-    }
-
-    public void setSituationType(SituationType situationType) {
-        this.situationType = situationType;
     }
 
     public void setPhoneNumber(PhoneNumber phoneNumber) {
