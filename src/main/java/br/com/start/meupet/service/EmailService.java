@@ -9,10 +9,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
+import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 
 @Service
@@ -33,7 +35,7 @@ public class EmailService {
         this.javaMailSender = javaMailSender;
     }
 
-    public void sendEmailTemplate(String destiny, String about, String name, String uuid) {
+    public void sendEmailTemplate(String destiny, String about, String name, String token) {
         executor.submit(() -> {
             try {
                 MimeMessage message = javaMailSender.createMimeMessage();
@@ -42,25 +44,25 @@ public class EmailService {
                 helper.setTo(destiny);
                 helper.setSubject(about);
 
-                String template = loadEmailTemplate(name, uuid);
+                String template = loadEmailTemplate(name, token);
                 helper.setText(template, true);
 
                 javaMailSender.send(message);
                 log.info("Email enviado de {} para {}", remetente, destiny);
-            } catch (Exception e) {
+            } catch (MessagingException | IOException | MailException e) {
                 log.error("Falha ao enviar o email para {}", destiny, e);
             }
         });
     }
 
-    private String loadEmailTemplate(String name, String uuid) throws IOException {
+    private String loadEmailTemplate(String name, String token) throws IOException {
         if (cachedTemplate == null) {
             ClassPathResource classPathResource = new ClassPathResource("templates/emailTemplate.html");
             cachedTemplate = new String(classPathResource.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
         }
 
         return cachedTemplate.replace("{{NOME_DO_USUARIO}}", name)
-                .replace("{{uuid}}", uuid);
+                .replace("{{token}}", token);
     }
 
 

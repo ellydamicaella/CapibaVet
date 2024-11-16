@@ -1,30 +1,47 @@
 package br.com.start.meupet.security.jwt;
 
+import java.util.Date;
+
+import javax.crypto.SecretKey;
+
+import org.springframework.stereotype.Component;
+
 import br.com.start.meupet.service.UserDetailsImpl;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
-
-import javax.crypto.SecretKey;
-import java.util.Date;
 
 @Component
 public class JwtUtils {
-
-    @Value("${projeto.jwtSecret}")
-    private String jwtSecret;
-
-    @Value("${projeto.jwtExpirationMs}")
-    private int jwtExpirationMs;
+    private final String jwtSecret = "eyJhbGciOiJIUzUxMiJ9eyJSb2xlIjoiQWRtaW4iLCJJc3N1ZXIiOiJJc3N1ZXIiLCJVc2VybmFtZSI6IkphdmFJblVzZSIsImV4cCI6MTczMDQ5Njc4OCwiaWF0IjoxNzMwNDk2Nzg4fQPihcxN4AJlFW8EFPaSQGLL1r3ltbZBv0nOI1BqflmIU98sFMfqc0Sy9iyVHphSEuHVhwciw97OcKApEg";
+    private final int jwtExpirationMs = 600000;
 
     public String generateTokenFromUserDetailsImpl(UserDetailsImpl userDetail) {
-        return Jwts.builder().subject(userDetail.getUsername()).issuedAt(new Date()).expiration(new Date(new Date().getTime() + jwtExpirationMs))
-                .signWith(getSigningKey(), Jwts.SIG.HS512).compact();
+        return Jwts.builder().subject(userDetail.getUsername())
+                .issuedAt(new Date())
+                .expiration(new Date(new Date().getTime() + jwtExpirationMs))
+                .signWith(getSigningKey(), Jwts.SIG.HS512)
+                .compact();
+    }
+
+    public String generateTokenFromUserVerifyDetailsImpl(
+            String email,
+            String name,
+            String phone_number,
+            String password) {
+
+        return Jwts.builder().subject(email)
+                .issuedAt(new Date())
+                .claim("name", name)
+                .claim("phone_number", phone_number)
+                .claim("password", password)
+                .expiration(new Date(new Date().getTime() + jwtExpirationMs))
+                .signWith(getSigningKey(), Jwts.SIG.HS512)
+                .compact();
     }
 
     public SecretKey getSigningKey() {
@@ -33,6 +50,10 @@ public class JwtUtils {
 
     public String getUsernameToken(String token) {
         return Jwts.parser().verifyWith(getSigningKey()).build().parseSignedClaims(token).getPayload().getSubject();
+    }
+
+    public Claims getParsedToken(String token) {
+        return Jwts.parser().verifyWith(getSigningKey()).build().parseSignedClaims(token).getPayload();
     }
 
     public boolean validateJwtToken(String authToken) {

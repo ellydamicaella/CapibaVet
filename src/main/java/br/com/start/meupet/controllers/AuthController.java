@@ -1,27 +1,34 @@
 package br.com.start.meupet.controllers;
 
+import java.io.IOException;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import br.com.start.meupet.dto.AuthenticationDTO;
+import br.com.start.meupet.dto.UserResponseDTO;
 import br.com.start.meupet.service.AuthService;
 import jakarta.validation.Valid;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.io.IOException;
 
 @RestController
 @RequestMapping(value = "/auth")
 @CrossOrigin
 public class AuthController {
-
     private final AuthService authService;
 
     public AuthController(AuthService authService) {
         this.authService = authService;
     }
 
-    @GetMapping(value = "/confirm/{uuid}")
-    public String confirmAccount(@PathVariable("uuid") String uuid) throws IOException {
-        return authService.confirmAccount(uuid);
+    @GetMapping(value = "/confirm/{token}")
+    public String confirmAccount(@PathVariable String token) throws IOException {
+        return authService.confirmAccount(token);
     }
 
     @PostMapping(value = "/login")
@@ -29,9 +36,8 @@ public class AuthController {
         return ResponseEntity.ok(authService.login(authDto));
     }
 
-    @PostMapping(value = "verifyNewUser/{uuid}")
-    public ResponseEntity<String> verifyNewUser(@PathVariable("uuid") String uuid) {
-        return ResponseEntity.ok().body(authService.verifyNewUser(uuid));
+    @PostMapping(value = "verifyNewUser/{token}")
+    public ResponseEntity<UserResponseDTO> verifyNewUser(@PathVariable String token) {
+        return ResponseEntity.ok().body(authService.verifyNewUser(token));
     }
-
-}
+} 

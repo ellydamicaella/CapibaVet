@@ -15,6 +15,10 @@ public class MeupetApplication {
         ConfigurableApplicationContext context = SpringApplication.run(MeupetApplication.class, args);
         Integer port = context.getEnvironment().getProperty("server.port", Integer.class);
 
+        MeupetApplication app = new MeupetApplication();
+
+        app.log.info("projeto iniciado");
+
         System.out.println("Servidor iniciado na porta: " + port);
     }
 

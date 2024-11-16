@@ -1,18 +1,8 @@
 package br.com.start.meupet.service;
 
-import br.com.start.meupet.domain.entities.User;
-import br.com.start.meupet.domain.entities.VerifyAuthenticableEntity;
-import br.com.start.meupet.domain.repository.UserRepository;
-import br.com.start.meupet.domain.repository.VerifyAuthenticableEntityRepository;
-import br.com.start.meupet.domain.valueobjects.Email;
-import br.com.start.meupet.domain.valueobjects.PhoneNumber;
-import br.com.start.meupet.dto.UserRequestDTO;
-import br.com.start.meupet.dto.UserResponseDTO;
-import br.com.start.meupet.enums.SituationType;
-import br.com.start.meupet.exceptions.EmailAlreadyUsedException;
-import br.com.start.meupet.exceptions.PhoneNumberAlreadyUsedException;
-import br.com.start.meupet.exceptions.UserNotFoundException;
-import br.com.start.meupet.mappers.UserMapper;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.PageRequest;
@@ -21,27 +11,32 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
-import java.util.stream.Collectors;
+import br.com.start.meupet.domain.entities.User;
+import br.com.start.meupet.domain.entities.VerifyAuthenticableEntity;
+import br.com.start.meupet.domain.repository.UserRepository;
+import br.com.start.meupet.dto.UserRequestDTO;
+import br.com.start.meupet.dto.UserResponseDTO;
+import br.com.start.meupet.exceptions.UserNotFoundException;
+import br.com.start.meupet.mappers.UserMapper;
+import br.com.start.meupet.security.jwt.JwtUtils;
 
 @Service
 public class UserService {
 
     private final Logger log = LoggerFactory.getLogger(UserService.class);
     private final UserRepository userRepository;
-    private final VerifyAuthenticableEntityRepository verifyAuthenticableEntityRepository;
     private final PasswordEncoder passwordEncoder;
     private final EmailService emailService;
+    private final ServiceUtils serviceUtils;
 
-    public UserService(UserRepository userRepository, VerifyAuthenticableEntityRepository verifyAuthenticableEntityRepository, PasswordEncoder passwordEncoder, EmailService emailService) {
+    public UserService(
+            UserRepository userRepository,
+            PasswordEncoder passwordEncoder,
+            EmailService emailService, ServiceUtils serviceUtils) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
-        this.verifyAuthenticableEntityRepository = verifyAuthenticableEntityRepository;
         this.emailService = emailService;
-
+        this.serviceUtils = serviceUtils;
     }
 
     public List<UserResponseDTO> listAll(int page, int pageSize) {
@@ -59,27 +54,35 @@ public class UserService {
     @Transactional
     public UserResponseDTO insert(UserRequestDTO userRequest) {
         User userEntity = UserMapper.userRequestToUser(userRequest);
-        userEntity.setSituationType(SituationType.PENDENTE);
 
-        if (isAlreadyHaveEmail(userEntity.getEmail())) {
-            log.info("Esse email já existe!, {}", userRequest.getEmail());
-            throw new EmailAlreadyUsedException("There is already someone with that email: " + userRequest.getEmail());
-        }
-
-        if (isAlreadyHavePhoneNumber(userEntity.getPhoneNumber())) {
-            log.info("Esse telefone já existe!, {}", userRequest.getPhoneNumber());
-            throw new PhoneNumberAlreadyUsedException("There is already someone with that phoneNumber: " + userRequest.getPhoneNumber());
-        }
-
+        serviceUtils.isUserAlreadyExists(userEntity);
+           
         userEntity.setPassword(passwordEncoder.encode(userRequest.getPassword()));
 
-        userRepository.save(userEntity);
-        log.info("Usuario criado :{}", userEntity);
-        VerifyAuthenticableEntity verifyEntity = new VerifyAuthenticableEntity(UUID.randomUUID(), LocalDateTime.now().plusMinutes(10), userEntity);
-        log.info("verifyEntity :{}", verifyEntity);
-        verifyAuthenticableEntityRepository.save(verifyEntity);
+        // userRepository.save(userEntity);
 
-        emailService.sendEmailTemplate(userEntity.getEmail().toString(), "Novo usuário cadastrado", userEntity.getName(), verifyEntity.getUuid().toString());
+        log.info("Usuario criado :{}", userEntity);
+
+        log.info("getEmail :{}", userEntity.getEmail().toString());
+        log.info("getName :{}", userEntity.getName());
+        log.info("getPhoneNumber :{}", userEntity.getPhoneNumber().toString());
+        log.info("getPassword :{}", userEntity.getPassword());
+
+        String token = new JwtUtils().generateTokenFromUserVerifyDetailsImpl(
+                userEntity.getEmail().toString(),
+                userEntity.getName(),
+                userEntity.getPhoneNumber().toString(),
+                userEntity.getPassword());
+
+        log.info("token :{}", token);
+
+        VerifyAuthenticableEntity verifyEntity = new VerifyAuthenticableEntity(token);
+
+        log.info("verifyEntity :{}", verifyEntity);
+
+        emailService.sendEmailTemplate(userEntity.getEmail().toString(), "Novo usuário cadastrado",
+                userEntity.getName(), verifyEntity.getToken());
+
         return UserMapper.userToResponseDTO(userEntity);
     }
 
@@ -88,16 +91,10 @@ public class UserService {
         User userEntity = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User not found"));
 
         if (!newUser.getEmail().equals(userEntity.getEmail().toString())) {
-            if (isAlreadyHaveEmail(new Email(newUser.getEmail()))) {
-                log.info("Esse email já existe!, {}", newUser.getEmail());
-                throw new EmailAlreadyUsedException("There is already someone with that email: " + newUser.getEmail());
-            }
+         serviceUtils.isUserAlreadyExists(userEntity);
         }
         if (!newUser.getPhoneNumber().equals(userEntity.getPhoneNumber().toString())) {
-            if (isAlreadyHavePhoneNumber(new PhoneNumber(newUser.getPhoneNumber()))) {
-                log.info("Esse telefone já existe!, {}", newUser.getPhoneNumber());
-                throw new PhoneNumberAlreadyUsedException("There is already someone with that phoneNumber: " + newUser.getPhoneNumber());
-            }
+           serviceUtils.isUserAlreadyExists(userEntity);
         }
 
         User updatedUser = UserMapper.userBeforeToNewUser(userEntity, UserMapper.userRequestToUser(newUser));
@@ -113,17 +110,4 @@ public class UserService {
         userRepository.delete(userEntity);
         log.info("Usuario deletado :{}", userEntity);
     }
-
-    private boolean isAlreadyHavePhoneNumber(PhoneNumber PhoneNumber) {
-        Optional<User> result = Optional.ofNullable(userRepository.findByPhoneNumber(PhoneNumber));
-        log.info("Verificando se já existe o numero de telefone...");
-        return result.isPresent();
-    }
-
-    private boolean isAlreadyHaveEmail(Email email) {
-        Optional<User> result = Optional.ofNullable(userRepository.findByEmail(email));
-        log.info("Verificando se já existe o email...");
-        return result.isPresent();
-    }
-
 }
