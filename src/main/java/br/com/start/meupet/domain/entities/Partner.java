@@ -1,6 +1,7 @@
 package br.com.start.meupet.domain.entities;
 
 import br.com.start.meupet.domain.interfaces.Authenticable;
+import br.com.start.meupet.domain.interfaces.PersonalRegistration;
 import br.com.start.meupet.domain.valueobjects.Cnpj;
 import br.com.start.meupet.domain.valueobjects.Email;
 import br.com.start.meupet.domain.valueobjects.PhoneNumber;
@@ -11,8 +12,8 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
-@Table(name = "ong")
-public class Ong implements Authenticable {
+@Table(name = "parceiro")
+public class Partner implements Authenticable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,10 +27,10 @@ public class Ong implements Authenticable {
     @NotNull
     private Email email;
 
-    @Column(name = "cnpj")
+    @Column(name = "registro_pessoal")
     @NotNull
     @Embedded
-    private Cnpj cnpj;
+    private PersonalRegistration personalRegistration;
 
     @Column(name = "senha")
     @NotNull
@@ -43,23 +44,24 @@ public class Ong implements Authenticable {
     @Column(name = "createdAt")
     private LocalDateTime createdAt;
 
-    public Ong() {
+    @Column(name = "updatedAt")
+    private LocalDateTime updatedAt;
+
+    public Partner() {
 
     }
 
-    public Ong(int id, @NotNull String name, @NotNull Email email, @NotNull Cnpj cnpj, @NotNull String password,
-               @NotNull PhoneNumber phoneNumber) {
-        this.id = id;
+    public Partner(
+                   @NotNull String name,
+                   @NotNull Email email,
+                   @NotNull PersonalRegistration personalRegistration,
+                   @NotNull String password,
+                   @NotNull PhoneNumber phoneNumber) {
         this.name = name;
         this.email = email;
-        this.cnpj = cnpj;
+        this.personalRegistration = personalRegistration;
         this.password = password;
         this.phoneNumber = phoneNumber;
-    }
-
-    @PrePersist
-    protected void onCreate() {
-        this.createdAt = LocalDateTime.now();
     }
 
     public Number getId() {
@@ -86,12 +88,12 @@ public class Ong implements Authenticable {
         this.email = email;
     }
 
-    public Cnpj getCnpj() {
-        return cnpj;
+    public @NotNull PersonalRegistration getPersonalRegistration() {
+        return personalRegistration;
     }
 
-    public void setCnpj(Cnpj cnpj) {
-        this.cnpj = cnpj;
+    public void setPersonalRegistration(@NotNull PersonalRegistration personalRegistration) {
+        this.personalRegistration = personalRegistration;
     }
 
     public String getPassword() {
@@ -131,7 +133,7 @@ public class Ong implements Authenticable {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        Ong other = (Ong) obj;
+        Partner other = (Partner) obj;
         return id == other.id;
     }
 
