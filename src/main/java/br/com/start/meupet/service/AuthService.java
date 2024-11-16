@@ -28,7 +28,7 @@ import io.jsonwebtoken.Claims;
 @Service
 public class AuthService {
 
-    private final Logger log = LoggerFactory.getLogger(AuthService.class);
+    private static final Logger log = LoggerFactory.getLogger(AuthService.class);
     private final AuthenticationManager authenticationManager;
     private final JwtUtils jwtUtils;
     private final UserRepository userRepository;

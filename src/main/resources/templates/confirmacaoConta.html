@@ -27,10 +27,12 @@
             } else {
                 console.error("Erro na verificação:", response.status);
                 document.body.innerHTML = "<h1>Erro ao confirmar a conta.</h1>";
+                close();
             }
         } catch (error) {
             console.error("Erro ao tentar verificar o usuário:", error);
             document.body.innerHTML = "<h1>Erro ao confirmar a conta.</h1>";
+            close();
         }
     }
 

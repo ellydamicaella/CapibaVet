@@ -1,11 +1,17 @@
 package br.com.start.meupet.domain.valueobjects;
 
+import br.com.start.meupet.exceptions.ProblemDetailsException;
 import jakarta.persistence.Embeddable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 
 import java.util.regex.Pattern;
 
 @Embeddable
 public final class Email {
+
+    private static final Logger log = LoggerFactory.getLogger(Email.class);
 
     private final String email;
 
@@ -19,7 +25,8 @@ public final class Email {
 
     public Email(String email) {
         if (!isValidEmail(email)) {
-            throw new IllegalArgumentException("Email inválido: " + email);
+            log.error("Formato do email inválido: {}", email);
+            throw new ProblemDetailsException("Email inválido", "Formato do email inválido", HttpStatus.BAD_REQUEST);
         }
         this.email = email;
     }

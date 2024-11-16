@@ -27,7 +27,7 @@ import jakarta.validation.Valid;
 @CrossOrigin
 public class UserController {
 
-    private final Logger log = LoggerFactory.getLogger(UserController.class);
+    private static final Logger log = LoggerFactory.getLogger(UserController.class);
 
     private final UserService userService;
 

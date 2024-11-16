@@ -1,12 +1,17 @@
 package br.com.start.meupet.domain.valueobjects;
 
+import br.com.start.meupet.exceptions.ProblemDetailsException;
 import jakarta.persistence.Embeddable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 
 import java.util.regex.Pattern;
 
 @Embeddable
 public final class PhoneNumber {
 
+    private static final Logger log = LoggerFactory.getLogger(PhoneNumber.class);
     private final String phoneNumber;
 
     // Regex para validação de telefone
@@ -19,7 +24,8 @@ public final class PhoneNumber {
 
     public PhoneNumber(String phoneNumber) {
         if (!isValidPhoneNumber(phoneNumber)) {
-            throw new IllegalArgumentException("Telefone inválido: " + phoneNumber);
+            log.error("Formato do telefone inválido: {}", phoneNumber);
+            throw new ProblemDetailsException("Telefone inválido", "Formato do telefone inválido", HttpStatus.BAD_REQUEST);
         }
         this.phoneNumber = phoneNumber;
     }

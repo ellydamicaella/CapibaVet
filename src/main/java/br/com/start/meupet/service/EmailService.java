@@ -2,9 +2,12 @@ package br.com.start.meupet.service;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.Properties;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import jakarta.mail.*;
+import jakarta.mail.internet.InternetAddress;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,7 +17,6 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
-import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 
 @Service
@@ -25,7 +27,7 @@ public class EmailService {
     private final JavaMailSender javaMailSender;
 
     @Value("${spring.mail.username}")
-    private String remetente;
+    private String from;
 
     private String cachedTemplate;
 
@@ -40,7 +42,7 @@ public class EmailService {
             try {
                 MimeMessage message = javaMailSender.createMimeMessage();
                 MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
-                helper.setFrom(remetente);
+                helper.setFrom(from);
                 helper.setTo(destiny);
                 helper.setSubject(about);
 
@@ -48,9 +50,10 @@ public class EmailService {
                 helper.setText(template, true);
 
                 javaMailSender.send(message);
-                log.info("Email enviado de {} para {}", remetente, destiny);
+                log.info("Email enviado de {} para {}", from, destiny);
             } catch (MessagingException | IOException | MailException e) {
                 log.error("Falha ao enviar o email para {}", destiny, e);
+
             }
         });
     }
@@ -64,6 +67,4 @@ public class EmailService {
         return cachedTemplate.replace("{{NOME_DO_USUARIO}}", name)
                 .replace("{{token}}", token);
     }
-
-
 }

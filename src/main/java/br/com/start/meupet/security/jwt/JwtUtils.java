@@ -4,6 +4,10 @@ import java.util.Date;
 
 import javax.crypto.SecretKey;
 
+import jakarta.annotation.PostConstruct;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import br.com.start.meupet.service.UserDetailsImpl;
@@ -16,14 +20,19 @@ import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 
 @Component
-public class JwtUtils {
+public final class JwtUtils {
+
+    private static final Logger log = LoggerFactory.getLogger(JwtUtils.class);
+
     private final String jwtSecret = "eyJhbGciOiJIUzUxMiJ9eyJSb2xlIjoiQWRtaW4iLCJJc3N1ZXIiOiJJc3N1ZXIiLCJVc2VybmFtZSI6IkphdmFJblVzZSIsImV4cCI6MTczMDQ5Njc4OCwiaWF0IjoxNzMwNDk2Nzg4fQPihcxN4AJlFW8EFPaSQGLL1r3ltbZBv0nOI1BqflmIU98sFMfqc0Sy9iyVHphSEuHVhwciw97OcKApEg";
+
     private final int jwtExpirationMs = 600000;
 
+
     public String generateTokenFromUserDetailsImpl(UserDetailsImpl userDetail) {
-        return Jwts.builder().subject(userDetail.getUsername())
+        return Jwts.builder().header().add("typ", "JWT").and().subject(userDetail.getUsername())
                 .issuedAt(new Date())
-                .expiration(new Date(new Date().getTime() + jwtExpirationMs))
+                .expiration(new Date(new Date().getTime() + this.jwtExpirationMs))
                 .signWith(getSigningKey(), Jwts.SIG.HS512)
                 .compact();
     }
@@ -34,18 +43,19 @@ public class JwtUtils {
             String phone_number,
             String password) {
 
-        return Jwts.builder().subject(email)
+        return Jwts.builder().header().add("typ", "JWT").and().subject(email)
                 .issuedAt(new Date())
                 .claim("name", name)
                 .claim("phone_number", phone_number)
                 .claim("password", password)
-                .expiration(new Date(new Date().getTime() + jwtExpirationMs))
+                .expiration(new Date(new Date().getTime() + this.jwtExpirationMs))
                 .signWith(getSigningKey(), Jwts.SIG.HS512)
                 .compact();
     }
 
     public SecretKey getSigningKey() {
-        return Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecret));
+        log.info("jwtSecret: {}", this.jwtSecret);
+        return Keys.hmacShaKeyFor(Decoders.BASE64.decode(this.jwtSecret));
     }
 
     public String getUsernameToken(String token) {
