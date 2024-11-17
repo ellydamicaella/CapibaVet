@@ -1,6 +1,6 @@
-package br.com.start.meupet.domain.valueobjects;
+package br.com.start.meupet.common.valueobjects;
 
-import br.com.start.meupet.exceptions.ProblemDetailsException;
+import br.com.start.meupet.common.exceptions.ProblemDetailsException;
 import jakarta.persistence.Embeddable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

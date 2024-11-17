@@ -1,9 +1,9 @@
-package br.com.start.meupet.domain.repository;
+package br.com.start.meupet.user.repository;
 
 
-import br.com.start.meupet.domain.entities.User;
-import br.com.start.meupet.domain.valueobjects.Email;
-import br.com.start.meupet.domain.valueobjects.PhoneNumber;
+import br.com.start.meupet.user.model.User;
+import br.com.start.meupet.common.valueobjects.Email;
+import br.com.start.meupet.common.valueobjects.PhoneNumber;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

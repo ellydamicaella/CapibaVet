@@ -1,12 +1,12 @@
-package br.com.start.meupet.mappers;
+package br.com.start.meupet.user.service.mappers;
 
 import java.time.LocalDateTime;
 
-import br.com.start.meupet.domain.entities.User;
-import br.com.start.meupet.domain.valueobjects.Email;
-import br.com.start.meupet.domain.valueobjects.PhoneNumber;
-import br.com.start.meupet.dto.UserRequestDTO;
-import br.com.start.meupet.dto.UserResponseDTO;
+import br.com.start.meupet.user.model.User;
+import br.com.start.meupet.common.valueobjects.Email;
+import br.com.start.meupet.common.valueobjects.PhoneNumber;
+import br.com.start.meupet.user.dto.UserRequestDTO;
+import br.com.start.meupet.user.dto.UserResponseDTO;
 
 
 public final class UserMapper {

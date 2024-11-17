@@ -1,4 +1,4 @@
-package br.com.start.meupet.security.jwt;
+package br.com.start.meupet.common.security.jwt;
 
 import java.io.IOException;
 import java.util.HashMap;

@@ -1,4 +1,4 @@
-package br.com.start.meupet.controllers;
+package br.com.start.meupet.common.controllers;
 
 import java.io.IOException;
 
@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.start.meupet.dto.AuthenticationDTO;
-import br.com.start.meupet.dto.UserResponseDTO;
-import br.com.start.meupet.service.AuthService;
+import br.com.start.meupet.common.dto.AuthenticationDTO;
+import br.com.start.meupet.user.dto.UserResponseDTO;
+import br.com.start.meupet.common.service.AuthService;
 import jakarta.validation.Valid;
 
 @RestController

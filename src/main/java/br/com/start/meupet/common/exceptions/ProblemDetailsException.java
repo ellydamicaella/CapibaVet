@@ -1,4 +1,4 @@
-package br.com.start.meupet.exceptions;
+package br.com.start.meupet.common.exceptions;
 
 import java.io.Serial;
 

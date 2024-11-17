@@ -1,7 +1,7 @@
-package br.com.start.meupet.domain.interfaces;
+package br.com.start.meupet.common.interfaces;
 
-import br.com.start.meupet.domain.valueobjects.Email;
-import br.com.start.meupet.domain.valueobjects.PhoneNumber;
+import br.com.start.meupet.common.valueobjects.Email;
+import br.com.start.meupet.common.valueobjects.PhoneNumber;
 
 import java.util.UUID;
 

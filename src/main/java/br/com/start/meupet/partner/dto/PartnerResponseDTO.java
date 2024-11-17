@@ -1,6 +1,7 @@
-package br.com.start.meupet.dto;
+package br.com.start.meupet.partner.dto;
 
-import br.com.start.meupet.domain.entities.Partner;
+import br.com.start.meupet.common.interfaces.AuthenticableResponseDTO;
+import br.com.start.meupet.partner.model.Partner;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,7 +12,7 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class PartnerResponseDTO {
+public class PartnerResponseDTO extends AuthenticableResponseDTO {
 
     private UUID id;
 

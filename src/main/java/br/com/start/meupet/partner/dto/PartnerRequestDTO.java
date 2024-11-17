@@ -1,9 +1,8 @@
-package br.com.start.meupet.dto;
+package br.com.start.meupet.partner.dto;
 
 
-import br.com.start.meupet.domain.interfaces.PersonalRegistration;
-import br.com.start.meupet.domain.valueobjects.Email;
-import br.com.start.meupet.domain.valueobjects.PhoneNumber;
+import br.com.start.meupet.common.enums.DocumentType;
+import br.com.start.meupet.common.valueobjects.PersonalRegistration;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,9 +20,15 @@ public class PartnerRequestDTO {
     @Valid
     private String email;
     @Valid
-    private String personalRegistration;
+    private String document;
+    @Valid
+    private String documentType;
     @Valid
     private String password;
     @Valid
     private String phoneNumber;
+
+    public DocumentType toDocumentType(String documentType) {
+        return DocumentType.valueOf(documentType.toUpperCase());
+    }
 }

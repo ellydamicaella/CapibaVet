@@ -1,4 +1,4 @@
-package br.com.start.meupet.dto;
+package br.com.start.meupet.common.dto;
 
 import jakarta.validation.Valid;
 

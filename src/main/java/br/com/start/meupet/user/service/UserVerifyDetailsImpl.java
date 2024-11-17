@@ -1,4 +1,4 @@
-package br.com.start.meupet.common.service;
+package br.com.start.meupet.user.service;
 
 import java.io.Serial;
 import java.util.ArrayList;

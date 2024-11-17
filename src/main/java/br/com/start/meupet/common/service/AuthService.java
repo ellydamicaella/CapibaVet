@@ -1,8 +1,10 @@
-package br.com.start.meupet.service;
+package br.com.start.meupet.common.service;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.UUID;
 
+import br.com.start.meupet.user.service.AuthenticableDetailsImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,15 +16,15 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import br.com.start.meupet.domain.entities.User;
-import br.com.start.meupet.domain.repository.UserRepository;
-import br.com.start.meupet.domain.valueobjects.Email;
-import br.com.start.meupet.domain.valueobjects.PhoneNumber;
-import br.com.start.meupet.dto.AccessDTO;
-import br.com.start.meupet.dto.AuthenticationDTO;
-import br.com.start.meupet.dto.UserResponseDTO;
-import br.com.start.meupet.mappers.UserMapper;
-import br.com.start.meupet.security.jwt.JwtUtils;
+import br.com.start.meupet.user.model.User;
+import br.com.start.meupet.user.repository.UserRepository;
+import br.com.start.meupet.common.valueobjects.Email;
+import br.com.start.meupet.common.valueobjects.PhoneNumber;
+import br.com.start.meupet.common.dto.AccessDTO;
+import br.com.start.meupet.common.dto.AuthenticationDTO;
+import br.com.start.meupet.user.dto.UserResponseDTO;
+import br.com.start.meupet.user.service.mappers.UserMapper;
+import br.com.start.meupet.common.security.jwt.JwtUtils;
 import io.jsonwebtoken.Claims;
 
 @Service
@@ -55,9 +57,9 @@ public class AuthService {
             Authentication authentication = authenticationManager.authenticate(userAuth);
 
             // Busca usuario logado
-            UserDetailsImpl userAuthenticate = (UserDetailsImpl) authentication.getPrincipal();
+            AuthenticableDetailsImpl userAuthenticate = (AuthenticableDetailsImpl) authentication.getPrincipal();
 
-            String token = jwtUtils.generateTokenFromUserDetailsImpl(userAuthenticate);
+            String token = jwtUtils.generateTokenFromAuthenticableDetailsImpl(userAuthenticate);
 
             AccessDTO accessDTO = new AccessDTO(token);
             log.info("Usuario logado com sucesso token: {}", token);
@@ -94,8 +96,8 @@ public class AuthService {
     public String confirmAccount(String token) {
         try {
             ClassPathResource classPathResource = new ClassPathResource("templates/confirmacaoConta.html");
-            String template = new String(classPathResource.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
-            template = template.replace("{{token}}", token);
+            String template = new String(classPathResource.getInputStream().readAllBytes(), StandardCharsets.UTF_8)
+                    .replace("{{token}}", token);
             log.info("gerando o template confirmacaoConta");
             return template;
         } catch (IOException e) {

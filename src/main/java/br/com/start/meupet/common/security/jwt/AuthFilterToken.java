@@ -1,6 +1,6 @@
-package br.com.start.meupet.security.jwt;
+package br.com.start.meupet.common.security.jwt;
 
-import br.com.start.meupet.service.UserDetailsServiceImpl;
+import br.com.start.meupet.user.service.UserDetailsServiceImpl;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

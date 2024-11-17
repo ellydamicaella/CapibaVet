@@ -12,7 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import br.com.start.meupet.common.interfaces.Authenticable;
 
 @Getter
-public class UserDetailsImpl implements UserDetails {
+public class AuthenticableDetailsImpl implements UserDetails {
 
     /**
      *
@@ -32,11 +32,11 @@ public class UserDetailsImpl implements UserDetails {
     
     private final Collection<? extends GrantedAuthority> authorities;
 
-    public static UserDetailsImpl build(Authenticable user) {
-        return new UserDetailsImpl(user.getId(), user.getName(), user.getEmail().toString(), user.getPassword(), user.getPhoneNumber().toString(), new ArrayList<>());
+    public static AuthenticableDetailsImpl build(Authenticable authenticable) {
+        return new AuthenticableDetailsImpl(authenticable.getId(), authenticable.getName(), authenticable.getEmail().toString(), authenticable.getPassword(), authenticable.getPhoneNumber().toString(), new ArrayList<>());
     }
 
-    public UserDetailsImpl(UUID id, String name, String email, String password, String phoneNumber, Collection<? extends GrantedAuthority> authorities) {
+    public AuthenticableDetailsImpl(UUID id, String name, String email, String password, String phoneNumber, Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
         this.name = name;
         this.email = email;

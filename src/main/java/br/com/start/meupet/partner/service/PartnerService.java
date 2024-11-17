@@ -1,18 +1,19 @@
-package br.com.start.meupet.service;
+package br.com.start.meupet.partner.service;
 
-import br.com.start.meupet.domain.entities.Partner;
-import br.com.start.meupet.domain.entities.User;
-import br.com.start.meupet.domain.entities.VerifyAuthenticableEntity;
-import br.com.start.meupet.domain.repository.PartnerRepository;
-import br.com.start.meupet.domain.repository.UserRepository;
-import br.com.start.meupet.dto.PartnerRequestDTO;
-import br.com.start.meupet.dto.PartnerResponseDTO;
-import br.com.start.meupet.dto.UserRequestDTO;
-import br.com.start.meupet.dto.UserResponseDTO;
-import br.com.start.meupet.exceptions.UserNotFoundException;
-import br.com.start.meupet.mappers.UserMapper;
-import br.com.start.meupet.security.jwt.JwtUtils;
-import jakarta.validation.Valid;
+import br.com.start.meupet.common.service.utils.VerifyAuthenticable;
+import br.com.start.meupet.partner.dto.PartnerRequestDTO;
+import br.com.start.meupet.partner.model.Partner;
+import br.com.start.meupet.common.service.EmailService;
+import br.com.start.meupet.common.service.ServiceUtils;
+import br.com.start.meupet.partner.service.mappers.PartnerMapper;
+import br.com.start.meupet.user.model.User;
+import br.com.start.meupet.partner.repository.PartnerRepository;
+import br.com.start.meupet.partner.dto.PartnerResponseDTO;
+import br.com.start.meupet.user.dto.UserRequestDTO;
+import br.com.start.meupet.user.dto.UserResponseDTO;
+import br.com.start.meupet.common.exceptions.EntityNotFoundException;
+import br.com.start.meupet.user.service.mappers.UserMapper;
+import br.com.start.meupet.common.security.jwt.JwtUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.PageRequest;
@@ -50,68 +51,67 @@ public class PartnerService {
         return partners.stream().map(PartnerResponseDTO::new).toList();
     }
 
-    public PartnerResponseDTO getUserById(UUID id) {
-        Partner userEntity = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User not found"));
-        return UserMapper.userToResponseDTO(userEntity);
+    public PartnerResponseDTO getPartnerById(UUID id) {
+        Partner partnerEntity = partnerRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Partner not found"));
+        return PartnerMapper.partnerToResponseDTO(partnerEntity);
     }
 
     @Transactional
-    public UserResponseDTO insert(UserRequestDTO userRequest) {
-        User userEntity = UserMapper.userRequestToUser(userRequest);
+    public PartnerResponseDTO insert(PartnerRequestDTO partnerRequest) {
+        Partner partnerEntity = PartnerMapper.partnerRequestToPartner(partnerRequest);
 
-        serviceUtils.isUserAlreadyExists(userEntity);
+        serviceUtils.isPartnerAlreadyExists(partnerEntity);
 
-        userEntity.setPassword(passwordEncoder.encode(userRequest.getPassword()));
+        partnerEntity.setPassword(passwordEncoder.encode(partnerRequest.getPassword()));
 
-        // userRepository.save(userEntity);
+        // partnerRepository.save(partnerEntity);
 
-        log.info("Usuario criado :{}", userEntity);
+        log.info("Parceiro criado, aguardando a confirmação da conta :{}", partnerEntity);
 
-        log.info("getEmail :{}", userEntity.getEmail().toString());
-        log.info("getName :{}", userEntity.getName());
-        log.info("getPhoneNumber :{}", userEntity.getPhoneNumber().toString());
-        log.info("getPassword :{}", userEntity.getPassword());
+        log.info("getEmail :{}", partnerEntity.getEmail().toString());
+        log.info("getName :{}", partnerEntity.getName());
+        log.info("getPhoneNumber :{}", partnerEntity.getPhoneNumber().toString());
+        log.info("getPassword :{}", partnerEntity.getPassword());
+        log.info("getDocument :{}", partnerEntity.getPersonalRegistration().getDocument());
+        log.info("getDocumentType :{}", partnerEntity.getPersonalRegistration().getType());
 
-        String token = new JwtUtils().generateTokenFromUserVerifyDetailsImpl(
-                userEntity.getEmail().toString(),
-                userEntity.getName(),
-                userEntity.getPhoneNumber().toString(),
-                userEntity.getPassword());
+        String token = new JwtUtils().generateTokenFromPartnerVerifyDetailsImpl(
+                partnerEntity.getEmail().toString(),
+                partnerEntity.getName(),
+                partnerEntity.getPhoneNumber().toString(),
+                partnerEntity.getPassword(),
+                partnerEntity.getPersonalRegistration().getDocument(),
+                partnerEntity.getPersonalRegistration().getType().toString().toUpperCase());
 
         log.info("token :{}", token);
 
-        VerifyAuthenticableEntity verifyEntity = new VerifyAuthenticableEntity(token);
+        VerifyAuthenticable verifyEntity = new VerifyAuthenticable(token);
 
         log.info("verifyEntity :{}", verifyEntity);
 
-        emailService.sendEmailTemplate(userEntity.getEmail().toString(), "Novo usuário cadastrado",
-                userEntity.getName(), verifyEntity.getToken());
+        emailService.sendEmailTemplate(partnerEntity.getEmail().toString(), "Novo parceiro cadastrado",
+                partnerEntity.getName(), verifyEntity.getToken());
 
-        return UserMapper.userToResponseDTO(userEntity);
+        return PartnerMapper.partnerToResponseDTO(partnerEntity);
     }
 
     @Transactional
-    public UserResponseDTO update(UUID id, UserRequestDTO newUser) {
-        User userEntity = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User not found"));
+    public PartnerResponseDTO update(UUID id, PartnerRequestDTO newPartner) {
+        Partner partnerEntity = partnerRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Partner not found"));
 
-        if (!newUser.getEmail().equals(userEntity.getEmail().toString())) {
-            serviceUtils.isUserAlreadyExists(userEntity);
-        }
-        if (!newUser.getPhoneNumber().equals(userEntity.getPhoneNumber().toString())) {
-            serviceUtils.isUserAlreadyExists(userEntity);
-        }
+        serviceUtils.isPartnerAlreadyExists(partnerEntity);
 
-        User updatedUser = UserMapper.userBeforeToNewUser(userEntity, UserMapper.userRequestToUser(newUser));
-        userRepository.save(updatedUser);
+        Partner updatedPartner = PartnerMapper.partnerBeforeToNewPartner(partnerEntity, PartnerMapper.partnerRequestToPartner(newPartner));
+        partnerRepository.save(updatedPartner);
 
-        log.info("Usuario atualizado :{}", updatedUser);
-        return UserMapper.userToResponseDTO(updatedUser);
+        log.info("Parceiro atualizado :{}", updatedPartner);
+        return PartnerMapper.partnerToResponseDTO(updatedPartner);
     }
 
     @Transactional
     public void delete(UUID id) {
-        User userEntity = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User not found"));
-        userRepository.delete(userEntity);
-        log.info("Usuario deletado :{}", userEntity);
+        Partner partnerEntity = partnerRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Partner not found"));
+        partnerRepository.delete(partnerEntity);
+        log.info("Parceiro deletado :{}", partnerEntity);
     }
 }

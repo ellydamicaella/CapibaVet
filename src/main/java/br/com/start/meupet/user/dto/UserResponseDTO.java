@@ -1,16 +1,17 @@
-package br.com.start.meupet.dto;
+package br.com.start.meupet.user.dto;
 
-import br.com.start.meupet.domain.entities.User;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import br.com.start.meupet.common.interfaces.AuthenticableResponseDTO;
+import br.com.start.meupet.user.model.User;
+import lombok.*;
 
 import java.util.UUID;
 
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserResponseDTO {
+@Getter
+@Setter
+@ToString
+public class UserResponseDTO extends AuthenticableResponseDTO {
 
     private UUID id;
     private String name;

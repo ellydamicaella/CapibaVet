@@ -1,4 +1,4 @@
-package br.com.start.meupet.exceptions;
+package br.com.start.meupet.common.exceptions;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,8 +13,8 @@ import jakarta.servlet.http.HttpServletRequest;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(UserNotFoundException.class)
-    public ResponseEntity<String> handleUserNotFound(UserNotFoundException ex) {
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<String> handleUserNotFound(EntityNotFoundException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
 

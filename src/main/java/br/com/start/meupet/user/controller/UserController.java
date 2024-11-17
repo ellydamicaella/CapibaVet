@@ -1,4 +1,4 @@
-package br.com.start.meupet.controllers;
+package br.com.start.meupet.user.controller;
 
 import java.util.List;
 import java.util.UUID;
@@ -18,9 +18,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.start.meupet.dto.UserRequestDTO;
-import br.com.start.meupet.dto.UserResponseDTO;
-import br.com.start.meupet.service.UserService;
+import br.com.start.meupet.user.dto.UserRequestDTO;
+import br.com.start.meupet.user.dto.UserResponseDTO;
+import br.com.start.meupet.user.service.UserService;
 import jakarta.validation.Valid;
 
 @RestController

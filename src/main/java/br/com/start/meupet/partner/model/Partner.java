@@ -1,19 +1,15 @@
-package br.com.start.meupet.domain.entities;
+package br.com.start.meupet.partner.model;
 
-import br.com.start.meupet.domain.interfaces.Authenticable;
-import br.com.start.meupet.domain.interfaces.PersonalRegistration;
-import br.com.start.meupet.domain.valueobjects.Cnpj;
-import br.com.start.meupet.domain.valueobjects.Email;
-import br.com.start.meupet.domain.valueobjects.PhoneNumber;
+import br.com.start.meupet.common.interfaces.Authenticable;
+import br.com.start.meupet.common.valueobjects.Email;
+import br.com.start.meupet.common.valueobjects.PersonalRegistration;
+import br.com.start.meupet.common.valueobjects.PhoneNumber;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.time.LocalDateTime;
-import java.util.Objects;
 import java.util.UUID;
 
 @Entity
@@ -23,7 +19,7 @@ import java.util.UUID;
 public class Partner implements Authenticable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     @Column(name = "nome_fantasia")

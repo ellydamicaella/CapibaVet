@@ -1,8 +1,7 @@
-package br.com.start.meupet.service;
+package br.com.start.meupet.common.service;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.Properties;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 

@@ -1,7 +1,7 @@
-package br.com.start.meupet.security;
+package br.com.start.meupet.common.security;
 
-import br.com.start.meupet.security.jwt.AuthEntryPointJwt;
-import br.com.start.meupet.security.jwt.AuthFilterToken;
+import br.com.start.meupet.common.security.jwt.AuthEntryPointJwt;
+import br.com.start.meupet.common.security.jwt.AuthFilterToken;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -52,6 +52,7 @@ public class WebSecurityConfig {
                         .requestMatchers("/auth/confirm/**").permitAll()
                         .requestMatchers("/auth/verifyNewUser/**").permitAll()
                         .requestMatchers("/user/**").permitAll()
+                        .requestMatchers("/partner/**").permitAll()
                         .requestMatchers("/templates/**").permitAll()
                         .requestMatchers("/confirmacaoConta/**").permitAll()
                         .requestMatchers("/confirmacaoConta.html/**").permitAll()

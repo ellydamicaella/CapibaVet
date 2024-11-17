@@ -1,12 +1,11 @@
-package br.com.start.meupet.mappers;
+package br.com.start.meupet.partner.service.mappers;
 
-import br.com.start.meupet.domain.entities.Partner;
-import br.com.start.meupet.domain.entities.User;
-import br.com.start.meupet.domain.interfaces.PersonalRegistration;
-import br.com.start.meupet.domain.valueobjects.Email;
-import br.com.start.meupet.domain.valueobjects.PhoneNumber;
-import br.com.start.meupet.dto.PartnerRequestDTO;
-import br.com.start.meupet.dto.PartnerResponseDTO;
+import br.com.start.meupet.common.valueobjects.PersonalRegistration;
+import br.com.start.meupet.partner.model.Partner;
+import br.com.start.meupet.common.valueobjects.Email;
+import br.com.start.meupet.common.valueobjects.PhoneNumber;
+import br.com.start.meupet.partner.dto.PartnerRequestDTO;
+import br.com.start.meupet.partner.dto.PartnerResponseDTO;
 
 import java.time.LocalDateTime;
 
@@ -16,21 +15,22 @@ public final class PartnerMapper {
     }
 
     public static Partner partnerRequestToPartner(PartnerRequestDTO partner) {
-
-        return new Partner(partner.getName(), new Email(partner.getEmail()), new PersonalRegistration(), partner.getPassword(), new PhoneNumber(partner.getPhoneNumber()));
+        PersonalRegistration registration = new PersonalRegistration(partner.getDocument(), partner.toDocumentType(partner.getDocumentType()));
+        return new Partner(partner.getName(), new Email(partner.getEmail()), registration, partner.getPassword(), new PhoneNumber(partner.getPhoneNumber()));
     }
 
-    public static Partner partnerBeforeToNewPartner(User oldUser, User newUser) {
-        Partner user = new Partner(
-                oldUser.getName(),
-                newUser.getEmail(),
-                newUser.getPassword(),
-                newUser.getPhoneNumber()
+    public static Partner partnerBeforeToNewPartner(Partner oldPartner, Partner newPartner) {
+        Partner partner = new Partner(
+                oldPartner.getName(),
+                newPartner.getEmail(),
+                newPartner.getPersonalRegistration(),
+                newPartner.getPassword(),
+                newPartner.getPhoneNumber()
         );
-        user.setId(oldUser.getId());
-        user.setCreatedAt(oldUser.getCreatedAt());
-        user.setUpdatedAt(LocalDateTime.now());
-        return user;
+        partner.setId(oldPartner.getId());
+        partner.setCreatedAt(oldPartner.getCreatedAt());
+        partner.setUpdatedAt(LocalDateTime.now());
+        return partner;
     }
 
 }

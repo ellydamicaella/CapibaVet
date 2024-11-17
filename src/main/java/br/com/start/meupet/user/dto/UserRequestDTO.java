@@ -1,4 +1,4 @@
-package br.com.start.meupet.dto;
+package br.com.start.meupet.user.dto;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;

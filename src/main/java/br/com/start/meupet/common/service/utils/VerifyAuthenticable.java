@@ -1,19 +1,19 @@
-package br.com.start.meupet.domain.entities;
+package br.com.start.meupet.common.service.utils;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class VerifyAuthenticableEntity {
+public class VerifyAuthenticable {
     private long id;
 
     private String token;
 
-    public VerifyAuthenticableEntity() {
+    public VerifyAuthenticable() {
     }
 
-    public VerifyAuthenticableEntity(String token) {
+    public VerifyAuthenticable(String token) {
         this.token = token;
     }
 }

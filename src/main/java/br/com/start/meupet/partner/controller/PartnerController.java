@@ -1,9 +1,8 @@
-package br.com.start.meupet.controllers;
+package br.com.start.meupet.partner.controller;
 
-import br.com.start.meupet.dto.PartnerRequestDTO;
-import br.com.start.meupet.dto.PartnerResponseDTO;
-import br.com.start.meupet.dto.UserResponseDTO;
-import br.com.start.meupet.service.PartnerService;
+import br.com.start.meupet.partner.dto.PartnerRequestDTO;
+import br.com.start.meupet.partner.dto.PartnerResponseDTO;
+import br.com.start.meupet.partner.service.PartnerService;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,7 +35,7 @@ public class PartnerController {
     @GetMapping("/{id}")
     public ResponseEntity<PartnerResponseDTO> listOne(@PathVariable UUID id) {
         log.info("Requisicao GET: listando um parceiros");
-        PartnerResponseDTO partnerResponse = partnerService.getUserById(id);
+        PartnerResponseDTO partnerResponse = partnerService.getPartnerById(id);
         return ResponseEntity.ok().body(partnerResponse);
     }
 
@@ -56,7 +55,7 @@ public class PartnerController {
 
     // http://localhost:8080/partner?id=3
     @DeleteMapping
-    public ResponseEntity<Void> delete(@RequestParam Long id) {
+    public ResponseEntity<Void> delete(@RequestParam UUID id) {
         partnerService.delete(id);
         log.info("Requisicao DELETE: deletando um parceiro");
         return ResponseEntity.noContent().build();

@@ -1,16 +1,14 @@
-package br.com.start.meupet.security.jwt;
+package br.com.start.meupet.common.security.jwt;
 
 import java.util.Date;
 
 import javax.crypto.SecretKey;
 
-import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import br.com.start.meupet.service.UserDetailsImpl;
+import br.com.start.meupet.user.service.AuthenticableDetailsImpl;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -29,8 +27,8 @@ public final class JwtUtils {
     private final int jwtExpirationMs = 600000;
 
 
-    public String generateTokenFromUserDetailsImpl(UserDetailsImpl userDetail) {
-        return Jwts.builder().header().add("typ", "JWT").and().subject(userDetail.getUsername())
+    public String generateTokenFromAuthenticableDetailsImpl(AuthenticableDetailsImpl authenticableDetails) {
+        return Jwts.builder().header().add("typ", "JWT").and().subject(authenticableDetails.getUsername())
                 .issuedAt(new Date())
                 .expiration(new Date(new Date().getTime() + this.jwtExpirationMs))
                 .signWith(getSigningKey(), Jwts.SIG.HS512)
@@ -48,6 +46,26 @@ public final class JwtUtils {
                 .claim("name", name)
                 .claim("phone_number", phone_number)
                 .claim("password", password)
+                .expiration(new Date(new Date().getTime() + this.jwtExpirationMs))
+                .signWith(getSigningKey(), Jwts.SIG.HS512)
+                .compact();
+    }
+
+    public String generateTokenFromPartnerVerifyDetailsImpl(
+            String email,
+            String name,
+            String phone_number,
+            String password,
+            String document,
+            String documentType
+    ) {
+        return Jwts.builder().header().add("typ", "JWT").and().subject(email)
+                .issuedAt(new Date())
+                .claim("name", name)
+                .claim("phone_number", phone_number)
+                .claim("password", password)
+                .claim("document", document)
+                .claim("documentType", documentType)
                 .expiration(new Date(new Date().getTime() + this.jwtExpirationMs))
                 .signWith(getSigningKey(), Jwts.SIG.HS512)
                 .compact();

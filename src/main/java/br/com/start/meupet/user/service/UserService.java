@@ -1,9 +1,12 @@
-package br.com.start.meupet.service;
+package br.com.start.meupet.user.service;
 
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import br.com.start.meupet.common.service.EmailService;
+import br.com.start.meupet.common.service.utils.VerifyAuthenticable;
+import br.com.start.meupet.common.service.ServiceUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.PageRequest;
@@ -12,14 +15,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import br.com.start.meupet.domain.entities.User;
-import br.com.start.meupet.domain.entities.VerifyAuthenticableEntity;
-import br.com.start.meupet.domain.repository.UserRepository;
-import br.com.start.meupet.dto.UserRequestDTO;
-import br.com.start.meupet.dto.UserResponseDTO;
-import br.com.start.meupet.exceptions.UserNotFoundException;
-import br.com.start.meupet.mappers.UserMapper;
-import br.com.start.meupet.security.jwt.JwtUtils;
+import br.com.start.meupet.user.model.User;
+import br.com.start.meupet.user.repository.UserRepository;
+import br.com.start.meupet.user.dto.UserRequestDTO;
+import br.com.start.meupet.user.dto.UserResponseDTO;
+import br.com.start.meupet.common.exceptions.EntityNotFoundException;
+import br.com.start.meupet.user.service.mappers.UserMapper;
+import br.com.start.meupet.common.security.jwt.JwtUtils;
 
 @Service
 public class UserService {
@@ -48,7 +50,7 @@ public class UserService {
     }
 
     public UserResponseDTO getUserById(UUID id) {
-        User userEntity = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User not found"));
+        User userEntity = userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User not found"));
         return UserMapper.userToResponseDTO(userEntity);
     }
 
@@ -62,7 +64,7 @@ public class UserService {
 
         // userRepository.save(userEntity);
 
-        log.info("Usuario criado :{}", userEntity);
+        log.info("Usuario criado, aguardando a confirmação da conta :{}", userEntity);
 
         log.info("getEmail :{}", userEntity.getEmail().toString());
         log.info("getName :{}", userEntity.getName());
@@ -77,7 +79,7 @@ public class UserService {
 
         log.info("token :{}", token);
 
-        VerifyAuthenticableEntity verifyEntity = new VerifyAuthenticableEntity(token);
+        VerifyAuthenticable verifyEntity = new VerifyAuthenticable(token);
 
         log.info("verifyEntity :{}", verifyEntity);
 
@@ -89,14 +91,9 @@ public class UserService {
 
     @Transactional
     public UserResponseDTO update(UUID id, UserRequestDTO newUser) {
-        User userEntity = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User not found"));
+        User userEntity = userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User not found"));
 
-        if (!newUser.getEmail().equals(userEntity.getEmail().toString())) {
-         serviceUtils.isUserAlreadyExists(userEntity);
-        }
-        if (!newUser.getPhoneNumber().equals(userEntity.getPhoneNumber().toString())) {
-           serviceUtils.isUserAlreadyExists(userEntity);
-        }
+        serviceUtils.isUserAlreadyExists(userEntity);
 
         User updatedUser = UserMapper.userBeforeToNewUser(userEntity, UserMapper.userRequestToUser(newUser));
         userRepository.save(updatedUser);
@@ -107,7 +104,7 @@ public class UserService {
 
     @Transactional
     public void delete(UUID id) {
-        User userEntity = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User not found"));
+        User userEntity = userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User not found"));
         userRepository.delete(userEntity);
         log.info("Usuario deletado :{}", userEntity);
     }

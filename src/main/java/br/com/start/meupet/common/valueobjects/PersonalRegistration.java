@@ -1,6 +1,8 @@
-package br.com.start.meupet.common.service.utils;
+package br.com.start.meupet.common.valueobjects;
 
+import br.com.start.meupet.common.enums.DocumentType;
 import br.com.start.meupet.common.exceptions.ProblemDetailsException;
+import br.com.start.meupet.common.service.utils.DocumentValidator;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.EnumType;
@@ -19,9 +21,6 @@ public class PersonalRegistration {
     @Column(name = "type", nullable = false)
     private DocumentType type;
 
-    public enum DocumentType {
-        CPF, CNPJ
-    }
 
     public PersonalRegistration() {}
 

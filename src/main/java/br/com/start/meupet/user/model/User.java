@@ -1,12 +1,11 @@
-package br.com.start.meupet.domain.entities;
+package br.com.start.meupet.user.model;
 
 import java.time.LocalDateTime;
-import java.util.Objects;
 import java.util.UUID;
 
-import br.com.start.meupet.domain.interfaces.Authenticable;
-import br.com.start.meupet.domain.valueobjects.Email;
-import br.com.start.meupet.domain.valueobjects.PhoneNumber;
+import br.com.start.meupet.common.interfaces.Authenticable;
+import br.com.start.meupet.common.valueobjects.Email;
+import br.com.start.meupet.common.valueobjects.PhoneNumber;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
@@ -25,7 +24,7 @@ import lombok.*;
 public class User implements Authenticable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     @NotNull
