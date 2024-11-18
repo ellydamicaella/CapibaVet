@@ -71,7 +71,7 @@ public class UserService {
         log.info("getPhoneNumber :{}", userEntity.getPhoneNumber().toString());
         log.info("getPassword :{}", userEntity.getPassword());
 
-        String token = new JwtUtils().generateTokenFromUserVerifyDetailsImpl(
+        String token = new JwtUtils().generateTokenForUserVerifyAccount(
                 userEntity.getEmail().toString(),
                 userEntity.getName(),
                 userEntity.getPhoneNumber().toString(),
@@ -96,6 +96,7 @@ public class UserService {
         serviceUtils.isUserAlreadyExists(userEntity);
 
         User updatedUser = UserMapper.userBeforeToNewUser(userEntity, UserMapper.userRequestToUser(newUser));
+        updatedUser.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
         userRepository.save(updatedUser);
 
         log.info("Usuario atualizado :{}", updatedUser);

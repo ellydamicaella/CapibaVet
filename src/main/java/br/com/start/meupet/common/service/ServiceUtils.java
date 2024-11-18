@@ -32,16 +32,20 @@ public class ServiceUtils {
         Optional<Authenticable> alreadyHavePhoneNumber = findByPhoneNumber(authenticable.getPhoneNumber());
 
         if (alreadyHavePhoneNumber.isPresent()) {
+            if (!(alreadyHavePhoneNumber.get().getId() == authenticable.getId())) {
             throw new ProblemDetailsException("Já existe um usuário com este telefone",
                     "Já existe um usuário com este telefone", HttpStatus.CONFLICT);
+            }
         }
 
         // Verifica se já existe um e-mail registrado
         Optional<Authenticable> alreadyHaveEmail = findByEmail(authenticable.getEmail());
 
-        if (alreadyHaveEmail.isPresent()) {
+        if (alreadyHaveEmail.isPresent() && alreadyHaveEmail.get().getId() != authenticable.getId()) {
+            if(!(alreadyHaveEmail.get().getId() == authenticable.getId())) {
             throw new ProblemDetailsException("Já existe um usuário com este e-mail",
                     "Já existe um usuário com este e-mail", HttpStatus.CONFLICT);
+            }
         }
     }
 

@@ -62,4 +62,10 @@ public class Partner implements Authenticable {
         this.password = password;
         this.phoneNumber = phoneNumber;
     }
+
+    @PrePersist
+    protected void onCreate() {
+        createdAt = LocalDateTime.now();
+        updatedAt = LocalDateTime.now();
+    }
 }

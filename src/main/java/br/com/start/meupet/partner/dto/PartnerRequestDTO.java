@@ -29,6 +29,6 @@ public class PartnerRequestDTO {
     private String phoneNumber;
 
     public DocumentType toDocumentType(String documentType) {
-        return DocumentType.valueOf(documentType.toUpperCase());
+        return DocumentType.valueOf(documentType.trim().toUpperCase());
     }
 }

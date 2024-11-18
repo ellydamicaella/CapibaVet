@@ -23,7 +23,7 @@ public final class PartnerMapper {
         Partner partner = new Partner(
                 oldPartner.getName(),
                 newPartner.getEmail(),
-                newPartner.getPersonalRegistration(),
+                new PersonalRegistration(newPartner.getPersonalRegistration().getDocument(), newPartner.getPersonalRegistration().getType()),
                 newPartner.getPassword(),
                 newPartner.getPhoneNumber()
         );

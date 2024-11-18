@@ -21,7 +21,7 @@ public final class UserMapper {
 
     public static User userBeforeToNewUser(User oldUser, User newUser) {
         User user = new User(
-                oldUser.getName(),
+                newUser.getName(),
                 newUser.getEmail(),
                 newUser.getPassword(),
                 newUser.getPhoneNumber()

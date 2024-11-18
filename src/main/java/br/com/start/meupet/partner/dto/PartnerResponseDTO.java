@@ -20,7 +20,9 @@ public class PartnerResponseDTO extends AuthenticableResponseDTO {
 
     private String email;
 
-    private String personalRegistration;
+    private String document;
+
+    private String documentType;
 
     private String password;
 
@@ -30,7 +32,8 @@ public class PartnerResponseDTO extends AuthenticableResponseDTO {
         this.id = partner.getId();
         this.name = partner.getName();
         this.email = partner.getEmail().toString();
-        this.personalRegistration = partner.getPersonalRegistration().toString();
+        this.document = partner.getPersonalRegistration().getDocument();
+        this.documentType = partner.getPersonalRegistration().getType().toString();
         this.password = partner.getPassword();
         this.phoneNumber = partner.getPhoneNumber().toString();
     }

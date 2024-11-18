@@ -2,6 +2,7 @@ package br.com.start.meupet.common.controllers;
 
 import java.io.IOException;
 
+import br.com.start.meupet.common.interfaces.AuthenticableResponseDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,7 +38,7 @@ public class AuthController {
     }
 
     @PostMapping(value = "verifyNewUser/{token}")
-    public ResponseEntity<UserResponseDTO> verifyNewUser(@PathVariable String token) {
+    public ResponseEntity<AuthenticableResponseDTO> verifyNewUser(@PathVariable String token) {
         return ResponseEntity.ok().body(authService.verifyNewUser(token));
     }
-} 
+}

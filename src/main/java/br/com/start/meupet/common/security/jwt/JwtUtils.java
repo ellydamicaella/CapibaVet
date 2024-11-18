@@ -27,7 +27,9 @@ public final class JwtUtils {
     private final int jwtExpirationMs = 600000;
 
 
-    public String generateTokenFromAuthenticableDetailsImpl(AuthenticableDetailsImpl authenticableDetails) {
+    public String generateTokenFromAuthenticableDetailsImpl(
+            AuthenticableDetailsImpl authenticableDetails
+    ) {
         return Jwts.builder().header().add("typ", "JWT").and().subject(authenticableDetails.getUsername())
                 .issuedAt(new Date())
                 .expiration(new Date(new Date().getTime() + this.jwtExpirationMs))
@@ -35,11 +37,12 @@ public final class JwtUtils {
                 .compact();
     }
 
-    public String generateTokenFromUserVerifyDetailsImpl(
+    public String generateTokenForUserVerifyAccount(
             String email,
             String name,
             String phone_number,
-            String password) {
+            String password
+    ) {
 
         return Jwts.builder().header().add("typ", "JWT").and().subject(email)
                 .issuedAt(new Date())
@@ -51,7 +54,7 @@ public final class JwtUtils {
                 .compact();
     }
 
-    public String generateTokenFromPartnerVerifyDetailsImpl(
+    public String generateTokenForPartnerVerifyAccount(
             String email,
             String name,
             String phone_number,
@@ -62,7 +65,7 @@ public final class JwtUtils {
         return Jwts.builder().header().add("typ", "JWT").and().subject(email)
                 .issuedAt(new Date())
                 .claim("name", name)
-                .claim("phone_number", phone_number)
+                .claim("phoneNumber", phone_number)
                 .claim("password", password)
                 .claim("document", document)
                 .claim("documentType", documentType)

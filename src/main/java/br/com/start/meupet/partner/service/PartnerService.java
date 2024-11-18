@@ -6,13 +6,9 @@ import br.com.start.meupet.partner.model.Partner;
 import br.com.start.meupet.common.service.EmailService;
 import br.com.start.meupet.common.service.ServiceUtils;
 import br.com.start.meupet.partner.service.mappers.PartnerMapper;
-import br.com.start.meupet.user.model.User;
 import br.com.start.meupet.partner.repository.PartnerRepository;
 import br.com.start.meupet.partner.dto.PartnerResponseDTO;
-import br.com.start.meupet.user.dto.UserRequestDTO;
-import br.com.start.meupet.user.dto.UserResponseDTO;
 import br.com.start.meupet.common.exceptions.EntityNotFoundException;
-import br.com.start.meupet.user.service.mappers.UserMapper;
 import br.com.start.meupet.common.security.jwt.JwtUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,6 +40,7 @@ public class PartnerService {
         this.emailService = emailService;
         this.serviceUtils = serviceUtils;
     }
+
     public List<PartnerResponseDTO> listAll(int page, int pageSize) {
         Pageable pageable = PageRequest.of(page, pageSize);
         List<Partner> partners = partnerRepository.findAll(pageable).getContent();
@@ -75,7 +72,7 @@ public class PartnerService {
         log.info("getDocument :{}", partnerEntity.getPersonalRegistration().getDocument());
         log.info("getDocumentType :{}", partnerEntity.getPersonalRegistration().getType());
 
-        String token = new JwtUtils().generateTokenFromPartnerVerifyDetailsImpl(
+        String token = new JwtUtils().generateTokenForPartnerVerifyAccount(
                 partnerEntity.getEmail().toString(),
                 partnerEntity.getName(),
                 partnerEntity.getPhoneNumber().toString(),
@@ -102,6 +99,7 @@ public class PartnerService {
         serviceUtils.isPartnerAlreadyExists(partnerEntity);
 
         Partner updatedPartner = PartnerMapper.partnerBeforeToNewPartner(partnerEntity, PartnerMapper.partnerRequestToPartner(newPartner));
+        updatedPartner.setPassword(passwordEncoder.encode(newPartner.getPassword()));
         partnerRepository.save(updatedPartner);
 
         log.info("Parceiro atualizado :{}", updatedPartner);
