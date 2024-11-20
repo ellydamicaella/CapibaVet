@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Confirmação de Conta</title>
+</head>
+<body>
+<h1>Confirmação de Conta</h1>
+<p>Aguarde enquanto confirmamos sua conta...</p>
+
+<script>
+    const url = "http://localhost:8080/auth/verifyNewUser/{{token}}";
+
+    async function verifyAccount() {
+        try {
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if (response.ok) {
+                const data = await response.text();
+                console.log("Verificação bem-sucedida:", data);
+                document.body.innerHTML = "<h1>Conta confirmada com sucesso!</h1>";
+            } else {
+                console.error("Erro na verificação:", response.status);
+                document.body.innerHTML = "<h1>Erro ao confirmar a conta.</h1>";
+                close();
+            }
+        } catch (error) {
+            console.error("Erro ao tentar verificar o usuário:", error);
+            document.body.innerHTML = "<h1>Erro ao confirmar a conta.</h1>";
+            close();
+        }
+    }
+
+    verifyAccount()
+
+    // Fechar a nova aba depois de algum tempo ou evento
+    setTimeout(() => {
+        close();
+    }, 3000); // Fecha a aba 5 segundos depois
+</script>
+</body>
+</html>
