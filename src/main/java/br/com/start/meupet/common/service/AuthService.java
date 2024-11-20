@@ -2,14 +2,13 @@ package br.com.start.meupet.common.service;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.UUID;
 
 import br.com.start.meupet.common.enums.DocumentType;
 import br.com.start.meupet.common.interfaces.AuthenticableResponseDTO;
 import br.com.start.meupet.common.valueobjects.PersonalRegistration;
 import br.com.start.meupet.partner.model.Partner;
 import br.com.start.meupet.partner.repository.PartnerRepository;
-import br.com.start.meupet.partner.service.mappers.PartnerMapper;
+import br.com.start.meupet.partner.mapper.PartnerMapper;
 import br.com.start.meupet.user.service.AuthenticableDetailsImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,8 +27,7 @@ import br.com.start.meupet.common.valueobjects.Email;
 import br.com.start.meupet.common.valueobjects.PhoneNumber;
 import br.com.start.meupet.common.dto.AccessDTO;
 import br.com.start.meupet.common.dto.AuthenticationDTO;
-import br.com.start.meupet.user.dto.UserResponseDTO;
-import br.com.start.meupet.user.service.mappers.UserMapper;
+import br.com.start.meupet.user.mapper.UserMapper;
 import br.com.start.meupet.common.security.jwt.JwtUtils;
 import io.jsonwebtoken.Claims;
 

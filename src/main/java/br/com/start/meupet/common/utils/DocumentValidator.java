@@ -1,4 +1,4 @@
-package br.com.start.meupet.common.service.utils;
+package br.com.start.meupet.common.utils;
 
 public class DocumentValidator {
     public static boolean isValidCPF(String cpf) {

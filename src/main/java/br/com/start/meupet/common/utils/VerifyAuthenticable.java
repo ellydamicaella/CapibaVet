@@ -1,4 +1,4 @@
-package br.com.start.meupet.common.service.utils;
+package br.com.start.meupet.common.utils;
 
 import lombok.Getter;
 import lombok.Setter;

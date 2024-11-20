@@ -1,4 +1,4 @@
-package br.com.start.meupet.partner.service.mappers;
+package br.com.start.meupet.partner.mapper;
 
 import br.com.start.meupet.common.valueobjects.PersonalRegistration;
 import br.com.start.meupet.partner.model.Partner;

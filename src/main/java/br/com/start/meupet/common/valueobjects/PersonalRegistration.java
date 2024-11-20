@@ -2,7 +2,7 @@ package br.com.start.meupet.common.valueobjects;
 
 import br.com.start.meupet.common.enums.DocumentType;
 import br.com.start.meupet.common.exceptions.ProblemDetailsException;
-import br.com.start.meupet.common.service.utils.DocumentValidator;
+import br.com.start.meupet.common.utils.DocumentValidator;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.EnumType;

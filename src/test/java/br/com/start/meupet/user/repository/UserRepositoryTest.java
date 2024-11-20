@@ -4,7 +4,7 @@ import br.com.start.meupet.common.valueobjects.Email;
 import br.com.start.meupet.common.valueobjects.PhoneNumber;
 import br.com.start.meupet.user.dto.UserRequestDTO;
 import br.com.start.meupet.user.model.User;
-import br.com.start.meupet.user.service.mappers.UserMapper;
+import br.com.start.meupet.user.mapper.UserMapper;
 import jakarta.persistence.EntityManager;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;

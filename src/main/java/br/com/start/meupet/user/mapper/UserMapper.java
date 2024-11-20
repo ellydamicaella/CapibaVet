@@ -1,4 +1,4 @@
-package br.com.start.meupet.user.service.mappers;
+package br.com.start.meupet.user.mapper;
 
 import java.time.LocalDateTime;
 

@@ -2,18 +2,15 @@ package br.com.start.meupet.user.service;
 
 import br.com.start.meupet.common.valueobjects.Email;
 import br.com.start.meupet.common.valueobjects.PhoneNumber;
-import br.com.start.meupet.user.dto.UserRequestDTO;
 import br.com.start.meupet.user.dto.UserResponseDTO;
 import br.com.start.meupet.user.model.User;
 import br.com.start.meupet.user.repository.UserRepository;
-import br.com.start.meupet.user.service.mappers.UserMapper;
 import jakarta.persistence.EntityManager;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.data.domain.PageRequest;
