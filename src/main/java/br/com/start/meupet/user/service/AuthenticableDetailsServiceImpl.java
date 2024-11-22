@@ -2,6 +2,7 @@ package br.com.start.meupet.user.service;
 
 import java.util.Optional;
 
+import br.com.start.meupet.common.service.AuthenticableDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -14,7 +15,7 @@ import br.com.start.meupet.user.repository.UserRepository;
 import br.com.start.meupet.common.valueobjects.Email;
 
 @Service
-public class UserDetailsServiceImpl implements UserDetailsService {
+public class AuthenticableDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
     private UserRepository userRepository;

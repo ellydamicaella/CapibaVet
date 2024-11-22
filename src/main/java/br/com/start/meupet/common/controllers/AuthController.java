@@ -1,7 +1,5 @@
 package br.com.start.meupet.common.controllers;
 
-import java.io.IOException;
-
 import br.com.start.meupet.common.interfaces.AuthenticableResponseDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -13,22 +11,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.start.meupet.common.dto.AuthenticationDTO;
-import br.com.start.meupet.user.dto.UserResponseDTO;
 import br.com.start.meupet.common.service.AuthService;
 import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping(value = "/auth")
 @CrossOrigin
-public class AuthController {
+public class AuthenticationController {
     private final AuthService authService;
 
-    public AuthController(AuthService authService) {
+    public AuthenticationController(AuthService authService) {
         this.authService = authService;
     }
 
     @GetMapping(value = "/confirm/{token}")
-    public String confirmAccount(@PathVariable String token) throws IOException {
+    public String confirmAccount(@PathVariable String token){
         return authService.confirmAccount(token);
     }
 
