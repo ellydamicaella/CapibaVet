@@ -27,7 +27,9 @@ public class EmailService {
     @Value("${spring.mail.username}")
     private String from;
 
-    private String cachedTemplate;
+    private String cachedConfirmAccountTemplate;
+
+    private String cachedPasswordRecoveryTemplate;
 
     private final ExecutorService executor = Executors.newCachedThreadPool();
 
@@ -35,34 +37,64 @@ public class EmailService {
         this.javaMailSender = javaMailSender;
     }
 
-    public void sendEmailTemplate(String destiny, String about, String name, String token) {
+    public void sendEmailConfirmAccountTemplate(String destiny, String about, String name, String token) {
         executor.submit(() -> {
             try {
                 MimeMessage message = javaMailSender.createMimeMessage();
-                MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
-                helper.setFrom(from);
-                helper.setTo(destiny);
-                helper.setSubject(about);
+                MimeMessageHelper helper = createMessage(destiny, about, message);
 
-                String template = loadEmailTemplate(name, token);
+                String template = loadEmailConfirmAccountTemplate(name, token);
                 helper.setText(template, true);
 
                 javaMailSender.send(message);
                 log.info("Email enviado de {} para {}", from, destiny);
             } catch (MessagingException | IOException | MailException e) {
                 log.error("Falha ao enviar o email para {}", destiny, e);
-
             }
         });
     }
 
-    private String loadEmailTemplate(String name, String token) throws IOException {
-        if (cachedTemplate == null) {
-            ClassPathResource classPathResource = new ClassPathResource("templates/emailTemplate.html");
-            cachedTemplate = new String(classPathResource.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
-        }
+    public void sendEmailPasswordRecoveryTemplate(String destiny, String about, String name, String token) {
+        executor.submit(() -> {
+            try {
+                MimeMessage message = javaMailSender.createMimeMessage();
+                MimeMessageHelper helper = createMessage(destiny, about, message);
+                String template = loadEmailPasswordRecoveryTemplate(name, token);
 
-        return cachedTemplate.replace("{{NOME_DO_USUARIO}}", name)
+                helper.setText(template, true);
+                javaMailSender.send(message);
+
+                log.info("Email enviado de {} para {}", from, destiny);
+            } catch (MessagingException | IOException | MailException e) {
+                log.error("Falha ao enviar o email para {}", destiny, e);
+            }
+        });
+    }
+
+    private String loadEmailConfirmAccountTemplate(String name, String token) throws IOException {
+        if (cachedConfirmAccountTemplate == null) {
+            ClassPathResource classPathResource = new ClassPathResource("templates/emailConfirmAccountTemplate.html");
+            cachedConfirmAccountTemplate = new String(classPathResource.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
+        }
+        return cachedConfirmAccountTemplate.replace("{{NOME_DO_USUARIO}}", name)
                 .replace("{{token}}", token);
+    }
+
+    private String loadEmailPasswordRecoveryTemplate(String name, String token) throws IOException {
+        if (cachedPasswordRecoveryTemplate == null) {
+            ClassPathResource classPathResource = new ClassPathResource("templates/emailPasswordRecoveryTemplate.html");
+            cachedPasswordRecoveryTemplate = new String(classPathResource.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
+        }
+        return cachedPasswordRecoveryTemplate.replace("{{NOME_DO_USUARIO}}", name)
+                .replace("{{token}}", token);
+    }
+
+
+    public MimeMessageHelper createMessage(String destiny, String about, MimeMessage message) throws MessagingException, IOException {
+        MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+        helper.setFrom(from);
+        helper.setTo(destiny);
+        helper.setSubject(about);
+        return helper;
     }
 }

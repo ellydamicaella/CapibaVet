@@ -1,10 +1,15 @@
-package br.com.start.meupet.passwordRecovery.service;
+package br.com.start.meupet.common.service;
 
-import br.com.start.meupet.passwordRecovery.dto.PasswordRecoveryRequestDTO;
-import br.com.start.meupet.passwordRecovery.usecase.CreateRecoveryTokenUseCase;
-import br.com.start.meupet.passwordRecovery.usecase.ResetPasswordUseCase;
+import br.com.start.meupet.common.usecase.passwordrecovery.CreateRecoveryTokenUseCase;
+import br.com.start.meupet.common.usecase.passwordrecovery.ResetPasswordUseCase;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+
+@Slf4j
 @Service
 public class PasswordRecoveryService {
 
@@ -22,5 +27,18 @@ public class PasswordRecoveryService {
 
     public void resetPassword(String token, String newPassword) {
         resetPasswordUseCase.execute(token, newPassword);
+    }
+
+    public String loadPage(String token) {
+        try {
+            ClassPathResource classPathResource = new ClassPathResource("templates/changePassword.html");
+            String template = new String(classPathResource.getInputStream().readAllBytes(), StandardCharsets.UTF_8)
+                    .replace("{{token}}", token);
+            log.info("gerando o template changePassword");
+            return template;
+        } catch (IOException e) {
+            log.error("Não foi possivel gerar o template changePassword");
+            return null;
+        }
     }
 }
