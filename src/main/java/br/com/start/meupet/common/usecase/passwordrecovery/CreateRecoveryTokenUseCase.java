@@ -1,12 +1,11 @@
-package br.com.start.meupet.common.usecase;
+package br.com.start.meupet.common.usecase.passwordrecovery;
 
 import br.com.start.meupet.common.exceptions.EntityNotFoundException;
 import br.com.start.meupet.common.interfaces.Authenticable;
 import br.com.start.meupet.common.security.jwt.JwtUtils;
 import br.com.start.meupet.common.service.EmailService;
+import br.com.start.meupet.common.usecase.authenticable.FindAuthenticableUseCase;
 import br.com.start.meupet.common.valueobjects.Email;
-import br.com.start.meupet.partner.repository.PartnerRepository;
-import br.com.start.meupet.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -17,22 +16,24 @@ import java.util.Optional;
 @Component
 public class CreateRecoveryTokenUseCase {
 
-    private final UserRepository userRepository;
     private final EmailService emailService;
     private final JwtUtils jwtUtils;
-    private final PartnerRepository partnerRepository;
+    private final FindAuthenticableUseCase findAuthenticableUseCase;
 
-    public CreateRecoveryTokenUseCase(UserRepository userRepository, EmailService emailService, JwtUtils jwtUtils, PartnerRepository partnerRepository) {
-        this.userRepository = userRepository;
+    public CreateRecoveryTokenUseCase(
+                EmailService emailService,
+                JwtUtils jwtUtils,
+                FindAuthenticableUseCase findAuthenticableUseCase
+    ) {
         this.emailService = emailService;
         this.jwtUtils = jwtUtils;
-        this.partnerRepository = partnerRepository;
+        this.findAuthenticableUseCase = findAuthenticableUseCase;
     }
 
     @Transactional
     public void execute(String email) {
         //pega usuario
-        Optional<Authenticable> authenticable = findUserByEmail(new Email(email));
+        Optional<Authenticable> authenticable = findAuthenticableUseCase.byEmail(new Email(email));
         if (authenticable.isEmpty()) {
             throw new EntityNotFoundException("User not found");
         }
@@ -42,16 +43,6 @@ public class CreateRecoveryTokenUseCase {
         // envia o email para o usuario
         sendVerificationEmail(authenticable.get(), token);
     }
-
-    public Optional<Authenticable> findUserByEmail(Email email) {
-        Optional<Authenticable> user = Optional.ofNullable(userRepository.findByEmail(email));
-        if (user.isEmpty()) {
-            Optional<Authenticable> partner = Optional.ofNullable(partnerRepository.findByEmail(email));
-            return partner;
-        }
-        return user;
-    }
-
 
     private void sendVerificationEmail(Authenticable authenticable, String token) {
         emailService.sendEmailPasswordRecoveryTemplate(

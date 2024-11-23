@@ -11,12 +11,12 @@ import org.springframework.stereotype.Component;
 import java.util.Optional;
 
 @Component
-public class CheckIfAuthenticableAlreadyExists {
+public class CheckIfAuthenticableAlreadyExistsUseCase {
 
     private final PartnerRepository partnerRepository;
     private final UserRepository userRepository;
 
-    public CheckIfAuthenticableAlreadyExists(PartnerRepository partnerRepository, UserRepository userRepository) {
+    public CheckIfAuthenticableAlreadyExistsUseCase(PartnerRepository partnerRepository, UserRepository userRepository) {
         this.partnerRepository = partnerRepository;
         this.userRepository = userRepository;
     }

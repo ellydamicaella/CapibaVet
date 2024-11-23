@@ -1,4 +1,4 @@
-package br.com.start.meupet.common.auth.usecase;
+package br.com.start.meupet.common.usecase.auth;
 
 import br.com.start.meupet.common.dto.AccessDTO;
 import br.com.start.meupet.common.dto.AuthenticationDTO;
@@ -24,7 +24,6 @@ public class LoginUseCase {
     }
 
     public AccessDTO execute(AuthenticationDTO authDTO) {
-
         try {
             // Cria mecanismo de credencial para o Spring
             UsernamePasswordAuthenticationToken userAuth = new UsernamePasswordAuthenticationToken(authDTO.email(),

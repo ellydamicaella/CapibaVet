@@ -1,4 +1,4 @@
-package br.com.start.meupet.common.usecase;
+package br.com.start.meupet.common.usecase.passwordrecovery;
 
 import br.com.start.meupet.common.exceptions.EntityNotFoundException;
 import br.com.start.meupet.common.interfaces.Authenticable;
@@ -56,7 +56,7 @@ public class ResetPasswordUseCase {
         }
     }
 
-    public Optional<Authenticable> findUserByEmail(Email email) {
+    private Optional<Authenticable> findUserByEmail(Email email) {
         Optional<Authenticable> user = Optional.ofNullable(userRepository.findByEmail(email));
         if (user.isEmpty()) {
             Optional<Authenticable> partner = Optional.ofNullable(partnerRepository.findByEmail(email));
