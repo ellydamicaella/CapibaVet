@@ -15,14 +15,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Component
-public class CreateUserUseCase {
+public class InitUserRegistrationUseCase {
 
     private final ServiceUtils serviceUtils;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtils jwtUtils;
     private final EmailService emailService;
 
-    public CreateUserUseCase(ServiceUtils serviceUtils, PasswordEncoder passwordEncoder, JwtUtils jwtUtils, EmailService emailService) {
+    public InitUserRegistrationUseCase(ServiceUtils serviceUtils, PasswordEncoder passwordEncoder, JwtUtils jwtUtils, EmailService emailService) {
         this.serviceUtils = serviceUtils;
         this.passwordEncoder = passwordEncoder;
         this.jwtUtils = jwtUtils;
@@ -33,6 +33,7 @@ public class CreateUserUseCase {
     public UserResponseDTO execute(UserRequestDTO userRequest) {
         User userEntity = UserMapper.userRequestToUser(userRequest);
         //valida usuario
+        log.info(userEntity.toString());
         validateUser(userEntity);
         //criptografa senha
         encodePassword(userEntity, userRequest.getPassword());
@@ -54,18 +55,13 @@ public class CreateUserUseCase {
         userEntity.setPassword(passwordEncoder.encode(rawPassword));
     }
 
-    private String generateVerificationToken(User userEntity) {
-        return jwtUtils.generateTokenForUserVerifyAccount(
-                userEntity.getEmail().toString(),
-                userEntity.getName(),
-                userEntity.getPhoneNumber().toString(),
-                userEntity.getPassword()
-        );
+    private String generateVerificationToken(User user) {
+        return jwtUtils.generateTokenForUserVerifyAccount(user);
     }
 
     private void sendVerificationEmail(User userEntity, String token) {
         VerifyAuthenticable verifyEntity = new VerifyAuthenticable(token);
-        emailService.sendEmailTemplate(
+        emailService.sendEmailConfirmAccountTemplate(
                 userEntity.getEmail().toString(),
                 "Novo usuário cadastrado",
                 userEntity.getName(),

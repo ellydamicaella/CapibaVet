@@ -1,14 +1,9 @@
-package br.com.start.meupet.common.usecase;
+package br.com.start.meupet.common.usecase.authenticable;
 
-import br.com.start.meupet.common.enums.DocumentType;
 import br.com.start.meupet.common.exceptions.ProblemDetailsException;
 import br.com.start.meupet.common.interfaces.Authenticable;
 import br.com.start.meupet.common.valueobjects.Email;
-import br.com.start.meupet.common.valueobjects.PersonalRegistration;
-import br.com.start.meupet.common.valueobjects.PhoneNumber;
-import br.com.start.meupet.partner.model.Partner;
 import br.com.start.meupet.partner.repository.PartnerRepository;
-import br.com.start.meupet.user.model.User;
 import br.com.start.meupet.user.repository.UserRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
