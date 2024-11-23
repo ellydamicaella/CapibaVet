@@ -18,7 +18,8 @@ public class UserResponseDTO extends AuthenticableResponseDTO {
     private String password;
     private String email;
     private String phoneNumber;
-    private int moedaCapiba;
+    private String document;
+    private String documentType;
 
     public UserResponseDTO(User user) {
         this.id = user.getId();
@@ -26,6 +27,7 @@ public class UserResponseDTO extends AuthenticableResponseDTO {
         this.password = user.getPassword();
         this.email = user.getEmail().toString();
         this.phoneNumber = user.getPhoneNumber().toString();
-        this.moedaCapiba = user.getMoedaCapiba();
+        this.document = user.getPersonalRegistration().getDocument();
+        this.documentType = user.getPersonalRegistration().getType().toString();
     }
 }
