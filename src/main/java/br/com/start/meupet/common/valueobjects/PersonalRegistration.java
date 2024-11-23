@@ -10,15 +10,17 @@ import jakarta.persistence.Enumerated;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
+import java.util.Objects;
+
 @Embeddable
 @Getter
 public class PersonalRegistration {
 
-    @Column(name = "document", nullable = false, unique = true)
+    @Column(name = "document", nullable = false)
     private String document;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "type", nullable = false)
+    @Column(name = "documentType", nullable = false)
     private DocumentType type;
 
 
@@ -33,6 +35,19 @@ public class PersonalRegistration {
         }
         this.document = document;
         this.type = type;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PersonalRegistration that = (PersonalRegistration) o;
+        return Objects.equals(document, that.document) && type == that.type;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(document, type);
     }
 
 }
