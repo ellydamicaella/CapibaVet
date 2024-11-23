@@ -18,18 +18,20 @@ public class UserService {
     private static final Logger log = LoggerFactory.getLogger(UserService.class);
     private final ListUsersUseCase listUsersUseCase;
     private final FindUserByIdUseCase findUserByIdUseCase;
-    private final CreateUserUseCase createUserUseCase;
+    private final InitUserRegistrationUseCase initUserRegistrationUseCase;
     private final UpdateUserUseCase updateUserUseCase;
     private final DeleteUserUseCase deleteUserUseCase;
 
-    public UserService(ListUsersUseCase listUsersUseCase,
-                       FindUserByIdUseCase findUserByIdUseCase,
-                       CreateUserUseCase createUserUseCase,
-                       UpdateUserUseCase updateUserUseCase,
-                       DeleteUserUseCase deleteUserUseCase) {
+    public UserService(
+            ListUsersUseCase listUsersUseCase,
+            FindUserByIdUseCase findUserByIdUseCase,
+            InitUserRegistrationUseCase initUserRegistrationUseCase,
+            UpdateUserUseCase updateUserUseCase,
+            DeleteUserUseCase deleteUserUseCase
+    ) {
         this.listUsersUseCase = listUsersUseCase;
         this.findUserByIdUseCase = findUserByIdUseCase;
-        this.createUserUseCase = createUserUseCase;
+        this.initUserRegistrationUseCase = initUserRegistrationUseCase;
         this.updateUserUseCase = updateUserUseCase;
         this.deleteUserUseCase = deleteUserUseCase;
     }
@@ -43,7 +45,7 @@ public class UserService {
     }
 
     public UserResponseDTO insert(UserRequestDTO userRequest) {
-      return createUserUseCase.execute(userRequest);
+      return initUserRegistrationUseCase.execute(userRequest);
     }
 
 

@@ -15,17 +15,21 @@ public final class PartnerMapper {
     }
 
     public static Partner partnerRequestToPartner(PartnerRequestDTO partner) {
-        PersonalRegistration registration = new PersonalRegistration(partner.getDocument(), partner.toDocumentType(partner.getDocumentType()));
-        return new Partner(partner.getName(), new Email(partner.getEmail()), registration, partner.getPassword(), new PhoneNumber(partner.getPhoneNumber()));
+        return new Partner(partner.getName(),
+                new Email(partner.getEmail()),
+                partner.getPassword(),
+                new PhoneNumber(partner.getPhoneNumber()),
+                new PersonalRegistration(partner.getDocument(), partner.toDocumentType(partner.getDocumentType()))
+        );
     }
 
     public static Partner partnerBeforeToNewPartner(Partner oldPartner, Partner newPartner) {
         Partner partner = new Partner(
                 oldPartner.getName(),
                 newPartner.getEmail(),
-                new PersonalRegistration(newPartner.getPersonalRegistration().getDocument(), newPartner.getPersonalRegistration().getType()),
                 newPartner.getPassword(),
-                newPartner.getPhoneNumber()
+                newPartner.getPhoneNumber(),
+                new PersonalRegistration(newPartner.getPersonalRegistration().getDocument(), newPartner.getPersonalRegistration().getType())
         );
         partner.setId(oldPartner.getId());
         partner.setCreatedAt(oldPartner.getCreatedAt());

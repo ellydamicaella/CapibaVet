@@ -11,18 +11,17 @@ import br.com.start.meupet.partner.model.Partner;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Component
-public class CreatePartnerUseCase {
+public class InitPartnerRegistrationUseCase {
 
     private final ServiceUtils serviceUtils;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtils jwtUtils;
     private final EmailService emailService;
 
-    public CreatePartnerUseCase(ServiceUtils serviceUtils, PasswordEncoder passwordEncoder, JwtUtils jwtUtils, EmailService emailService) {
+    public InitPartnerRegistrationUseCase(ServiceUtils serviceUtils, PasswordEncoder passwordEncoder, JwtUtils jwtUtils, EmailService emailService) {
         this.serviceUtils = serviceUtils;
         this.passwordEncoder = passwordEncoder;
         this.jwtUtils = jwtUtils;
@@ -53,19 +52,12 @@ public class CreatePartnerUseCase {
     }
 
     private String generateVerificationToken(Partner partnerEntity) {
-        return jwtUtils.generateTokenForPartnerVerifyAccount(
-                partnerEntity.getEmail().toString(),
-                partnerEntity.getName(),
-                partnerEntity.getPhoneNumber().toString(),
-                partnerEntity.getPassword(),
-                partnerEntity.getPersonalRegistration().getDocument(),
-                partnerEntity.getPersonalRegistration().getType().toString()
-        );
+        return jwtUtils.generateTokenForPartnerVerifyAccount(partnerEntity);
     }
 
     private void sendVerificationEmail(Partner partner, String token) {
         VerifyAuthenticable verifyEntity = new VerifyAuthenticable(token);
-        emailService.sendEmailTemplate(
+        emailService.sendEmailConfirmAccountTemplate(
                 partner.getEmail().toString(),
                 "Novo parceiro cadastrado",
                 partner.getName(),

@@ -1,14 +1,11 @@
 package br.com.start.meupet.partner.service;
 
 import br.com.start.meupet.partner.dto.PartnerRequestDTO;
-import br.com.start.meupet.common.service.EmailService;
 import br.com.start.meupet.common.service.ServiceUtils;
-import br.com.start.meupet.partner.repository.PartnerRepository;
 import br.com.start.meupet.partner.dto.PartnerResponseDTO;
 import br.com.start.meupet.partner.usecase.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,7 +17,7 @@ public class PartnerService {
     private static final Logger log = LoggerFactory.getLogger(PartnerService.class);
     private final ListPartnersUseCase listPartnersUseCase;
     private final FindPartnerByIdUseCase findPartnerByIdUseCase;
-    private final CreatePartnerUseCase createPartnerUseCase;
+    private final InitPartnerRegistrationUseCase initPartnerRegistrationUseCase;
     private final UpdatePartnerUseCase updatePartnerUseCase;
     private final DeletePartnerUseCase deletePartnerUseCase;
 
@@ -28,13 +25,13 @@ public class PartnerService {
            ServiceUtils serviceUtils,
            ListPartnersUseCase listPartnersUseCase,
            FindPartnerByIdUseCase findPartnerByIdUseCase,
-           CreatePartnerUseCase createPartnerUseCase,
+           InitPartnerRegistrationUseCase initPartnerRegistrationUseCase,
            UpdatePartnerUseCase updatePartnerUseCase,
            DeletePartnerUseCase deletePartnerUseCase)
     {
         this.listPartnersUseCase = listPartnersUseCase;
         this.findPartnerByIdUseCase = findPartnerByIdUseCase;
-        this.createPartnerUseCase = createPartnerUseCase;
+        this.initPartnerRegistrationUseCase = initPartnerRegistrationUseCase;
         this.updatePartnerUseCase = updatePartnerUseCase;
         this.deletePartnerUseCase = deletePartnerUseCase;
     }
@@ -48,7 +45,7 @@ public class PartnerService {
     }
 
     public PartnerResponseDTO insert(PartnerRequestDTO partnerRequest) {
-       return createPartnerUseCase.execute(partnerRequest);
+       return initPartnerRegistrationUseCase.execute(partnerRequest);
     }
 
     public PartnerResponseDTO update(UUID id, PartnerRequestDTO newPartner) {

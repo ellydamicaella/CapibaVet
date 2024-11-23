@@ -1,6 +1,7 @@
 package br.com.start.meupet.common.interfaces;
 
 import br.com.start.meupet.common.valueobjects.Email;
+import br.com.start.meupet.common.valueobjects.PersonalRegistration;
 import br.com.start.meupet.common.valueobjects.PhoneNumber;
 
 import java.util.UUID;
@@ -16,4 +17,8 @@ public interface Authenticable {
     String getPassword();
 
     PhoneNumber getPhoneNumber();
+
+    void setPassword(String password);
+
+    PersonalRegistration getPersonalRegistration();
 }
