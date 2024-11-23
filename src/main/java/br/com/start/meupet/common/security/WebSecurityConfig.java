@@ -49,13 +49,16 @@ public class WebSecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()
-                        .requestMatchers("/auth/confirm/**").permitAll()
-                        .requestMatchers("/auth/verifyNewUser/**").permitAll()
+                        .requestMatchers("authenticable/**").permitAll()
+                        .requestMatchers("/authenticable/confirmAccount/**").permitAll()
+                        .requestMatchers("/authenticable/createAccount/**").permitAll()
                         .requestMatchers("/user/**").permitAll()
                         .requestMatchers("/partner/**").permitAll()
+                        .requestMatchers("/password-recovery/**").permitAll()
+                        .requestMatchers("/password-recovery/page/**").permitAll()
+                        .requestMatchers("/change-password.html").permitAll()
                         .requestMatchers("/templates/**").permitAll()
-                        .requestMatchers("/confirmacaoConta/**").permitAll()
-                        .requestMatchers("/confirmacaoConta.html/**").permitAll()
+                        .requestMatchers("/confirmacaoConta.html").permitAll()
                         .requestMatchers("/favicon.ico").permitAll()
                         .anyRequest().authenticated());
         http.addFilterBefore(authFilterToken(), UsernamePasswordAuthenticationFilter.class);

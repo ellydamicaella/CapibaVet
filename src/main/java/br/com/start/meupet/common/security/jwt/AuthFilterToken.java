@@ -1,6 +1,6 @@
 package br.com.start.meupet.common.security.jwt;
 
-import br.com.start.meupet.user.service.UserDetailsServiceImpl;
+import br.com.start.meupet.user.service.AuthenticableDetailsServiceImpl;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -25,7 +25,7 @@ public class AuthFilterToken extends OncePerRequestFilter {
     @Autowired
     private JwtUtils jwtUtils;
     @Autowired
-    private UserDetailsServiceImpl userDetailsService;
+    private AuthenticableDetailsServiceImpl authenticableDetailsService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -38,7 +38,8 @@ public class AuthFilterToken extends OncePerRequestFilter {
                 log.error("Token nulo ou invalido: {}", jwt);
             } else {
                 String username = jwtUtils.getUsernameToken(jwt);
-                UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+                log.info("username: {}", username);
+                UserDetails userDetails = authenticableDetailsService.loadUserByUsername(username);
                 UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 auth.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 

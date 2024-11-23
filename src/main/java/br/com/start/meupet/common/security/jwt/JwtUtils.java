@@ -4,11 +4,15 @@ import java.util.Date;
 
 import javax.crypto.SecretKey;
 
+import br.com.start.meupet.common.utils.BirthDayUtils;
+import br.com.start.meupet.common.valueobjects.Email;
+import br.com.start.meupet.partner.model.Partner;
+import br.com.start.meupet.user.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import br.com.start.meupet.user.service.AuthenticableDetailsImpl;
+import br.com.start.meupet.common.service.AuthenticableDetailsImpl;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -38,44 +42,51 @@ public final class JwtUtils {
     }
 
     public String generateTokenForUserVerifyAccount(
-            String email,
-            String name,
-            String phone_number,
-            String password
+            User user
     ) {
-
-        return Jwts.builder().header().add("typ", "JWT").and().subject(email)
+        return Jwts.builder().header().add("typ", "JWT").and().subject(user.getEmail().toString())
                 .issuedAt(new Date())
-                .claim("name", name)
-                .claim("phone_number", phone_number)
-                .claim("password", password)
+                .claim("name", user.getName())
+                .claim("socialName", user.getSocialName())
+                .claim("phoneNumber", user.getPhoneNumber().toString())
+                .claim("password", user.getPassword())
+                .claim("document", user.getPersonalRegistration().getDocument())
+                .claim("documentType", user.getPersonalRegistration().getType().toString())
+                .claim("birthDate", BirthDayUtils.formatDateOfBirth(user.getDateOfBirth()))
+                .claim("typeUser", "USER")
                 .expiration(new Date(new Date().getTime() + this.jwtExpirationMs))
                 .signWith(getSigningKey(), Jwts.SIG.HS512)
                 .compact();
     }
 
     public String generateTokenForPartnerVerifyAccount(
-            String email,
-            String name,
-            String phone_number,
-            String password,
-            String document,
-            String documentType
+            Partner partnerRequest
     ) {
-        return Jwts.builder().header().add("typ", "JWT").and().subject(email)
+        return Jwts.builder().header().add("typ", "JWT").and().subject(partnerRequest.getEmail().toString())
                 .issuedAt(new Date())
-                .claim("name", name)
-                .claim("phoneNumber", phone_number)
-                .claim("password", password)
-                .claim("document", document)
-                .claim("documentType", documentType)
+                .claim("name", partnerRequest.getName())
+                .claim("phoneNumber", partnerRequest.getPhoneNumber())
+                .claim("password", partnerRequest.getPassword())
+                .claim("document", partnerRequest.getPersonalRegistration().getDocument())
+                .claim("documentType", partnerRequest.getPersonalRegistration().getType().toString())
+                .claim("typeUser", "PARTNER")
+                .expiration(new Date(new Date().getTime() + this.jwtExpirationMs))
+                .signWith(getSigningKey(), Jwts.SIG.HS512)
+                .compact();
+    }
+
+    public String generateTokenForPasswordRecovery(
+            Email email
+    ) {
+        return Jwts.builder().header().add("typ", "JWT").and().subject(email.toString())
+                .issuedAt(new Date())
                 .expiration(new Date(new Date().getTime() + this.jwtExpirationMs))
                 .signWith(getSigningKey(), Jwts.SIG.HS512)
                 .compact();
     }
 
     public SecretKey getSigningKey() {
-        log.info("jwtSecret: {}", this.jwtSecret);
+        //log.info("jwtSecret: {}", this.jwtSecret);
         return Keys.hmacShaKeyFor(Decoders.BASE64.decode(this.jwtSecret));
     }
 
@@ -92,13 +103,13 @@ public final class JwtUtils {
             Jwts.parser().verifyWith(getSigningKey()).build().parse(authToken);
             return true;
         } catch (MalformedJwtException e) {
-            System.out.println("Token invalido " + e.getMessage());
+            log.error("Token invalido : {}", e.getMessage());
         } catch (ExpiredJwtException e) {
-            System.out.println("Token expirado " + e.getMessage());
+            log.error("Token expirado : {}", e.getMessage());
         } catch (UnsupportedJwtException e) {
-            System.out.println("Token nao suportado " + e.getMessage());
+            log.error("Token nao suportado : {}", e.getMessage());
         } catch (IllegalArgumentException e) {
-            System.out.println("Token argumento invalido " + e.getMessage());
+            log.error("Token argumento invalido : {}", e.getMessage());
         }
 
         return false;
