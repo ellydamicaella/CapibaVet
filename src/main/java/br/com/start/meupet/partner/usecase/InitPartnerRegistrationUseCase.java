@@ -14,14 +14,14 @@ import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
-public class CreatePartnerUseCase {
+public class InitPartnerRegistrationUseCase {
 
     private final ServiceUtils serviceUtils;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtils jwtUtils;
     private final EmailService emailService;
 
-    public CreatePartnerUseCase(ServiceUtils serviceUtils, PasswordEncoder passwordEncoder, JwtUtils jwtUtils, EmailService emailService) {
+    public InitPartnerRegistrationUseCase(ServiceUtils serviceUtils, PasswordEncoder passwordEncoder, JwtUtils jwtUtils, EmailService emailService) {
         this.serviceUtils = serviceUtils;
         this.passwordEncoder = passwordEncoder;
         this.jwtUtils = jwtUtils;
