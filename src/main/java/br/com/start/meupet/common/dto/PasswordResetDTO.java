@@ -1,4 +1,4 @@
 package br.com.start.meupet.common.dto;
 
-public class PasswordResetDTO {
+public record PasswordResetDTO(String password) {
 }

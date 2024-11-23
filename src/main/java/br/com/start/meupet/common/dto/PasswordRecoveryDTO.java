@@ -1,4 +1,4 @@
 package br.com.start.meupet.common.dto;
 
-public record PasswordRecoveryDTO() {
+public record PasswordRecoveryDTO(String email) {
 }
