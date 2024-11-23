@@ -65,7 +65,7 @@ public final class JwtUtils {
         return Jwts.builder().header().add("typ", "JWT").and().subject(partnerRequest.getEmail().toString())
                 .issuedAt(new Date())
                 .claim("name", partnerRequest.getName())
-                .claim("phoneNumber", partnerRequest.getPhoneNumber())
+                .claim("phoneNumber", partnerRequest.getPhoneNumber().toString())
                 .claim("password", partnerRequest.getPassword())
                 .claim("document", partnerRequest.getPersonalRegistration().getDocument())
                 .claim("documentType", partnerRequest.getPersonalRegistration().getType().toString())
