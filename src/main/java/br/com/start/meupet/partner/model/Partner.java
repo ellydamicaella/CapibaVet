@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+@Cacheable
 @Entity
 @Table(name = "parceiro")
 @Data
@@ -22,7 +23,7 @@ public class Partner implements Authenticable {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column(name = "nome_fantasia")
+    @Column(name = "name")
     @NotNull
     private String name;
 
@@ -30,10 +31,6 @@ public class Partner implements Authenticable {
     @NotNull
     private Email email;
 
-    @Column(name = "registro_pessoal")
-    @NotNull
-    @Embedded
-    private PersonalRegistration personalRegistration;
 
     @Column(name = "password")
     @NotNull
@@ -44,6 +41,8 @@ public class Partner implements Authenticable {
     @Embedded
     private PhoneNumber phoneNumber;
 
+    private PersonalRegistration personalRegistration;
+
     @Column(name = "createdAt")
     private LocalDateTime createdAt;
 
@@ -53,14 +52,15 @@ public class Partner implements Authenticable {
     public Partner(
                    @NotNull String name,
                    @NotNull Email email,
-                   @NotNull PersonalRegistration personalRegistration,
                    @NotNull String password,
-                   @NotNull PhoneNumber phoneNumber) {
+                   @NotNull PhoneNumber phoneNumber,
+                   @NotNull PersonalRegistration personalRegistration
+    ) {
         this.name = name;
         this.email = email;
-        this.personalRegistration = personalRegistration;
         this.password = password;
         this.phoneNumber = phoneNumber;
+        this.personalRegistration = personalRegistration;
     }
 
     @PrePersist
