@@ -1,12 +1,7 @@
 package br.com.start.meupet.partner.controller;
 
-import br.com.start.meupet.common.enums.DocumentType;
-import br.com.start.meupet.common.valueobjects.Email;
-import br.com.start.meupet.common.valueobjects.PersonalRegistration;
-import br.com.start.meupet.common.valueobjects.PhoneNumber;
 import br.com.start.meupet.partner.dto.PartnerRequestDTO;
 import br.com.start.meupet.partner.dto.PartnerResponseDTO;
-import br.com.start.meupet.partner.model.Partner;
 import br.com.start.meupet.partner.repository.PartnerRepository;
 import br.com.start.meupet.partner.service.PartnerService;
 import jakarta.validation.Valid;
@@ -27,11 +22,9 @@ public class PartnerController {
     private static final Logger log = LoggerFactory.getLogger(PartnerController.class);
 
     private final PartnerService partnerService;
-    private final PartnerRepository partnerRepository;
 
-    public PartnerController(PartnerService partnerService, PartnerRepository partnerRepository) {
+    public PartnerController(PartnerService partnerService) {
         this.partnerService = partnerService;
-        this.partnerRepository = partnerRepository;
     }
 
     @GetMapping
