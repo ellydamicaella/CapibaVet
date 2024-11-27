@@ -31,7 +31,7 @@ public class AuthFilterToken extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try {
             String jwt = getToken(request);
-            if (request.getRequestURI().startsWith("partner") || request.getRequestURI().startsWith("/swagger")) {
+            if (request.getRequestURI().startsWith("partner") || request.getRequestURI().startsWith("/api/v1/swagger-ui")) {
                 filterChain.doFilter(request, response);
             }
             if (!(jwt != null && jwtUtils.validateJwtToken(jwt))) {

@@ -72,35 +72,6 @@ Os commits possuem os seguintes tipos, que informam a intenção do seu commit a
   - Email
   - Endereço
   - Senha
-
-### Cadastro de Animais para Resgate
-- **Campos:**
-  - Foto
-  - Situação do cão
-  - Localização do cão (sem pré-requisito)
-
-### Denuncias
-- **Campos:**
-  - informacao_do_denunciante
-  - localizacao
-  - animal_envolvido
-  - qtds_animais_envolvidos
-  - descricao
-  - foto
-  - video
-  - data_denuncia
-
-### Animais para adoção
-- **Campos:**
-  - nome
-  - tipo
-  - porte
-  - personalidade
-  - vacinado
-  - castrado
-  - adotado
-  - foto
-  - localizacao
   
 ### Servicos parceiros
 - **Campos**
@@ -162,6 +133,8 @@ Para contribuir com o projeto, por favor, envie um pull request ou abra uma issu
 - [Spring Security](https://spring.io/projects/spring-security)
 - [Spring Data JPA](https://spring.io/projects/spring-data-jpa)
 - [Mysql](https://www.mysql.com/)
+- [Redis](https://redis.io/)
+- [Docker](https://www.docker.com/)
 
 ## Práticas adotadas
 
@@ -171,7 +144,6 @@ Para contribuir com o projeto, por favor, envie um pull request ou abra uma issu
 - API reativa na web e na camada de banco
 - Uso de DTOs para a API
 - Injeção de Dependências
-- Trello
 - Auditoria sobre criação e atualização da entidade
 
 ## Como Executar
@@ -190,6 +162,14 @@ git clone https://github.com/ellydamicaella/AnimalAlert.git
 java -jar target/meupet-0.0.1-SNAPSHOT.jar
 ```
 
+- OBS: será necessário que o mysql esteja rodando na sua máquina local
+- Então altere em application.properties as seguintes configuracoes
+```
+spring.datasource.url=(url do mysql ex:jdbc:mysql://localhost:3306/meupet)
+spring.datasource.username=(seu username do mysql)
+spring.datasource.password=(sua senha do mysql)
+```
+
 A API poderá ser acessada em [localhost:8080](http://localhost:8080).
 O Swagger poderá ser visualizado em [localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
 
@@ -201,25 +181,21 @@ git clone https://github.com/ellydamicaella/AnimalAlert.git
 ```
 - Construir o projeto:
 ```
-./mvnw clean package
+mvn clean package
 ```
-- Construir a imagem:
+- Construir a imagem e executar o container:
 ```
-./mvnw spring-boot:build-image
-```
-- Executar o container:
-```
-docker run --name meupet -p 8080:8080  -d meupet:0.0.1-SNAPSHOT
+docker-compose up
 ```
 
-A API poderá ser acessada em [localhost:8080](http://localhost:8080).
-O Swagger poderá ser visualizado em [localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
+A API poderá ser acessada em [localhost:8080](http://localhost:8080/api/v1).
+O Swagger poderá ser visualizado em [localhost:8080/api/v1/swagger-ui.html](http://localhost:8080/swagger-ui.html)
 
 ## Métodos
 Requisições para a API devem seguir os padrões:
 | Método | Descrição |
 |---|---|
-| `GET` | Retorna informações de um ou mais registros. |
+| `GET` | Retorna informações de um ou mais registros.|
 | `POST` | Utilizado para criar um novo registro. |
 | `PUT` | Atualiza dados de um registro ou altera sua situação. |
 | `DELETE` | Remove um registro do sistema. |
@@ -246,6 +222,53 @@ Ações de `listar` exibem `#` registros por página. Não é possível alterar 
 
 Por questões de segurança, todas as requisições serão feitas através do protocolo `HTTPS`.
 
-## API Endpoints
+# API Endpoints
 
-A ser feito
+## Base URL
+
+````
+http://localhost:8080/api/v1/
+````
+
+## User
+Endpoints disponíveis no **User Controller**, responsável por gerenciar operações CRUD relacionadas à entidade `User`.
+
+## Endpoints
+
+### 1. Criar Usuário
+
+- **Descrição**: Cria um novo usuário no sistema.
+- **Método**: `POST`
+- **Endpoint**: `/user`
+- **Headers**:
+  - `Content-Type: application/json`
+  - **Corpo da Requisição**:
+    ```json
+     {
+      "name": "John Doe",
+      "socialName": "",
+      "password": "12312323",
+      "email": "jonhdoe@mail.com",
+      "phoneNumber": "(11) 11 11111-1111",
+      "document": "11111111111",
+      "documentType": "CPF",
+      "birthDate": "2005-12-22"
+    }
+    
+Exemplo de Resposta:
+
+    Código 201 (Created):
+
+    {
+    "id": null,
+    "name": "John Doe",
+    "email": "jonhdoe@mail.com",
+    "password": "$2a$10$kvIGF.2BfP1wrjNWHL1.sOAbz2MSBF4iDoJN5rCIoYMxsMgo1CYH6",
+    "phoneNumber": "(11) 11 11111-1111",
+    "document": "11111111111",
+    "documentType": "CPF",
+    "birthDate": "2005-12-22"
+    }
+
+Após essa requisição será enviada um email para o usuário para confirmar a conta.
+
