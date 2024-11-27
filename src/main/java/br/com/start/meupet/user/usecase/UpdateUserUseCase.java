@@ -1,7 +1,7 @@
 package br.com.start.meupet.user.usecase;
 
 import br.com.start.meupet.common.exceptions.EntityNotFoundException;
-import br.com.start.meupet.common.service.ServiceUtils;
+import br.com.start.meupet.common.services.ServiceUtils;
 import br.com.start.meupet.user.dto.UserRequestDTO;
 import br.com.start.meupet.user.dto.UserResponseDTO;
 import br.com.start.meupet.user.mapper.UserMapper;

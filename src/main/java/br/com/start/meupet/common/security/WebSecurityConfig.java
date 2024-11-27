@@ -48,18 +48,17 @@ public class WebSecurityConfig {
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**").permitAll()
-                        .requestMatchers("authenticable/**").permitAll()
-                        .requestMatchers("/authenticable/confirmAccount/**").permitAll()
-                        .requestMatchers("/authenticable/createAccount/**").permitAll()
-                        .requestMatchers("/user/**").permitAll()
-                        .requestMatchers("/partner/**").permitAll()
-                        .requestMatchers("/password-recovery/**").permitAll()
-                        .requestMatchers("/password-recovery/page/**").permitAll()
-                        .requestMatchers("/change-password.html").permitAll()
-                        .requestMatchers("/templates/**").permitAll()
-                        .requestMatchers("/confirmacaoConta.html").permitAll()
-                        .requestMatchers("/favicon.ico").permitAll()
+                        .requestMatchers(
+                                "/favicon.ico",
+                                "/auth/**", "/authenticable/**", "/authenticable/confirmAccount/**", "/authenticable/createAccount/**",
+                                "/user/**",
+                                "/partner/**",
+                                "/api/v1/password-recovery/**",
+                                "/templates/**",
+                                "/confirmacaoConta.html",
+                                "/v2/api-docs","/v3/api-docs","/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html", "/webjars/**", "/swagger-resources", "/swagger-resources/**", "/configuration/ui", "/configuration/security"
+                                    ).permitAll()
+                        .requestMatchers("/agendamento/**").authenticated()
                         .anyRequest().authenticated());
         http.addFilterBefore(authFilterToken(), UsernamePasswordAuthenticationFilter.class);
         return http.build();

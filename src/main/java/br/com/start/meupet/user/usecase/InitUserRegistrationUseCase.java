@@ -1,8 +1,9 @@
 package br.com.start.meupet.user.usecase;
 
 import br.com.start.meupet.common.security.jwt.JwtUtils;
-import br.com.start.meupet.common.service.EmailService;
-import br.com.start.meupet.common.service.ServiceUtils;
+import br.com.start.meupet.auth.services.EmailService;
+import br.com.start.meupet.common.services.ServiceUtils;
+import br.com.start.meupet.common.templates.TemplateNameEnum;
 import br.com.start.meupet.common.utils.VerifyAuthenticable;
 import br.com.start.meupet.user.dto.UserRequestDTO;
 import br.com.start.meupet.user.dto.UserResponseDTO;
@@ -46,7 +47,6 @@ public class InitUserRegistrationUseCase {
         return UserMapper.userToResponseDTO(userEntity);
     }
 
-
     private void validateUser(User userEntity) {
         serviceUtils.isUserAlreadyExists(userEntity);
     }
@@ -61,9 +61,10 @@ public class InitUserRegistrationUseCase {
 
     private void sendVerificationEmail(User userEntity, String token) {
         VerifyAuthenticable verifyEntity = new VerifyAuthenticable(token);
-        emailService.sendEmailConfirmAccountTemplate(
+        emailService.sendEmailTemplate(
                 userEntity.getEmail().toString(),
                 "Novo usuário cadastrado",
+                TemplateNameEnum.EMAIL_CONFIRM_ACCOUNT,
                 userEntity.getName(),
                 verifyEntity.getToken()
         );

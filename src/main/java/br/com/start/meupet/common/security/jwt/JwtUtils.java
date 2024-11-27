@@ -1,5 +1,6 @@
 package br.com.start.meupet.common.security.jwt;
 
+import java.sql.Array;
 import java.util.Date;
 
 import javax.crypto.SecretKey;
@@ -10,9 +11,10 @@ import br.com.start.meupet.partner.model.Partner;
 import br.com.start.meupet.user.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
-import br.com.start.meupet.common.service.AuthenticableDetailsImpl;
+import br.com.start.meupet.auth.services.AuthenticableDetailsImpl;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -35,6 +37,13 @@ public final class JwtUtils {
             AuthenticableDetailsImpl authenticableDetails
     ) {
         return Jwts.builder().header().add("typ", "JWT").and().subject(authenticableDetails.getUsername())
+                .claim(
+                        "roles",
+                        authenticableDetails.getAuthorities()
+                                .stream()
+                                .map(GrantedAuthority::getAuthority) // Extrai o nome da role
+                                .toList() // Converte para lista de strings
+                )
                 .issuedAt(new Date())
                 .expiration(new Date(new Date().getTime() + this.jwtExpirationMs))
                 .signWith(getSigningKey(), Jwts.SIG.HS512)

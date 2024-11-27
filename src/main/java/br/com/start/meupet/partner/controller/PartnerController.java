@@ -2,8 +2,7 @@ package br.com.start.meupet.partner.controller;
 
 import br.com.start.meupet.partner.dto.PartnerRequestDTO;
 import br.com.start.meupet.partner.dto.PartnerResponseDTO;
-import br.com.start.meupet.partner.repository.PartnerRepository;
-import br.com.start.meupet.partner.service.PartnerService;
+import br.com.start.meupet.partner.services.PartnerService;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

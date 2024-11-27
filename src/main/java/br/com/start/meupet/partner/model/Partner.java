@@ -1,6 +1,6 @@
 package br.com.start.meupet.partner.model;
 
-import br.com.start.meupet.common.interfaces.Authenticable;
+import br.com.start.meupet.auth.interfaces.Authenticable;
 import br.com.start.meupet.common.valueobjects.Email;
 import br.com.start.meupet.common.valueobjects.PersonalRegistration;
 import br.com.start.meupet.common.valueobjects.PhoneNumber;
@@ -56,6 +56,22 @@ public class Partner implements Authenticable {
                    @NotNull PhoneNumber phoneNumber,
                    @NotNull PersonalRegistration personalRegistration
     ) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.phoneNumber = phoneNumber;
+        this.personalRegistration = personalRegistration;
+    }
+
+    public Partner(
+            @NotNull UUID id,
+            @NotNull String name,
+            @NotNull Email email,
+            @NotNull String password,
+            @NotNull PhoneNumber phoneNumber,
+            @NotNull PersonalRegistration personalRegistration
+    ) {
+        this.id = id;
         this.name = name;
         this.email = email;
         this.password = password;

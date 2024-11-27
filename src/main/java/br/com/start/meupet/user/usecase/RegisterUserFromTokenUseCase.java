@@ -1,7 +1,8 @@
 package br.com.start.meupet.user.usecase;
 
 import br.com.start.meupet.common.enums.DocumentType;
-import br.com.start.meupet.common.service.ServiceUtils;
+import br.com.start.meupet.common.services.ServiceUtils;
+import br.com.start.meupet.common.utils.BirthDayUtils;
 import br.com.start.meupet.common.valueobjects.Email;
 import br.com.start.meupet.common.valueobjects.PersonalRegistration;
 import br.com.start.meupet.common.valueobjects.PhoneNumber;
@@ -29,6 +30,7 @@ public class RegisterUserFromTokenUseCase {
         String password = parsedToken.get("password", String.class);
         String document = parsedToken.get("document", String.class);
         String documentType = parsedToken.get("documentType", String.class);
+        String birthDate = parsedToken.get("birthDate", String.class);
 
         User entity = new User();
         entity.setEmail(new Email(email));
@@ -42,6 +44,7 @@ public class RegisterUserFromTokenUseCase {
         entity.setPhoneNumber(new PhoneNumber(phoneNumber));
         entity.setPassword(password);
         entity.setPersonalRegistration(new PersonalRegistration(document, DocumentType.valueOf(documentType.trim().toUpperCase())));
+        entity.setDateOfBirth(BirthDayUtils.convertToDate(birthDate));
         serviceUtils.isUserAlreadyExists(entity);
         return userRepository.save(entity);
     }

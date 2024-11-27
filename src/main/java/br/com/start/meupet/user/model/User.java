@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
 
-import br.com.start.meupet.common.interfaces.Authenticable;
+import br.com.start.meupet.auth.interfaces.Authenticable;
 import br.com.start.meupet.common.valueobjects.Email;
 import br.com.start.meupet.common.valueobjects.PersonalRegistration;
 import br.com.start.meupet.common.valueobjects.PhoneNumber;
@@ -43,6 +43,7 @@ public class User implements Authenticable {
 
     private PersonalRegistration personalRegistration;
 
+    @Column(name = "dateOfBirth", nullable = false)
     private LocalDate dateOfBirth;
 
     @Column(name = "createdAt")

@@ -1,8 +1,9 @@
 package br.com.start.meupet.partner.usecase;
 
 import br.com.start.meupet.common.security.jwt.JwtUtils;
-import br.com.start.meupet.common.service.EmailService;
-import br.com.start.meupet.common.service.ServiceUtils;
+import br.com.start.meupet.auth.services.EmailService;
+import br.com.start.meupet.common.services.ServiceUtils;
+import br.com.start.meupet.common.templates.TemplateNameEnum;
 import br.com.start.meupet.common.utils.VerifyAuthenticable;
 import br.com.start.meupet.partner.dto.PartnerRequestDTO;
 import br.com.start.meupet.partner.dto.PartnerResponseDTO;
@@ -57,9 +58,10 @@ public class InitPartnerRegistrationUseCase {
 
     private void sendVerificationEmail(Partner partner, String token) {
         VerifyAuthenticable verifyEntity = new VerifyAuthenticable(token);
-        emailService.sendEmailConfirmAccountTemplate(
+        emailService.sendEmailTemplate(
                 partner.getEmail().toString(),
                 "Novo parceiro cadastrado",
+                TemplateNameEnum.EMAIL_CONFIRM_ACCOUNT,
                 partner.getName(),
                 verifyEntity.getToken()
         );
