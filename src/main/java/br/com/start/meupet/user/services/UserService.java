@@ -1,8 +1,12 @@
 package br.com.start.meupet.user.services;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
+import br.com.start.meupet.common.exceptions.EntityNotFoundException;
+import br.com.start.meupet.user.model.User;
+import br.com.start.meupet.user.repository.UserRepository;
 import br.com.start.meupet.user.usecase.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import br.com.start.meupet.user.dto.UserRequestDTO;
 import br.com.start.meupet.user.dto.UserResponseDTO;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class UserService {
@@ -21,19 +26,21 @@ public class UserService {
     private final InitUserRegistrationUseCase initUserRegistrationUseCase;
     private final UpdateUserUseCase updateUserUseCase;
     private final DeleteUserUseCase deleteUserUseCase;
+    private final UploadImageUserUseCase uploadImageUserUseCase;
 
     public UserService(
             ListUsersUseCase listUsersUseCase,
             FindUserByIdUseCase findUserByIdUseCase,
             InitUserRegistrationUseCase initUserRegistrationUseCase,
             UpdateUserUseCase updateUserUseCase,
-            DeleteUserUseCase deleteUserUseCase
-    ) {
+            DeleteUserUseCase deleteUserUseCase,
+            UploadImageUserUseCase uploadImageUserUseCase) {
         this.listUsersUseCase = listUsersUseCase;
         this.findUserByIdUseCase = findUserByIdUseCase;
         this.initUserRegistrationUseCase = initUserRegistrationUseCase;
         this.updateUserUseCase = updateUserUseCase;
         this.deleteUserUseCase = deleteUserUseCase;
+        this.uploadImageUserUseCase = uploadImageUserUseCase;
     }
 
     public List<UserResponseDTO> listAll(int page, int pageSize) {
@@ -48,13 +55,15 @@ public class UserService {
       return initUserRegistrationUseCase.execute(userRequest);
     }
 
-
     public UserResponseDTO update(UUID id, UserRequestDTO newUser) {
        return updateUserUseCase.execute(id, newUser);
     }
 
-    @Transactional
     public void delete(UUID id) {
        deleteUserUseCase.execute(id);
+    }
+
+    public void saveUserImage(UUID id, MultipartFile file) throws IOException {
+        uploadImageUserUseCase.execute(id, file);
     }
 }

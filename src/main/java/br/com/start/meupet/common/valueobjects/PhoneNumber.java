@@ -15,7 +15,7 @@ public final class PhoneNumber {
     private final String phoneNumber;
 
     // Regex para validação de telefone
-    private static final String TELEFONE_REGEX = "^(\\(\\d{2}\\) \\d{2} \\d{5}-\\d{4}|\\(\\d{2}\\) \\d{2} \\d{4}-\\d{4}|\\(\\d{2}\\) \\d{2} \\d{11}|\\(\\d{2}\\) \\d{2} \\d{10})$";
+    private static final String TELEFONE_REGEX = "^(\\(\\d{2}\\) \\d{5}-\\d{4}|\\(\\d{2}\\) \\d{4}-\\d{4})$";
     private static final Pattern TELEFONE_PATTERN = Pattern.compile(TELEFONE_REGEX);
 
     public PhoneNumber() {
@@ -25,7 +25,11 @@ public final class PhoneNumber {
     public PhoneNumber(String phoneNumber) {
         if (!isValidPhoneNumber(phoneNumber)) {
             log.error("Formato do telefone inválido: {}", phoneNumber);
-            throw new ProblemDetailsException("Telefone inválido", "Formato do telefone inválido", HttpStatus.BAD_REQUEST);
+            throw new ProblemDetailsException(
+                    "Telefone inválido",
+                    "O formato do telefone deve ser (XX) XXXXX-XXXX",
+                    HttpStatus.BAD_REQUEST
+            );
         }
         this.phoneNumber = phoneNumber;
     }

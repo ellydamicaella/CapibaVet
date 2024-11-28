@@ -55,6 +55,9 @@ public class User implements Authenticable {
     @Column(name = "moeda_capiba")
     private int moedaCapiba;
 
+    @Lob
+    private byte[] profileImage;
+
     public User(
             String name,
             String socialName,

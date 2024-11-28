@@ -12,7 +12,6 @@ import br.com.start.meupet.user.model.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Component
@@ -30,7 +29,6 @@ public class InitUserRegistrationUseCase {
         this.emailService = emailService;
     }
 
-    @Transactional
     public UserResponseDTO execute(UserRequestDTO userRequest) {
         User userEntity = UserMapper.userRequestToUser(userRequest);
         //valida usuario

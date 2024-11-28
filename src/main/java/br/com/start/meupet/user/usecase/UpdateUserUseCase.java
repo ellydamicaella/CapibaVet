@@ -45,7 +45,6 @@ public class UpdateUserUseCase {
         return UserMapper.userToResponseDTO(updatedUser);
     }
 
-
     private void validateUser(User userEntity) {
         serviceUtils.isUserAlreadyExists(userEntity);
     }

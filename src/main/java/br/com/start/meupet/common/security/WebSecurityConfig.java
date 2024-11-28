@@ -9,6 +9,7 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -41,41 +42,32 @@ public class WebSecurityConfig {
         return new AuthFilterToken();
     }
 
-//    @Bean
-//    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-//        http.cors(Customizer.withDefaults());
-//        http.csrf(csrf -> csrf.disable())
-//                .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
-//                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-//                .authorizeHttpRequests(auth -> auth
-//                        .requestMatchers(
-//                                "/resources/**/*html",
-//                                "/favicon.ico",
-//                                "/auth/**", "/authenticable/**", "/authenticable/confirmAccount/**", "/authenticable/createAccount/**",
-//                                "/user/**",
-//                                "/partner/**",
-//                                "/api/v1/password-recovery/**",
-//                                "/templates/**",
-//                                "/confirmacaoConta.html",
-//                                "/v2/api-docs",
-//                                "/v3/api-docs",
-//                                "/v3/api-docs/**", "/swagger-ui", "/swagger-ui.html", "/webjars/**", "/swagger-resources", "/swagger-resources/**", "/configuration/ui", "/configuration/security"
-//                                    ).permitAll()
-//                        .requestMatchers("/agendamento/**").authenticated()
-//                        .anyRequest().authenticated());
-//        http.addFilterBefore(authFilterToken(), UsernamePasswordAuthenticationFilter.class);
-//        return http.build();
-//    }
-@Bean
-SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-    http.cors(Customizer.withDefaults());
-    http.csrf(csrf -> csrf.disable())
-            .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
-            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            .authorizeHttpRequests(auth -> auth
-                    .anyRequest().permitAll());
-    http.addFilterBefore(authFilterToken(), UsernamePasswordAuthenticationFilter.class);
-    return http.build();
-}
-
+    @Bean
+    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http.cors(Customizer.withDefaults());
+        http.csrf(csrf -> csrf.disable())
+                .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(
+                                "/auth/**", "/authenticable/**", "/authenticable/confirmAccount/**", "/authenticable/createAccount/**",
+                                "/user/**",
+                                "/partner/**",
+                                "/api/v1/password-recovery/**",
+                                "/templates/**",
+                                "/confirmacaoConta.html",
+                                "/v3/api-docs",
+                                "/v3/api-docs/**",
+                                "/swagger-ui/**",
+                                "/swagger-ui.html",
+                                "/authenticable/getuser",
+                                "/user/upload-image/**",
+                                "/user/image/**",
+                                "/doc"
+                                    ).permitAll()
+                        .requestMatchers("/agendamento/**").authenticated()
+                        .anyRequest().authenticated());
+        http.addFilterBefore(authFilterToken(), UsernamePasswordAuthenticationFilter.class);
+        return http.build();
+    }
 }

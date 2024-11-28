@@ -1,5 +1,6 @@
 package br.com.start.meupet.auth.controllers;
 
+import br.com.start.meupet.auth.dto.AccessDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,7 +23,7 @@ public class AuthController {
     }
 
     @PostMapping(value = "/login")
-    public ResponseEntity<?> login(@RequestBody @Valid AuthenticationDTO authDto) {
+    public ResponseEntity<AccessDTO> login(@RequestBody @Valid AuthenticationDTO authDto) {
         return ResponseEntity.ok(authService.login(authDto));
     }
 }
