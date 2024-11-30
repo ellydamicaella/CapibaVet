@@ -17,6 +17,6 @@ public interface PartnerRepository extends JpaRepository<Partner, UUID> {
 
     Partner findByPhoneNumber(PhoneNumber PhoneNumber);
 
-    @Query("SELECT p FROM Partner p LEFT JOIN FETCH p.servicoPrestados")
-    List<Partner> findAllWithServices(); // Carrega todas as clínicas e seus serviços
+//    @Query("SELECT p FROM Partner p LEFT JOIN FETCH p.servicoPrestados")
+//    List<Partner> findAllWithServices(); // Carrega todas as clínicas e seus serviços
 }
