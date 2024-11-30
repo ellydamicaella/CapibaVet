@@ -1,4 +1,4 @@
-package br.com.start.meupet.auth.service;
+package br.com.start.meupet.auth.facade;
 
 import br.com.start.meupet.auth.usecase.passwordrecovery.CreateRecoveryTokenUseCase;
 import br.com.start.meupet.auth.usecase.passwordrecovery.ResetPasswordUseCase;
@@ -7,12 +7,12 @@ import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
-public class PasswordRecoveryService {
+public class PasswordRecoveryFacade {
 
     private final CreateRecoveryTokenUseCase createRecoveryTokenUseCase;
     private final ResetPasswordUseCase resetPasswordUseCase;
 
-    public PasswordRecoveryService(CreateRecoveryTokenUseCase createRecoveryTokenUseCase, ResetPasswordUseCase resetPasswordUseCase) {
+    public PasswordRecoveryFacade(CreateRecoveryTokenUseCase createRecoveryTokenUseCase, ResetPasswordUseCase resetPasswordUseCase) {
         this.createRecoveryTokenUseCase = createRecoveryTokenUseCase;
         this.resetPasswordUseCase = resetPasswordUseCase;
     }

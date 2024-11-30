@@ -1,8 +1,7 @@
-package br.com.start.meupet.user.service;
+package br.com.start.meupet.auth.service;
 
 import java.util.Optional;
 
-import br.com.start.meupet.auth.service.AuthenticableDetailsImpl;
 import br.com.start.meupet.auth.usecase.authenticable.FindAuthenticableUseCase;
 import br.com.start.meupet.partner.model.Partner;
 import lombok.extern.slf4j.Slf4j;

@@ -1,4 +1,4 @@
-package br.com.start.meupet.auth.controllers;
+package br.com.start.meupet.auth.controller;
 
 import br.com.start.meupet.auth.dto.AuthenticableLoginHeaderInfosDTO;
 import br.com.start.meupet.auth.dto.StatusResponseDTO;

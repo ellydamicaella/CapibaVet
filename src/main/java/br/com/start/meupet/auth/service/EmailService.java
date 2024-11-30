@@ -1,4 +1,4 @@
-package br.com.start.meupet.auth.services;
+package br.com.start.meupet.auth.service;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -86,7 +86,7 @@ public class EmailService {
      * @param templateName Nome do arquivo de template.
      * @return O conteúdo do template.
      */
-    private String loadTemplateFromFile(String templateName) {
+    public String loadTemplateFromFile(String templateName) {
         try {
             ClassPathResource classPathResource = new ClassPathResource("templates/" + templateName);
             return new String(classPathResource.getInputStream().readAllBytes(), StandardCharsets.UTF_8);

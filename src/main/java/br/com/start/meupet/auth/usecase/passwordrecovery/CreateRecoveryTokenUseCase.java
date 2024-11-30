@@ -3,7 +3,7 @@ package br.com.start.meupet.auth.usecase.passwordrecovery;
 import br.com.start.meupet.common.exceptions.EntityNotFoundException;
 import br.com.start.meupet.auth.interfaces.Authenticable;
 import br.com.start.meupet.common.security.jwt.JwtUtils;
-import br.com.start.meupet.auth.services.EmailService;
+import br.com.start.meupet.auth.service.EmailService;
 import br.com.start.meupet.auth.usecase.authenticable.FindAuthenticableUseCase;
 import br.com.start.meupet.common.templates.TemplateNameEnum;
 import br.com.start.meupet.common.valueobjects.Email;

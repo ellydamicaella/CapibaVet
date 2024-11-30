@@ -4,7 +4,7 @@ import br.com.start.meupet.auth.dto.AccessDTO;
 import br.com.start.meupet.auth.dto.AuthenticationDTO;
 import br.com.start.meupet.common.exceptions.ProblemDetailsException;
 import br.com.start.meupet.common.security.jwt.JwtUtils;
-import br.com.start.meupet.auth.services.AuthenticableDetailsImpl;
+import br.com.start.meupet.auth.service.AuthenticableDetailsImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;

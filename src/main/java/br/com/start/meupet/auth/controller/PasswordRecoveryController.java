@@ -1,9 +1,9 @@
-package br.com.start.meupet.auth.controllers;
+package br.com.start.meupet.auth.controller;
 
 import br.com.start.meupet.auth.dto.PasswordRecoveryDTO;
 import br.com.start.meupet.auth.dto.PasswordResetDTO;
 import br.com.start.meupet.auth.dto.StatusResponseDTO;
-import br.com.start.meupet.auth.service.PasswordRecoveryService;
+import br.com.start.meupet.auth.facade.PasswordRecoveryFacade;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,15 +14,15 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 public class PasswordRecoveryController {
 
-    private final PasswordRecoveryService passwordRecoveryService;
+    private final PasswordRecoveryFacade passwordRecoveryFacade;
 
-    public PasswordRecoveryController(PasswordRecoveryService passwordRecoveryService) {
-        this.passwordRecoveryService = passwordRecoveryService;
+    public PasswordRecoveryController(PasswordRecoveryFacade passwordRecoveryFacade) {
+        this.passwordRecoveryFacade = passwordRecoveryFacade;
     }
 
     @PostMapping("/request")
     public ResponseEntity<StatusResponseDTO> requestPasswordRecovery(@RequestBody PasswordRecoveryDTO passwordRecovery) {
-        passwordRecoveryService.generateRecoveryToken(passwordRecovery.email());
+        passwordRecoveryFacade.generateRecoveryToken(passwordRecovery.email());
         return ResponseEntity.ok().body(new StatusResponseDTO("success", "Email enviado com sucesso!"));
     }
 
@@ -30,7 +30,7 @@ public class PasswordRecoveryController {
     @PatchMapping("/reset")
     public ResponseEntity<StatusResponseDTO> resetPassword(@RequestParam String token, @RequestBody PasswordResetDTO passwordReset) {
         log.info("senha: {}", passwordReset.password());
-        passwordRecoveryService.resetPassword(token, passwordReset.password());
+        passwordRecoveryFacade.resetPassword(token, passwordReset.password());
         return ResponseEntity.ok().body(new StatusResponseDTO("success", "Senha alterada com sucesso!"));
     }
 

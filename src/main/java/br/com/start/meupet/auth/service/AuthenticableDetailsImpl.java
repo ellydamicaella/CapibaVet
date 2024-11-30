@@ -1,4 +1,4 @@
-package br.com.start.meupet.auth.services;
+package br.com.start.meupet.auth.service;
 
 import java.io.Serial;
 import java.util.ArrayList;

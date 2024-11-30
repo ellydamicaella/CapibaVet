@@ -6,11 +6,11 @@ import br.com.start.meupet.auth.dto.AccessDTO;
 import br.com.start.meupet.auth.dto.AuthenticationDTO;
 
 @Component
-public class AuthService {
+public class AuthFacade {
 
     private final LoginUseCase loginUseCase;
 
-    public AuthService(
+    public AuthFacade(
             LoginUseCase loginUseCase) {
         this.loginUseCase = loginUseCase;
     }
