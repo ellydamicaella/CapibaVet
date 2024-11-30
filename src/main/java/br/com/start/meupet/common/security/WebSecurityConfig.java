@@ -53,7 +53,6 @@ public class WebSecurityConfig {
                                 "/auth/**", "/authenticable/**", "/authenticable/confirmAccount/**", "/authenticable/createAccount/**",
                                 "/user/**",
                                 "/partner/**",
-                                "/api/v1/password-recovery/**",
                                 "/templates/**",
                                 "/confirmacaoConta.html",
                                 "/v3/api-docs",
@@ -63,7 +62,8 @@ public class WebSecurityConfig {
                                 "/authenticable/getuser",
                                 "/user/upload-image/**",
                                 "/user/image/**",
-                                "/doc"
+                                "/doc",
+                                "/password-recovery/**"
                                     ).permitAll()
                         .requestMatchers("/agendamento/**").authenticated()
                         .anyRequest().authenticated());
