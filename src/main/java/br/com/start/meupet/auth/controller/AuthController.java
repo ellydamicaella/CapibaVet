@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.start.meupet.auth.dto.AuthenticationDTO;
-import br.com.start.meupet.auth.services.AuthService;
+import br.com.start.meupet.auth.service.AuthService;
 import jakarta.validation.Valid;
 
 @RestController

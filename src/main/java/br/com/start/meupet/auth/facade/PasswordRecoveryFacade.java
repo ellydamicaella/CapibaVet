@@ -1,13 +1,9 @@
-package br.com.start.meupet.auth.services;
+package br.com.start.meupet.auth.service;
 
 import br.com.start.meupet.auth.usecase.passwordrecovery.CreateRecoveryTokenUseCase;
 import br.com.start.meupet.auth.usecase.passwordrecovery.ResetPasswordUseCase;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
-
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 
 @Slf4j
 @Service

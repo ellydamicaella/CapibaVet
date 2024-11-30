@@ -1,20 +1,16 @@
-package br.com.start.meupet.partner.services;
+package br.com.start.meupet.partner.service;
 
 import br.com.start.meupet.partner.dto.PartnerRequestDTO;
-import br.com.start.meupet.common.services.ServiceUtils;
 import br.com.start.meupet.partner.dto.PartnerResponseDTO;
 import br.com.start.meupet.partner.usecase.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 
 @Service
-public class PartnerService {
+public class PartnerFacade {
 
-    private static final Logger log = LoggerFactory.getLogger(PartnerService.class);
     private final ListPartnersUseCase listPartnersUseCase;
     private final FindPartnerByIdUseCase findPartnerByIdUseCase;
     private final InitPartnerRegistrationUseCase initPartnerRegistrationUseCase;
@@ -22,7 +18,6 @@ public class PartnerService {
     private final DeletePartnerUseCase deletePartnerUseCase;
 
     public PartnerService(
-           ServiceUtils serviceUtils,
            ListPartnersUseCase listPartnersUseCase,
            FindPartnerByIdUseCase findPartnerByIdUseCase,
            InitPartnerRegistrationUseCase initPartnerRegistrationUseCase,

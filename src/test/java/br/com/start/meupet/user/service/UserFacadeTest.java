@@ -3,6 +3,7 @@ package br.com.start.meupet.user.services;
 import br.com.start.meupet.common.valueobjects.Email;
 import br.com.start.meupet.common.valueobjects.PhoneNumber;
 import br.com.start.meupet.user.dto.UserResponseDTO;
+import br.com.start.meupet.user.facade.UserFacade;
 import br.com.start.meupet.user.model.User;
 import br.com.start.meupet.user.repository.UserRepository;
 import jakarta.persistence.EntityManager;
@@ -24,13 +25,13 @@ import static org.mockito.Mockito.when;
 @Slf4j
 @DataJpaTest
 @ActiveProfiles("test")
-class UserServiceTest {
+class UserFacadeTest {
 
     @Autowired
     EntityManager entityManager;
 
     @InjectMocks
-    private UserService userService;
+    private UserFacade userFacade;
 
     @Autowired
     private UserRepository userRepository;
@@ -50,7 +51,7 @@ class UserServiceTest {
                 new User("Thiago10",  new Email("usuario10@example.com"), "senhaSegura890",  new PhoneNumber("(99) 23 91234-5678"))
         );
         userRepository.saveAll(users);
-        log.info("setUp em UserServiceTest completo!");
+        log.info("setUp em UserFacadeTest completo!");
     }
 
     private void createUsers() {
@@ -79,9 +80,9 @@ class UserServiceTest {
         Pageable pageable = PageRequest.of(pageDefault, pageSizeDefault);
         List<User> list = userRepository.findAll(pageable).getContent();
         List<UserResponseDTO> listResponseDTO = list.stream().map(UserResponseDTO::new).toList();
-        when(userService.listAll(pageDefault, pageSizeDefault)).thenReturn(listResponseDTO);
+        when(userFacade.listAll(pageDefault, pageSizeDefault)).thenReturn(listResponseDTO);
 
-        List<UserResponseDTO> listTesting = userService.listAll(pageDefault, pageSizeDefault);
+        List<UserResponseDTO> listTesting = userFacade.listAll(pageDefault, pageSizeDefault);
 
     }
 

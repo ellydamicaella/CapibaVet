@@ -2,7 +2,7 @@ package br.com.start.meupet.agendamento.controller;
 
 import br.com.start.meupet.agendamento.dto.DisponibilidadeRequestDTO;
 import br.com.start.meupet.agendamento.model.Disponibilidade;
-import br.com.start.meupet.agendamento.services.AgendamentoService;
+import br.com.start.meupet.agendamento.service.AgendamentoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

@@ -1,18 +1,13 @@
 package br.com.start.meupet.auth.controllers;
 
-import br.com.start.meupet.auth.dto.AuthenticableGetByEmailDTO;
 import br.com.start.meupet.auth.dto.AuthenticableLoginHeaderInfosDTO;
 import br.com.start.meupet.auth.dto.StatusResponseDTO;
 import br.com.start.meupet.auth.interfaces.AuthenticableResponseDTO;
-import br.com.start.meupet.auth.services.AuthenticableService;
-import br.com.start.meupet.partner.dto.PartnerResponseDTO;
+import br.com.start.meupet.auth.service.AuthenticableService;
 import br.com.start.meupet.user.dto.UserResponseDTO;
-import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/authenticable")

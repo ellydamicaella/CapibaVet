@@ -4,23 +4,19 @@ import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
-import br.com.start.meupet.common.exceptions.EntityNotFoundException;
-import br.com.start.meupet.user.model.User;
-import br.com.start.meupet.user.repository.UserRepository;
 import br.com.start.meupet.user.usecase.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.stereotype.Component;
 
 import br.com.start.meupet.user.dto.UserRequestDTO;
 import br.com.start.meupet.user.dto.UserResponseDTO;
 import org.springframework.web.multipart.MultipartFile;
 
-@Service
-public class UserService {
+@Component
+public class UserFacade {
 
-    private static final Logger log = LoggerFactory.getLogger(UserService.class);
+    private static final Logger log = LoggerFactory.getLogger(UserFacade.class);
     private final ListUsersUseCase listUsersUseCase;
     private final FindUserByIdUseCase findUserByIdUseCase;
     private final InitUserRegistrationUseCase initUserRegistrationUseCase;
@@ -28,7 +24,7 @@ public class UserService {
     private final DeleteUserUseCase deleteUserUseCase;
     private final UploadImageUserUseCase uploadImageUserUseCase;
 
-    public UserService(
+    public UserFacade(
             ListUsersUseCase listUsersUseCase,
             FindUserByIdUseCase findUserByIdUseCase,
             InitUserRegistrationUseCase initUserRegistrationUseCase,
@@ -51,8 +47,8 @@ public class UserService {
         return findUserByIdUseCase.execute(id);
     }
 
-    public UserResponseDTO insert(UserRequestDTO userRequest) {
-      return initUserRegistrationUseCase.execute(userRequest);
+    public void insert(UserRequestDTO userRequest) {
+        initUserRegistrationUseCase.execute(userRequest);
     }
 
     public UserResponseDTO update(UUID id, UserRequestDTO newUser) {

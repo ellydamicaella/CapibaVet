@@ -1,16 +1,12 @@
-package br.com.start.meupet.auth.services;
+package br.com.start.meupet.auth.facade;
 
 import br.com.start.meupet.auth.usecase.auth.LoginUseCase;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import br.com.start.meupet.auth.dto.AccessDTO;
 import br.com.start.meupet.auth.dto.AuthenticationDTO;
 
-@Service
+@Component
 public class AuthService {
-
-    private static final Logger log = LoggerFactory.getLogger(AuthService.class);
 
     private final LoginUseCase loginUseCase;
 

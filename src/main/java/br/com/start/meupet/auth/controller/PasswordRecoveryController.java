@@ -3,7 +3,7 @@ package br.com.start.meupet.auth.controllers;
 import br.com.start.meupet.auth.dto.PasswordRecoveryDTO;
 import br.com.start.meupet.auth.dto.PasswordResetDTO;
 import br.com.start.meupet.auth.dto.StatusResponseDTO;
-import br.com.start.meupet.auth.services.PasswordRecoveryService;
+import br.com.start.meupet.auth.service.PasswordRecoveryService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
