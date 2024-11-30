@@ -1,4 +1,4 @@
-package br.com.start.meupet.partner.service;
+package br.com.start.meupet.partner.facade;
 
 import br.com.start.meupet.partner.dto.PartnerRequestDTO;
 import br.com.start.meupet.partner.dto.PartnerResponseDTO;
@@ -17,7 +17,7 @@ public class PartnerFacade {
     private final UpdatePartnerUseCase updatePartnerUseCase;
     private final DeletePartnerUseCase deletePartnerUseCase;
 
-    public PartnerService(
+    public PartnerFacade(
            ListPartnersUseCase listPartnersUseCase,
            FindPartnerByIdUseCase findPartnerByIdUseCase,
            InitPartnerRegistrationUseCase initPartnerRegistrationUseCase,

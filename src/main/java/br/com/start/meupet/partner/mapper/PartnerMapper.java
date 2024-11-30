@@ -29,7 +29,7 @@ public final class PartnerMapper {
                 newPartner.getEmail(),
                 newPartner.getPassword(),
                 newPartner.getPhoneNumber(),
-                new PersonalRegistration(newPartner.getPersonalRegistration().getDocument(), newPartner.getPersonalRegistration().getType())
+                new PersonalRegistration(newPartner.getPersonalRegistration().getDocument(), newPartner.getPersonalRegistration().getDocumentType())
         );
         partner.setId(oldPartner.getId());
         partner.setCreatedAt(oldPartner.getCreatedAt());

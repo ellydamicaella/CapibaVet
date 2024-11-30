@@ -1,12 +1,11 @@
 package br.com.start.meupet.user.usecase;
 
 import br.com.start.meupet.common.security.jwt.JwtUtils;
-import br.com.start.meupet.auth.services.EmailService;
-import br.com.start.meupet.common.services.ServiceUtils;
+import br.com.start.meupet.auth.service.EmailService;
+import br.com.start.meupet.common.service.ServiceUtils;
 import br.com.start.meupet.common.templates.TemplateNameEnum;
 import br.com.start.meupet.common.utils.VerifyAuthenticable;
 import br.com.start.meupet.user.dto.UserRequestDTO;
-import br.com.start.meupet.user.dto.UserResponseDTO;
 import br.com.start.meupet.user.mapper.UserMapper;
 import br.com.start.meupet.user.model.User;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +28,7 @@ public class InitUserRegistrationUseCase {
         this.emailService = emailService;
     }
 
-    public UserResponseDTO execute(UserRequestDTO userRequest) {
+    public void execute(UserRequestDTO userRequest) {
         User userEntity = UserMapper.userRequestToUser(userRequest);
         //valida usuario
         log.info(userEntity.toString());
@@ -38,11 +37,10 @@ public class InitUserRegistrationUseCase {
         encodePassword(userEntity, userRequest.getPassword());
         //gera Token com os dados do usuario
         String token = generateVerificationToken(userEntity);
+        log.info("token: {}", token);
         // envia o email
         sendVerificationEmail(userEntity, token);
         log.info("Usario criado, aguardando a confirmação da conta :{}", userEntity);
-
-        return UserMapper.userToResponseDTO(userEntity);
     }
 
     private void validateUser(User userEntity) {

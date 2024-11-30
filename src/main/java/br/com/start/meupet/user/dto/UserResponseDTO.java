@@ -28,7 +28,7 @@ public class UserResponseDTO extends AuthenticableResponseDTO {
         this.email = user.getEmail().toString();
         this.phoneNumber = user.getPhoneNumber().toString();
         this.document = user.getPersonalRegistration().getDocument();
-        this.documentType = user.getPersonalRegistration().getType().toString();
+        this.documentType = user.getPersonalRegistration().getDocumentType().toString();
         this.birthDate = String.valueOf(user.getDateOfBirth());
         this.moedaCapiba = user.getMoedaCapiba();
     }

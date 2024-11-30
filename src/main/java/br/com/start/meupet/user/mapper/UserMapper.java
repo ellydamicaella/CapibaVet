@@ -38,7 +38,7 @@ public final class UserMapper {
                 newUser.getEmail(),
                 newUser.getPassword(),
                 newUser.getPhoneNumber(),
-                new PersonalRegistration(newUser.getPersonalRegistration().getDocument(), newUser.getPersonalRegistration().getType()),
+                new PersonalRegistration(newUser.getPersonalRegistration().getDocument(), newUser.getPersonalRegistration().getDocumentType()),
                 newUser.getDateOfBirth()
         );
         user.setId(oldUser.getId());

@@ -1,7 +1,7 @@
 package br.com.start.meupet.user.usecase;
 
 import br.com.start.meupet.common.enums.DocumentType;
-import br.com.start.meupet.common.services.ServiceUtils;
+import br.com.start.meupet.common.service.ServiceUtils;
 import br.com.start.meupet.common.utils.BirthDayUtils;
 import br.com.start.meupet.common.valueobjects.Email;
 import br.com.start.meupet.common.valueobjects.PersonalRegistration;

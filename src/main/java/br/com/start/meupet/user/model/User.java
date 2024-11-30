@@ -2,9 +2,12 @@ package br.com.start.meupet.user.model;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+import br.com.start.meupet.agendamento.model.Animal;
+import br.com.start.meupet.agendamento.model.AtendimentoMarcado;
 import br.com.start.meupet.auth.interfaces.Authenticable;
 import br.com.start.meupet.common.valueobjects.Email;
 import br.com.start.meupet.common.valueobjects.PersonalRegistration;
@@ -58,6 +61,12 @@ public class User implements Authenticable {
     @Lob
     private byte[] profileImage;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Animal> animals;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<AtendimentoMarcado> atendimentoMarcados;
+
     public User(
             String name,
             String socialName,
@@ -92,7 +101,7 @@ public class User implements Authenticable {
                 ", password='" + password + '\'' +
                 ", phoneNumber=" + phoneNumber +
                 ", document=" + personalRegistration.getDocument() +
-                ", documentType=" + personalRegistration.getType().toString() +
+                ", documentType=" + personalRegistration.getDocumentType().toString() +
                 ", dateOfBirth=" + dateOfBirth +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +

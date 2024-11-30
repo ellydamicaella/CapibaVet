@@ -8,6 +8,7 @@ import java.util.UUID;
 import br.com.start.meupet.auth.dto.StatusResponseDTO;
 import br.com.start.meupet.user.model.User;
 import br.com.start.meupet.user.repository.UserRepository;
+import br.com.start.meupet.user.facade.UserFacade;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -30,7 +31,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.start.meupet.user.dto.UserRequestDTO;
 import br.com.start.meupet.user.dto.UserResponseDTO;
-import br.com.start.meupet.user.services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -42,11 +42,11 @@ public class UserController {
 
     private static final Logger log = LoggerFactory.getLogger(UserController.class);
 
-    private final UserService userService;
+    private final UserFacade userFacade;
     private final UserRepository userRepository;
 
-    public UserController(UserService userService, UserRepository userRepository) {
-        this.userService = userService;
+    public UserController(UserFacade userFacade, UserRepository userRepository) {
+        this.userFacade = userFacade;
         this.userRepository = userRepository;
     }
 
@@ -59,7 +59,7 @@ public class UserController {
     @GetMapping
     public ResponseEntity<List<UserResponseDTO>> listAll(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int items) {
         log.info("Requisicao GET: listando todos usuarios");
-        return ResponseEntity.ok(userService.listAll(page, items));
+        return ResponseEntity.ok(userFacade.listAll(page, items));
     }
 
     @Operation(summary = "lista usuario por id", method = "GET")
@@ -72,7 +72,7 @@ public class UserController {
     @GetMapping("/{id}")
     public ResponseEntity<UserResponseDTO> listOne(@PathVariable UUID id) {
         log.info("Requisicao GET: listando um usuario");
-        UserResponseDTO userResponse = userService.getUserById(id);
+        UserResponseDTO userResponse = userFacade.getUserById(id);
         return ResponseEntity.ok().body(userResponse);
     }
 
@@ -84,7 +84,7 @@ public class UserController {
     })
     @PostMapping
     public ResponseEntity<StatusResponseDTO> insertNewUser(@RequestBody @Valid UserRequestDTO userRequest) {
-        userService.insert(userRequest);
+        userFacade.insert(userRequest);
         log.info("Requisicao POST: inserindo um novo usuario - {}", userRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(new StatusResponseDTO("success", "Email enviado ao usuario com sucesso, aguardando confirmação de conta"));
     }
@@ -92,7 +92,7 @@ public class UserController {
     @PostMapping("/upload-image/{id}")
     public ResponseEntity<StatusResponseDTO> uploadUserImage(@PathVariable UUID id, @RequestParam("file") MultipartFile file) {
         try {
-            userService.saveUserImage(id, file);
+            userFacade.saveUserImage(id, file);
             return ResponseEntity.ok(new StatusResponseDTO("success", "Imagem enviada com sucesso"));
         } catch (IOException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new StatusResponseDTO("error", "Erro ao enviar imagem"));
@@ -122,7 +122,7 @@ public class UserController {
     })
     @PutMapping
     public ResponseEntity<?> update(@RequestParam UUID id, @RequestBody @Valid UserRequestDTO newUser) {
-        userService.update(id, newUser);
+        userFacade.update(id, newUser);
         log.info("Requisicao PUT: atualizando um usuario já existente - {}", newUser.toString());
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
@@ -137,7 +137,7 @@ public class UserController {
     })
     @DeleteMapping
     public ResponseEntity<Void> delete(@RequestParam UUID id) {
-        userService.delete(id);
+        userFacade.delete(id);
         log.info("Requisicao DELETE: deletando um usuario");
         return ResponseEntity.noContent().build();
     }

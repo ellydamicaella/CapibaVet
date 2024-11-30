@@ -1,4 +1,4 @@
-package br.com.start.meupet.user.services;
+package br.com.start.meupet.user.facade;
 
 import java.io.IOException;
 import java.util.List;
@@ -62,4 +62,5 @@ public class UserFacade {
     public void saveUserImage(UUID id, MultipartFile file) throws IOException {
         uploadImageUserUseCase.execute(id, file);
     }
+
 }
