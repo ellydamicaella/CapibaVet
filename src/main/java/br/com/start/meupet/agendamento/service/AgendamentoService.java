@@ -1,8 +1,8 @@
-package br.com.start.meupet.agendamento.services;
+package br.com.start.meupet.agendamento.service;
 
 import br.com.start.meupet.agendamento.dto.DisponibilidadeRequestDTO;
 import br.com.start.meupet.agendamento.model.Disponibilidade;
-import br.com.start.meupet.agendamento.repositories.DisponibilidadeRepository;
+import br.com.start.meupet.agendamento.repository.DisponibilidadeRepository;
 import br.com.start.meupet.partner.model.Partner;
 import br.com.start.meupet.partner.repository.PartnerRepository;
 import lombok.extern.slf4j.Slf4j;
