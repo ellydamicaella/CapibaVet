@@ -10,6 +10,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
 @Table(name = "servico")
@@ -36,4 +37,7 @@ public class ServicoPrestado {
     @ManyToOne
     @JoinColumn(name = "id_partner", referencedColumnName = "id")
     private Partner partner;
+
+    @OneToMany(mappedBy = "service", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<AtendimentoMarcado> atendimentoMarcados;
 }
