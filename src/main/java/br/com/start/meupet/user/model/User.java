@@ -59,6 +59,7 @@ public class User implements Authenticable {
     private int moedaCapiba;
 
     @Lob
+    @Column(name = "profile_image")
     private byte[] profileImage;
 
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)

@@ -11,7 +11,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 @Entity
-@Table
+@Table(name = "atendimento_marcado")
 @Getter
 @Setter
 public class AtendimentoMarcado {

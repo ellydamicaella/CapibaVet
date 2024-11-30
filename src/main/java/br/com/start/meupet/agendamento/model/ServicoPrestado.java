@@ -19,7 +19,7 @@ public class ServicoPrestado {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Column(nullable = false, length = 100)
     @NotBlank(message = "O nome do serviço é obrigatório.")
