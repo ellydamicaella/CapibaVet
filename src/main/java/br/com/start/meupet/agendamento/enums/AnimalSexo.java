@@ -1,5 +1,8 @@
 package br.com.start.meupet.agendamento.enums;
 
+import lombok.Getter;
+
+@Getter
 public enum AnimalSexo {
     M('M'),
     F('F');
@@ -8,9 +11,5 @@ public enum AnimalSexo {
 
     AnimalSexo(Character animalSexo) {
         this.animalSexo = animalSexo;
-    }
-
-    public Character getAnimalSexo() {
-        return animalSexo;
     }
 }

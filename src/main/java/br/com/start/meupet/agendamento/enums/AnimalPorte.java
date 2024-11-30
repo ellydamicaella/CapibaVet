@@ -13,8 +13,4 @@ public enum AnimalPorte {
     AnimalPorte(String animalPorte) {
         this.animalPorte = animalPorte;
     }
-
-    public String getAnimalPorte() {
-        return animalPorte;
-    }
 }
