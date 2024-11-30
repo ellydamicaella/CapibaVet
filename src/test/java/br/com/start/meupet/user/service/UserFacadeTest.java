@@ -1,4 +1,4 @@
-package br.com.start.meupet.user.services;
+package br.com.start.meupet.user.service;
 
 import br.com.start.meupet.common.valueobjects.Email;
 import br.com.start.meupet.common.valueobjects.PhoneNumber;
