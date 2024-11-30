@@ -1,4 +1,4 @@
-package br.com.start.meupet.common.services;
+package br.com.start.meupet.common.service;
 
 import br.com.start.meupet.auth.usecase.authenticable.CheckIfAuthenticableAlreadyExistsUseCase;
 import br.com.start.meupet.partner.model.Partner;

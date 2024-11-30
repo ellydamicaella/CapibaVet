@@ -1,6 +1,6 @@
 package br.com.start.meupet.common.security.jwt;
 
-import br.com.start.meupet.user.services.AuthenticableDetailsServiceImpl;
+import br.com.start.meupet.auth.service.AuthenticableDetailsServiceImpl;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

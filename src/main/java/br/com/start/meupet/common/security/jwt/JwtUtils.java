@@ -1,6 +1,5 @@
 package br.com.start.meupet.common.security.jwt;
 
-import java.sql.Array;
 import java.util.Date;
 
 import javax.crypto.SecretKey;
@@ -14,7 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
-import br.com.start.meupet.auth.services.AuthenticableDetailsImpl;
+import br.com.start.meupet.auth.service.AuthenticableDetailsImpl;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -60,7 +59,7 @@ public final class JwtUtils {
                 .claim("phoneNumber", user.getPhoneNumber().toString())
                 .claim("password", user.getPassword())
                 .claim("document", user.getPersonalRegistration().getDocument())
-                .claim("documentType", user.getPersonalRegistration().getType().toString())
+                .claim("documentType", user.getPersonalRegistration().getDocumentType().toString())
                 .claim("birthDate", BirthDayUtils.formatDateOfBirth(user.getDateOfBirth()))
                 .claim("typeUser", "USER")
                 .expiration(new Date(new Date().getTime() + this.jwtExpirationMs))
@@ -77,7 +76,7 @@ public final class JwtUtils {
                 .claim("phoneNumber", partnerRequest.getPhoneNumber().toString())
                 .claim("password", partnerRequest.getPassword())
                 .claim("document", partnerRequest.getPersonalRegistration().getDocument())
-                .claim("documentType", partnerRequest.getPersonalRegistration().getType().toString())
+                .claim("documentType", partnerRequest.getPersonalRegistration().getDocumentType().toString())
                 .claim("typeUser", "PARTNER")
                 .expiration(new Date(new Date().getTime() + this.jwtExpirationMs))
                 .signWith(getSigningKey(), Jwts.SIG.HS512)
