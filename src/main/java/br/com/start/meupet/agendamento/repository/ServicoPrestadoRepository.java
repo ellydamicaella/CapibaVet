@@ -1,4 +1,4 @@
-package br.com.start.meupet.agendamento.repositories;
+package br.com.start.meupet.agendamento.repository;
 
 import br.com.start.meupet.agendamento.model.ServicoPrestado;
 import org.springframework.data.jpa.repository.JpaRepository;
