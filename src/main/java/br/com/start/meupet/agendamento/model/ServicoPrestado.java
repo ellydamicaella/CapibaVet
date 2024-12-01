@@ -1,6 +1,7 @@
 package br.com.start.meupet.agendamento.model;
 
 import br.com.start.meupet.partner.model.Partner;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
@@ -35,5 +36,16 @@ public class ServicoPrestado {
 
     @ManyToOne
     @JoinColumn(name = "id_partner", referencedColumnName = "id")
+    @JsonIgnore
     private Partner partner;
+
+    public ServicoPrestado() {
+    }
+
+    public ServicoPrestado(String name, String description, BigDecimal price, Partner partner) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.partner = partner;
+    }
 }

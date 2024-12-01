@@ -63,7 +63,10 @@ public class WebSecurityConfig {
                                 "/user/upload-image/**",
                                 "/user/image/**",
                                 "/doc",
-                                "/password-recovery/**"
+                                "/password-recovery/**",
+                                "/agendamento/partner/**",
+                                "/agendamento/user/**",
+                                "/agendamento/atendimento/**"
                                     ).permitAll()
                         .requestMatchers("/agendamento/**").authenticated()
                         .anyRequest().authenticated());

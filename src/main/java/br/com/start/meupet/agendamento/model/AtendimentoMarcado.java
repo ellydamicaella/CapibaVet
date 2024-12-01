@@ -3,6 +3,7 @@ package br.com.start.meupet.agendamento.model;
 import br.com.start.meupet.agendamento.enums.AtendimentoStatus;
 import br.com.start.meupet.partner.model.Partner;
 import br.com.start.meupet.user.model.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,18 +23,22 @@ public class AtendimentoMarcado {
 
     @ManyToOne
     @JoinColumn(name = "id_partner", referencedColumnName = "id", nullable = false)
+    @JsonIgnore
     private Partner partner;
 
     @OneToOne
     @JoinColumn(name = "id_service", referencedColumnName = "id", nullable = false)
+    @JsonIgnore
     private ServicoPrestado servicoPrestado;
 
     @ManyToOne
     @JoinColumn(name = "id_user", referencedColumnName = "id", nullable = false)
+    @JsonIgnore
     private User user;
 
     @ManyToOne
     @JoinColumn(name = "id_animal", referencedColumnName = "id", nullable = false)
+    @JsonIgnore
     private Animal animal;
 
     private LocalDate appointmentDate;

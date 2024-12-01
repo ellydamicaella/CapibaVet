@@ -1,6 +1,7 @@
 package br.com.start.meupet.agendamento.model;
 
 import br.com.start.meupet.partner.model.Partner;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,6 +21,7 @@ public class Disponibilidade {
 
     @ManyToOne
     @JoinColumn(name = "id_partner", nullable = false)
+    @JsonIgnore
     private Partner partner;
 
     @Enumerated(EnumType.STRING)

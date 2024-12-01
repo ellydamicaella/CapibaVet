@@ -4,6 +4,7 @@ import br.com.start.meupet.agendamento.enums.AnimalPorte;
 import br.com.start.meupet.agendamento.enums.AnimalSexo;
 import br.com.start.meupet.agendamento.enums.AnimalType;
 import br.com.start.meupet.user.model.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -33,6 +34,7 @@ public class Animal {
 
     @ManyToOne
     @JoinColumn(name = "id_user", referencedColumnName = "id", nullable = false)
+    @JsonIgnore
     private User owner;
 
     @OneToMany(mappedBy = "animal", cascade = CascadeType.ALL, orphanRemoval = true)

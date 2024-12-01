@@ -1,10 +1,9 @@
 package br.com.start.meupet.auth.controller;
 
-import br.com.start.meupet.auth.dto.AuthenticableLoginHeaderInfosDTO;
+import br.com.start.meupet.auth.dto.AuthenticableDTO;
 import br.com.start.meupet.auth.dto.StatusResponseDTO;
-import br.com.start.meupet.auth.interfaces.AuthenticableResponseDTO;
 import br.com.start.meupet.auth.service.AuthenticableService;
-import br.com.start.meupet.user.dto.UserResponseDTO;
+import br.com.start.meupet.partner.dto.PartnerDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,20 +20,18 @@ public class AuthenticableController {
     }
 
     @GetMapping
-    public ResponseEntity<AuthenticableLoginHeaderInfosDTO> getUserByEmail(@RequestParam String email) {
-        AuthenticableResponseDTO response = authenticableService.findUserByEmail(email);
+    public ResponseEntity<AuthenticableDTO> getUserByEmail(@RequestParam String email) {
+        AuthenticableDTO response = authenticableService.findUserByEmail(email);
 
         if (response == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null); // Caso o usuário não seja encontrado
         }
 
-        // Com base no tipo do response, podemos criar a DTO correta
-        AuthenticableLoginHeaderInfosDTO dto = new AuthenticableLoginHeaderInfosDTO(
-                response.getName(),
-                response instanceof UserResponseDTO ? ((UserResponseDTO) response).getMoedaCapiba() : null
-        );
+        if(response instanceof PartnerDTO) {
+            response.setMoedaCapiba(null);
+        }
 
-        return ResponseEntity.ok(dto);
+        return ResponseEntity.ok().body(response);
     }
 
     @GetMapping(value = "/confirmAccount/{token}")

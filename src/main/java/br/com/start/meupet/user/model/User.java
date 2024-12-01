@@ -12,6 +12,7 @@ import br.com.start.meupet.auth.interfaces.Authenticable;
 import br.com.start.meupet.common.valueobjects.Email;
 import br.com.start.meupet.common.valueobjects.PersonalRegistration;
 import br.com.start.meupet.common.valueobjects.PhoneNumber;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -63,6 +64,7 @@ public class User implements Authenticable {
     private byte[] profileImage;
 
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<Animal> animals;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)

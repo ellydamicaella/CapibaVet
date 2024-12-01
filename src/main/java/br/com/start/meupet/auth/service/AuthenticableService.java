@@ -1,12 +1,15 @@
 package br.com.start.meupet.auth.service;
 
+import br.com.start.meupet.auth.dto.AuthenticableDTO;
 import br.com.start.meupet.auth.interfaces.Authenticable;
 import br.com.start.meupet.auth.interfaces.AuthenticableResponseDTO;
 import br.com.start.meupet.auth.usecase.authenticable.FindAuthenticableUseCase;
 import br.com.start.meupet.auth.usecase.authenticable.ProcessUserRegistrationUseCase;
 import br.com.start.meupet.common.valueobjects.Email;
+import br.com.start.meupet.partner.dto.PartnerDTO;
 import br.com.start.meupet.partner.dto.PartnerResponseDTO;
 import br.com.start.meupet.partner.model.Partner;
+import br.com.start.meupet.user.dto.UserDTO;
 import br.com.start.meupet.user.dto.UserResponseDTO;
 import br.com.start.meupet.user.model.User;
 import lombok.extern.slf4j.Slf4j;
@@ -67,14 +70,14 @@ public class AuthenticableService {
 //        return null;
 //    }
 
-    public AuthenticableResponseDTO findUserByEmail(String email) {
+    public AuthenticableDTO findUserByEmail(String email) {
         Optional<Authenticable> authenticable = findAuthenticableUseCase.byEmail(new Email(email));
         return authenticable
                 .map(auth -> {
                     if (auth instanceof Partner partner) {
-                        return new PartnerResponseDTO(partner);
+                        return new PartnerDTO(partner);
                     } else if (auth instanceof User user) {
-                        return new UserResponseDTO(user);
+                        return new UserDTO(user);
                     } else {
                         return null; // Caso não seja Partner nem User, pode lançar uma exceção ou lidar de outra forma
                     }

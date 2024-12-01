@@ -7,6 +7,8 @@ import br.com.start.meupet.auth.interfaces.Authenticable;
 import br.com.start.meupet.common.valueobjects.Email;
 import br.com.start.meupet.common.valueobjects.PersonalRegistration;
 import br.com.start.meupet.common.valueobjects.PhoneNumber;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -56,6 +58,9 @@ public class Partner implements Authenticable {
     @Column(name = "cidade")
     private String city;
 
+    @Column(name = "bairro")
+    private String neighborhood;
+
     @Column
     private String CEP;
 
@@ -69,9 +74,11 @@ public class Partner implements Authenticable {
     private byte[] profileImage;
 
     @OneToMany(mappedBy = "partner", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<ServicoPrestado> servicoPrestados;
 
     @OneToMany(mappedBy = "partner", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<Disponibilidade> disponibilidades;
 
     @OneToMany(mappedBy = "partner", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -118,4 +125,5 @@ public class Partner implements Authenticable {
         createdAt = LocalDateTime.now();
         updatedAt = LocalDateTime.now();
     }
+
 }

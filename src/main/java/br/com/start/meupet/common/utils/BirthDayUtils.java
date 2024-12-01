@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 @Slf4j
-public class BirthDayUtils {
+public final class BirthDayUtils {
 
     public static LocalDate convertToDate(String dateOfBirthStr) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");

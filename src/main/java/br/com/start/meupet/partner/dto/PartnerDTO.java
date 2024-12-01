@@ -1,6 +1,6 @@
 package br.com.start.meupet.partner.dto;
 
-import br.com.start.meupet.auth.interfaces.AuthenticableResponseDTO;
+import br.com.start.meupet.auth.dto.AuthenticableDTO;
 import br.com.start.meupet.partner.model.Partner;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,7 +13,7 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class PartnerResponseDTO extends AuthenticableResponseDTO {
+public class PartnerDTO extends AuthenticableDTO {
 
     private UUID id;
 
@@ -27,12 +27,25 @@ public class PartnerResponseDTO extends AuthenticableResponseDTO {
 
     private String phoneNumber;
 
-    public PartnerResponseDTO(Partner partner) {
+    private String street;
+
+    private String neighborhood;
+
+    private String city;
+
+    private String CEP;
+
+    public PartnerDTO(Partner partner) {
         this.id = partner.getId();
         this.name = partner.getName();
         this.email = partner.getEmail().toString();
         this.document = partner.getPersonalRegistration().getDocument();
         this.documentType = partner.getPersonalRegistration().getDocumentType().toString();
         this.phoneNumber = partner.getPhoneNumber().toString();
+        this.street = partner.getStreet();
+        this.neighborhood = partner.getNeighborhood();
+        this.city = partner.getCity();
+        this.CEP = partner.getCEP();
     }
+
 }

@@ -1,6 +1,6 @@
 package br.com.start.meupet.agendamento.service;
 
-import br.com.start.meupet.agendamento.dto.DisponibilidadeRequestDTO;
+import br.com.start.meupet.agendamento.dto.disponibilidade.DisponibilidadeRequestDTO;
 import br.com.start.meupet.agendamento.model.Disponibilidade;
 import br.com.start.meupet.agendamento.repository.DisponibilidadeRepository;
 import br.com.start.meupet.partner.model.Partner;
@@ -27,22 +27,22 @@ public class AgendamentoService {
         this.disponibilidadeRepository = disponibilidadeRepository;
     }
 
-    @Transactional
-    public List<Disponibilidade> saveDisponibilidades(UUID partnerId, DisponibilidadeRequestDTO disponibilidadesRequest) {
-        Partner partner = partnerRepository.findById(partnerId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Parceiro não encontrado"));
-
-        List<Disponibilidade> disponibilidades = disponibilidadesRequest.dias().stream()
-                .map(dia -> {
-                    Disponibilidade disponibilidade = new Disponibilidade();
-                    disponibilidade.setPartner(partner);
-                    disponibilidade.setDayOfWeek(DayOfWeek.valueOf(dia.toUpperCase())); // Certifique-se de que o dia está em formato válido
-                    disponibilidade.setStartTime(disponibilidadesRequest.horaDeInicio());
-                    disponibilidade.setEndTime(disponibilidadesRequest.horaDeFim());
-                    return disponibilidade;
-                })
-                .toList();
-
-        return disponibilidadeRepository.saveAll(disponibilidades);
-    }
+//    @Transactional
+//    public List<Disponibilidade> saveDisponibilidades(UUID partnerId, DisponibilidadeRequestDTO disponibilidadesRequest) {
+//        Partner partner = partnerRepository.findById(partnerId)
+//                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Parceiro não encontrado"));
+//
+//        List<Disponibilidade> disponibilidades = disponibilidadesRequest.dias().stream()
+//                .map(dia -> {
+//                    Disponibilidade disponibilidade = new Disponibilidade();
+//                    disponibilidade.setPartner(partner);
+//                    disponibilidade.setDayOfWeek(DayOfWeek.valueOf(dia.toUpperCase())); // Certifique-se de que o dia está em formato válido
+//                    disponibilidade.setStartTime(disponibilidadesRequest.horaDeInicio());
+//                    disponibilidade.setEndTime(disponibilidadesRequest.horaDeFim());
+//                    return disponibilidade;
+//                })
+//                .toList();
+//
+//        return disponibilidadeRepository.saveAll(disponibilidades);
+//    }
 }
