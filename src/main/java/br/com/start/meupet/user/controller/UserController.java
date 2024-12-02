@@ -6,6 +6,14 @@ import java.util.Optional;
 import java.util.UUID;
 
 import br.com.start.meupet.auth.dto.StatusResponseDTO;
+import br.com.start.meupet.common.enums.DocumentType;
+import br.com.start.meupet.common.exceptions.EntityNotFoundException;
+import br.com.start.meupet.common.utils.BirthDayUtils;
+import br.com.start.meupet.common.valueobjects.PersonalRegistration;
+import br.com.start.meupet.common.valueobjects.PhoneNumber;
+import br.com.start.meupet.partner.dto.PartnerDTO;
+import br.com.start.meupet.partner.model.Partner;
+import br.com.start.meupet.user.dto.UserUpdateDTO;
 import br.com.start.meupet.user.model.User;
 import br.com.start.meupet.user.repository.UserRepository;
 import br.com.start.meupet.user.facade.UserFacade;
@@ -15,19 +23,12 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.core.convert.ConversionService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import br.com.start.meupet.user.dto.UserRequestDTO;
 import br.com.start.meupet.user.dto.UserResponseDTO;
@@ -97,6 +98,33 @@ public class UserController {
         } catch (IOException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new StatusResponseDTO("error", "Erro ao enviar imagem"));
         }
+    }
+
+    @PatchMapping("/{userId}")
+    public ResponseEntity<Void> updateUser(@PathVariable UUID userId, @RequestBody UserUpdateDTO userRequest) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("Usuario não encontrado com ID: " + userId));
+
+
+        // Atualiza apenas os campos não nulos do DTO
+        if (userRequest.getName() != null) {
+            user.setName(userRequest.getName());
+        }
+        if (userRequest.getSocialName() != null) {
+            user.setName(userRequest.getSocialName());
+        }
+        if (userRequest.getDocument() != null) {
+            user.setPersonalRegistration(new PersonalRegistration(userRequest.getDocument(), DocumentType.valueOf(userRequest.getDocumentType().toUpperCase())));
+        }
+        if (userRequest.getPhoneNumber() != null) {
+            user.setPhoneNumber(new PhoneNumber(userRequest.getPhoneNumber()));
+        }
+        if (userRequest.getDateOfBirth() != null) {
+            user.setDateOfBirth(BirthDayUtils.convertToDate(userRequest.getDateOfBirth()));
+        }
+        userRepository.save(user); // Persistindo as alterações no banco
+        log.info("Requisicao PATCH: updateUser - {}", user);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/image")

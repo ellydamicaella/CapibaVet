@@ -11,11 +11,11 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Component
-public class GetPartnerAndAvailabilities {
+public class GetPartnerAndAvailabilitiesUseCase {
 
     private final PartnerRepository partnerRepository;
 
-    public GetPartnerAndAvailabilities(PartnerRepository partnerRepository) {
+    public GetPartnerAndAvailabilitiesUseCase(PartnerRepository partnerRepository) {
         this.partnerRepository = partnerRepository;
     }
 
