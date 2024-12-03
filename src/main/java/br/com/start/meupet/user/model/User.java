@@ -88,6 +88,26 @@ public class User implements Authenticable {
         this.dateOfBirth = dateOfBirth;
     }
 
+    public User(
+            UUID id,
+            String name,
+            String socialName,
+            Email email,
+            String password,
+            PhoneNumber phoneNumber,
+            PersonalRegistration personalRegistration,
+            LocalDate dateOfBirth
+    ) {
+        this.id = id;
+        this.name = name;
+        this.socialName = socialName;
+        this.email = email;
+        this.password = password;
+        this.phoneNumber = phoneNumber;
+        this.personalRegistration = personalRegistration;
+        this.dateOfBirth = dateOfBirth;
+    }
+
     @PrePersist
     protected void onCreate() {
         createdAt = LocalDateTime.now();
