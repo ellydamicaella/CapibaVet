@@ -17,16 +17,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.times;
 
@@ -73,7 +68,7 @@ public class FindUserByIdUseCaseTest {
                 () -> findUserByIdUseCase.execute(uuid)
         );
 
-        Assertions.assertEquals("Entity not found", exception.getMessage());
+        Assertions.assertEquals("Not found", exception.getMessage());
         verify(userRepository, times(1)).findById(uuid);
     }
 

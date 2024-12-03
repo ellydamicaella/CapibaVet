@@ -1,11 +1,10 @@
 package br.com.start.meupet.auth.usecase.authenticable;
 
-import br.com.start.meupet.common.exceptions.ProblemDetailsException;
+import br.com.start.meupet.common.exceptions.EntityConflictException;
 import br.com.start.meupet.auth.interfaces.Authenticable;
 import br.com.start.meupet.common.valueobjects.Email;
 import br.com.start.meupet.partner.repository.PartnerRepository;
 import br.com.start.meupet.user.repository.UserRepository;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
@@ -37,8 +36,7 @@ public class CheckIfAuthenticableAlreadyExistsUseCase {
 
         if (alreadyHaveEmail.isPresent()) {
             if(alreadyHaveEmail.get().getId() != authenticable.getId()) {
-                throw new ProblemDetailsException("Já existe um usuário com este e-mail",
-                        "Já existe um usuário com este e-mail", HttpStatus.CONFLICT);
+                throw new EntityConflictException("User already exists");
             }
         }
 

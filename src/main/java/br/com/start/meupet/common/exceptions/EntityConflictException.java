@@ -4,16 +4,15 @@ import org.springframework.http.HttpStatus;
 
 import java.io.Serial;
 
-public class EntityNotFoundException extends ProblemDetailsException {
-
+public class EntityConflictException extends ProblemDetailsException {
     /**
      *
      */
     @Serial
     private static final long serialVersionUID = 1L;
 
-    public EntityNotFoundException(String detail) {
-        super("Not found", detail, HttpStatus.NOT_FOUND);
+    public EntityConflictException(String detail) {
+        super("Conflict", detail, HttpStatus.CONFLICT);
     }
 
 }
