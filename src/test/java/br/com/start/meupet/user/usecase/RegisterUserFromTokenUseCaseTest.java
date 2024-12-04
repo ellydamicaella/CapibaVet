@@ -7,20 +7,20 @@ import br.com.start.meupet.user.model.User;
 import br.com.start.meupet.user.repository.UserRepository;
 import io.jsonwebtoken.Claims;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
+@ExtendWith(MockitoExtension.class)
 public class RegisterUserFromTokenUseCaseTest {
 
     @Mock
@@ -31,11 +31,6 @@ public class RegisterUserFromTokenUseCaseTest {
 
     @InjectMocks
     private RegisterUserFromTokenUseCase registerUserFromTokenUseCase;
-
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
-    }
 
     @Test
     @DisplayName("Deve registrar o usuário com sucesso")
