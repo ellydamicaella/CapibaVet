@@ -1,10 +1,7 @@
 package br.com.start.meupet.partner.controller;
 
-import br.com.start.meupet.common.enums.DocumentType;
 import br.com.start.meupet.common.exceptions.EntityNotFoundException;
-import br.com.start.meupet.common.valueobjects.PersonalRegistration;
 import br.com.start.meupet.common.valueobjects.PhoneNumber;
-import br.com.start.meupet.partner.dto.PartnerDTO;
 import br.com.start.meupet.partner.dto.PartnerRequestDTO;
 import br.com.start.meupet.partner.dto.PartnerResponseDTO;
 import br.com.start.meupet.partner.dto.PartnerUpdateDTO;
@@ -80,23 +77,14 @@ public class PartnerController {
         if (partnerRequest.getName() != null) {
             partner.setName(partnerRequest.getName());
         }
-        if (partnerRequest.getDocument() != null) {
-            partner.setPersonalRegistration(new PersonalRegistration(partnerRequest.getDocument(), DocumentType.valueOf(partnerRequest.getDocumentType().toUpperCase())));
-        }
         if (partnerRequest.getPhoneNumber() != null) {
             partner.setPhoneNumber(new PhoneNumber(partnerRequest.getPhoneNumber()));
         }
-        if (partnerRequest.getStreet() != null) {
-            partner.setStreet(partnerRequest.getStreet());
+        if (partnerRequest.getStreetAnNumber() != null) {
+            partner.setStreetAndNumber(partnerRequest.getStreetAnNumber());
         }
         if (partnerRequest.getNeighborhood() != null) {
             partner.setNeighborhood(partnerRequest.getNeighborhood());
-        }
-        if (partnerRequest.getCity() != null) {
-            partner.setCity(partnerRequest.getCity());
-        }
-        if (partnerRequest.getCEP() != null) {
-            partner.setCEP(partnerRequest.getCEP());
         }
 
         partnerRepository.save(partner); // Persistindo as alterações no banco

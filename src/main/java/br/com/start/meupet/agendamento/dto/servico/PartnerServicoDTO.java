@@ -1,6 +1,5 @@
 package br.com.start.meupet.agendamento.dto.servico;
 
-import br.com.start.meupet.agendamento.model.ServicoPrestado;
 import br.com.start.meupet.partner.model.Partner;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -32,6 +31,6 @@ public class PartnerServicoDTO {
         this.email = partner.getEmail().toString();
         this.phoneNumber = partner.getPhoneNumber().toString();
         this.servicoPrestados = partner.getServicoPrestados().stream()
-                .map(ServicoPrestado::getName).collect(Collectors.toList());
+                .map(Object::toString).collect(Collectors.toList());
     }
 }

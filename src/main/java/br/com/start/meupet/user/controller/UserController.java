@@ -1,39 +1,32 @@
 package br.com.start.meupet.user.controller;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
-
 import br.com.start.meupet.auth.dto.StatusResponseDTO;
-import br.com.start.meupet.common.enums.DocumentType;
 import br.com.start.meupet.common.exceptions.EntityNotFoundException;
 import br.com.start.meupet.common.utils.BirthDayUtils;
-import br.com.start.meupet.common.valueobjects.PersonalRegistration;
 import br.com.start.meupet.common.valueobjects.PhoneNumber;
-import br.com.start.meupet.partner.dto.PartnerDTO;
-import br.com.start.meupet.partner.model.Partner;
+import br.com.start.meupet.user.dto.UserRequestDTO;
+import br.com.start.meupet.user.dto.UserResponseDTO;
 import br.com.start.meupet.user.dto.UserUpdateDTO;
+import br.com.start.meupet.user.facade.UserFacade;
 import br.com.start.meupet.user.model.User;
 import br.com.start.meupet.user.repository.UserRepository;
-import br.com.start.meupet.user.facade.UserFacade;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.core.convert.ConversionService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import br.com.start.meupet.user.dto.UserRequestDTO;
-import br.com.start.meupet.user.dto.UserResponseDTO;
-import jakarta.validation.Valid;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping(value = "/user")
@@ -112,9 +105,6 @@ public class UserController {
         }
         if (userRequest.getSocialName() != null) {
             user.setSocialName(userRequest.getSocialName());
-        }
-        if (userRequest.getDocument() != null) {
-            user.setPersonalRegistration(new PersonalRegistration(userRequest.getDocument(), DocumentType.valueOf(userRequest.getDocumentType().toUpperCase())));
         }
         if (userRequest.getPhoneNumber() != null) {
             user.setPhoneNumber(new PhoneNumber(userRequest.getPhoneNumber()));

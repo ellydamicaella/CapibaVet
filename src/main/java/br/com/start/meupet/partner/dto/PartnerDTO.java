@@ -27,13 +27,10 @@ public class PartnerDTO extends AuthenticableDTO {
 
     private String phoneNumber;
 
-    private String street;
+    private String streetAndNumber;
 
     private String neighborhood;
 
-    private String city;
-
-    private String CEP;
 
     public PartnerDTO(Partner partner) {
         this.id = partner.getId();
@@ -42,10 +39,8 @@ public class PartnerDTO extends AuthenticableDTO {
         this.document = partner.getPersonalRegistration().getDocument();
         this.documentType = partner.getPersonalRegistration().getDocumentType().toString();
         this.phoneNumber = partner.getPhoneNumber().toString();
-        this.street = partner.getStreet();
+        this.streetAndNumber = partner.getStreetAndNumber();
         this.neighborhood = partner.getNeighborhood();
-        this.city = partner.getCity();
-        this.CEP = partner.getCEP();
     }
 
 }

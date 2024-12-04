@@ -7,7 +7,6 @@ import br.com.start.meupet.auth.interfaces.Authenticable;
 import br.com.start.meupet.common.valueobjects.Email;
 import br.com.start.meupet.common.valueobjects.PersonalRegistration;
 import br.com.start.meupet.common.valueobjects.PhoneNumber;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -49,20 +48,11 @@ public class Partner implements Authenticable {
 
     private PersonalRegistration personalRegistration;
 
-    @Column(name = "rua")
-    private String street;
-
-    @Column(name = "numeroResidencial")
-    private String houseNumber;
-
-    @Column(name = "cidade")
-    private String city;
+    @Column(name = "rua_e_complemento")
+    private String streetAndNumber;
 
     @Column(name = "bairro")
     private String neighborhood;
-
-    @Column
-    private String CEP;
 
     @Column(precision = 9, scale = 6)
     private BigDecimal latitude;

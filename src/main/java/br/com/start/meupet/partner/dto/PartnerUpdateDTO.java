@@ -8,11 +8,7 @@ import lombok.Setter;
 @Setter
 public class PartnerUpdateDTO {
     private String name;
-    private String document;
-    private String documentType;
     private String phoneNumber;
-    private String street;
+    private String streetAnNumber;
     private String neighborhood;
-    private String city;
-    private String CEP;
 }
