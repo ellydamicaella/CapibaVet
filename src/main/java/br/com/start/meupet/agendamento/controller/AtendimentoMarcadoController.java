@@ -61,7 +61,7 @@ public class AtendimentoMarcadoController {
 
     @GetMapping("/user/{userId}")
     public ResponseEntity<List<AtendimentoMarcadoDTO>> listaAtendimentoMarcado(@PathVariable UUID userId) {
-        User user = userRepository.findById(userId).orElseThrow(EntityNotFoundException::new);
+        User user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("User not found"));
 
         // Busca os atendimentos marcados associados ao usuário
         List<AtendimentoMarcado> atendimentosMarcados = atendimentoMarcadoRepository.findByUser(user);

@@ -83,3 +83,4 @@ public class FindPartnerByIdUseCaseTest {
 
         return List.of(partner1, partner2);
     }
+}
