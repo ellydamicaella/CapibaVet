@@ -25,7 +25,7 @@ public final class PartnerMapper {
 
     public static Partner partnerBeforeToNewPartner(Partner oldPartner, Partner newPartner) {
         Partner partner = new Partner(
-                oldPartner.getName(),
+                newPartner.getName(),
                 newPartner.getEmail(),
                 newPartner.getPassword(),
                 newPartner.getPhoneNumber(),

@@ -1,7 +1,6 @@
 package br.com.start.meupet.partner.usecase;
 
 import br.com.start.meupet.common.enums.DocumentType;
-import br.com.start.meupet.common.exceptions.EntityNotFoundException;
 import br.com.start.meupet.common.valueobjects.Email;
 import br.com.start.meupet.common.valueobjects.PersonalRegistration;
 import br.com.start.meupet.common.valueobjects.PhoneNumber;
@@ -15,50 +14,64 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class FindPartnerByIdUseCaseTest {
+public class ListPartnersUseCaseTest {
 
     @Mock
     private PartnerRepository partnerRepository;
 
     @InjectMocks
-    private FindPartnerByIdUseCase findPartnerByIdUseCase;
+    private ListPartnersUseCase listPartnersUseCase;
 
     @Test
-    @DisplayName("Should find user successfully")
-    void listUsersCase1() {
-        List<Partner> partners = createPartners();
+    @DisplayName("Should list partners successfully")
+    void listPartnersCase1() {
+        // Arrange
+        int page = 0;
+        int pageSize = 2;
 
-        when(partnerRepository.findById(partners.getFirst().getId())).thenReturn(Optional.ofNullable(partners.getFirst()));
+        List<Partner> users = createPartners();
+        Page<Partner> userPage = new PageImpl<>(users, PageRequest.of(page, pageSize), users.size());
 
-        PartnerResponseDTO result = findPartnerByIdUseCase.execute(partners.getFirst().getId());
+        when(partnerRepository.findAll(any(Pageable.class))).thenReturn(userPage);
 
-        Assertions.assertEquals(partners.getFirst().getName(), result.getName());
+        // Act
+        List<PartnerResponseDTO> result = listPartnersUseCase.execute(page, pageSize);
 
-        verify(partnerRepository, times(1)).findById(partners.getFirst().getId());
+        // Assert
+        Assertions.assertEquals(2, result.size());
+        Assertions.assertEquals("Partner1", result.get(0).getName());
+        Assertions.assertEquals("Partner2", result.get(1).getName());
+
+        verify(partnerRepository, times(1)).findAll(any(Pageable.class));
     }
 
     @Test
     @DisplayName("Should empty list successfully")
     void listUsersCase2() {
-        UUID uuid = UUID.randomUUID();
+        int page = 0;
+        int pageSize = 2;
 
-        when(partnerRepository.findById(uuid)).thenReturn(Optional.empty());
+        List<Partner> partners = List.of();
+        Page<Partner> partnerPage = new PageImpl<>(partners, PageRequest.of(page, pageSize), 0);
 
-        EntityNotFoundException exception = Assertions.assertThrows(
-                EntityNotFoundException.class,
-                () -> findPartnerByIdUseCase.execute(uuid)
-        );
+        when(partnerRepository.findAll(any(Pageable.class))).thenReturn(partnerPage);
 
-        Assertions.assertEquals("Not found", exception.getMessage());
-        verify(partnerRepository, times(1)).findById(uuid);
+        List<PartnerResponseDTO> result = listPartnersUseCase.execute(page, pageSize);
+
+        Assertions.assertEquals(0, result.size());
+        verify(partnerRepository, times(1)).findAll(any(Pageable.class));
     }
 
     List<Partner> createPartners() {
@@ -83,3 +96,4 @@ public class FindPartnerByIdUseCaseTest {
 
         return List.of(partner1, partner2);
     }
+}

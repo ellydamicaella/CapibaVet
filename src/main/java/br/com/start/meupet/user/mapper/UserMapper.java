@@ -2,7 +2,6 @@ package br.com.start.meupet.user.mapper;
 
 import java.time.LocalDateTime;
 
-import br.com.start.meupet.common.enums.DocumentType;
 import br.com.start.meupet.common.utils.BirthDayUtils;
 import br.com.start.meupet.common.valueobjects.PersonalRegistration;
 import br.com.start.meupet.user.model.User;

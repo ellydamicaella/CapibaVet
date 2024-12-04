@@ -24,7 +24,7 @@ public class DeletePartnerUseCaseTest {
     private DeletePartnerUseCase deletePartnerUseCase;
 
     @Test
-    void shouldDeleteUserSuccessfully() {
+    void shouldDeletePartnerSuccessfully() {
         UUID partnerId = UUID.randomUUID();
         Partner partner = new Partner();
         partner.setId(partnerId);
@@ -40,7 +40,7 @@ public class DeletePartnerUseCaseTest {
     }
 
     @Test
-    void shouldThrowExceptionWhenUserNotFound() {
+    void shouldThrowExceptionWhenPartnerNotFound() {
         UUID partnerId = UUID.randomUUID();
 
         Mockito.when(partnerRepository.findById(partnerId)).thenReturn(Optional.empty());

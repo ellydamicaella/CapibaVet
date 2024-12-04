@@ -1,6 +1,6 @@
 package br.com.start.meupet.user.dto;
 
-import br.com.start.meupet.auth.interfaces.AuthenticableResponseDTO;
+import br.com.start.meupet.auth.interfaces.AbstractAuthenticableResponseDTO;
 import br.com.start.meupet.user.model.User;
 import lombok.*;
 
@@ -11,7 +11,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @ToString
-public class UserResponseDTO extends AuthenticableResponseDTO {
+public class UserResponseDTO extends AbstractAuthenticableResponseDTO {
 
     private UUID id;
     private String name;
