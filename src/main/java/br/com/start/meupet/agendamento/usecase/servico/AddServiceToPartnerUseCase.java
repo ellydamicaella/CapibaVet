@@ -1,6 +1,7 @@
 package br.com.start.meupet.agendamento.usecase.servico;
 
 import br.com.start.meupet.agendamento.dto.servico.ServicoPrestadoRequestDTO;
+import br.com.start.meupet.agendamento.enums.ServicoType;
 import br.com.start.meupet.agendamento.model.ServicoPrestado;
 import br.com.start.meupet.agendamento.repository.ServicoPrestadoRepository;
 import br.com.start.meupet.common.exceptions.ProblemDetailsException;
@@ -27,8 +28,7 @@ public class AddServiceToPartnerUseCase {
         Optional<Partner> partner = partnerRepository.findById(partnerId);
         ServicoPrestado servico = new ServicoPrestado();
         if(partner.isPresent()) {
-            servico.setName(servicoPrestado.name());
-            servico.setDescription(servicoPrestado.description());
+            servico.setName(ServicoType.valueOf(servicoPrestado.name().toUpperCase()));
             servico.setPrice(servicoPrestado.price());
             servico.setPartner(partner.get());
             servicoPrestadoRepository.save(servico);

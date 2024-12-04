@@ -16,6 +16,6 @@ public class ServicoAtendimentoDTO {
 
     public ServicoAtendimentoDTO(ServicoPrestado servicoPrestado) {
         this.id = servicoPrestado.getId();
-        this.name = servicoPrestado.getName();
+        this.name = servicoPrestado.getName().getServicoType();
     }
 }

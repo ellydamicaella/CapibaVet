@@ -29,7 +29,7 @@ public final class JwtUtils {
 
     private final String jwtSecret = "eyJhbGciOiJIUzUxMiJ9eyJSb2xlIjoiQWRtaW4iLCJJc3N1ZXIiOiJJc3N1ZXIiLCJVc2VybmFtZSI6IkphdmFJblVzZSIsImV4cCI6MTczMDQ5Njc4OCwiaWF0IjoxNzMwNDk2Nzg4fQPihcxN4AJlFW8EFPaSQGLL1r3ltbZBv0nOI1BqflmIU98sFMfqc0Sy9iyVHphSEuHVhwciw97OcKApEg";
 
-    private final int jwtExpirationMs = 600000;
+    private final int jwtExpirationMs = 6000000;
 
 
     public String generateTokenFromAuthenticableDetailsImpl(

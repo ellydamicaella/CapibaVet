@@ -1,6 +1,7 @@
 package br.com.start.meupet.agendamento.usecase.servico;
 
 import br.com.start.meupet.agendamento.dto.servico.ServicoPrestadoRequestDTO;
+import br.com.start.meupet.agendamento.enums.ServicoType;
 import br.com.start.meupet.agendamento.model.ServicoPrestado;
 import br.com.start.meupet.agendamento.repository.ServicoPrestadoRepository;
 import br.com.start.meupet.common.exceptions.ProblemDetailsException;
@@ -42,8 +43,7 @@ public class UpdateServiceUseCase {
             throw new ProblemDetailsException("Servico nao encontrado", "Servico nao existe", HttpStatus.NOT_FOUND);
         }
 
-        servico.setName(servicoPrestadoDTO.name());
-        servico.setDescription(servicoPrestadoDTO.description());
+        servico.setName(ServicoType.valueOf(servicoPrestadoDTO.name().toUpperCase()));
         servico.setPrice(servicoPrestadoDTO.price());
 
         servicoPrestadoRepository.save(servico);

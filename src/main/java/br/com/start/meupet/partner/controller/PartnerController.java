@@ -1,8 +1,13 @@
 package br.com.start.meupet.partner.controller;
 
+import br.com.start.meupet.common.exceptions.EntityNotFoundException;
+import br.com.start.meupet.common.valueobjects.PhoneNumber;
 import br.com.start.meupet.partner.dto.PartnerRequestDTO;
 import br.com.start.meupet.partner.dto.PartnerResponseDTO;
+import br.com.start.meupet.partner.dto.PartnerUpdateDTO;
 import br.com.start.meupet.partner.facade.PartnerFacade;
+import br.com.start.meupet.partner.model.Partner;
+import br.com.start.meupet.partner.repository.PartnerRepository;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,9 +26,11 @@ public class PartnerController {
     private static final Logger log = LoggerFactory.getLogger(PartnerController.class);
 
     private final PartnerFacade partnerFacade;
+    private final PartnerRepository partnerRepository;
 
-    public PartnerController(PartnerFacade partnerFacade) {
+    public PartnerController(PartnerFacade partnerFacade, PartnerRepository partnerRepository) {
         this.partnerFacade = partnerFacade;
+        this.partnerRepository = partnerRepository;
     }
 
     @GetMapping
@@ -59,6 +66,29 @@ public class PartnerController {
         PartnerResponseDTO partnerResponse = partnerFacade.insert(partnerRequest);
         log.info("Requisicao POST: inserindo um novo parceiro - {}", partnerRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(partnerResponse);
+    }
+
+    @PatchMapping("/{partnerId}")
+    public ResponseEntity<Void> updatePartner(@PathVariable UUID partnerId, @RequestBody PartnerUpdateDTO partnerRequest) {
+        Partner partner = partnerRepository.findById(partnerId)
+                .orElseThrow(() -> new EntityNotFoundException("Parceiro não encontrado com ID: " + partnerId));
+
+        // Atualiza apenas os campos não nulos do DTO
+        if (partnerRequest.getName() != null) {
+            partner.setName(partnerRequest.getName());
+        }
+        if (partnerRequest.getPhoneNumber() != null) {
+            partner.setPhoneNumber(new PhoneNumber(partnerRequest.getPhoneNumber()));
+        }
+        if (partnerRequest.getStreetAnNumber() != null) {
+            partner.setStreetAndNumber(partnerRequest.getStreetAnNumber());
+        }
+        if (partnerRequest.getNeighborhood() != null) {
+            partner.setNeighborhood(partnerRequest.getNeighborhood());
+        }
+
+        partnerRepository.save(partner); // Persistindo as alterações no banco
+        return ResponseEntity.ok().build();
     }
 
     @PutMapping

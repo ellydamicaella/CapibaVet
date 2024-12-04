@@ -59,6 +59,26 @@ public class AtendimentoMarcadoController {
         return ResponseEntity.ok().body(atendimentoMarcadoDTO);
     }
 
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<AtendimentoMarcadoDTO>> listaAtendimentoMarcado(@PathVariable UUID userId) {
+        User user = userRepository.findById(userId).orElseThrow(EntityNotFoundException::new);
+
+        // Busca os atendimentos marcados associados ao usuário
+        List<AtendimentoMarcado> atendimentosMarcados = atendimentoMarcadoRepository.findByUser(user);
+
+        // Converte os atendimentos marcados para DTOs
+        List<AtendimentoMarcadoDTO> atendimentosDTO = atendimentosMarcados.stream()
+                .map(atendimento -> new AtendimentoMarcadoDTO(
+                        atendimento,
+                        atendimento.getPartner(),
+                        atendimento.getUser(),
+                        atendimento.getServicoPrestado(),
+                        atendimento.getAnimal()
+                ))
+                .toList();
+        return ResponseEntity.ok().body(atendimentosDTO);
+    }
+
     @PostMapping
     public ResponseEntity<StatusResponseDTO> adicionaAtendimentoMarcado(@RequestBody AtendimentoMarcadoRequestDTO request) {
         try {

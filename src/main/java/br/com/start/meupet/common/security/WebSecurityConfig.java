@@ -66,7 +66,9 @@ public class WebSecurityConfig {
                                 "/password-recovery/**",
                                 "/agendamento/partner/**",
                                 "/agendamento/user/**",
-                                "/agendamento/atendimento/**"
+                                "/agendamento/atendimento/**",
+                                "/agendamento/atendimento/user/**",
+                                "/authenticable/changePassword/**"
                                     ).permitAll()
                         .requestMatchers("/agendamento/**").authenticated()
                         .anyRequest().authenticated());

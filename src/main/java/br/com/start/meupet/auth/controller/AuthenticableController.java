@@ -1,12 +1,15 @@
 package br.com.start.meupet.auth.controller;
 
 import br.com.start.meupet.auth.dto.AuthenticableDTO;
+import br.com.start.meupet.auth.dto.PasswordResetDTO;
 import br.com.start.meupet.auth.dto.StatusResponseDTO;
 import br.com.start.meupet.auth.service.AuthenticableService;
 import br.com.start.meupet.partner.dto.PartnerDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @RestController
 @RequestMapping(value = "/authenticable")
@@ -37,6 +40,13 @@ public class AuthenticableController {
     @GetMapping(value = "/confirmAccount/{token}")
     public String generateTemplateToConfirmAccount(@PathVariable String token){
         return authenticableService.generateTemplateToConfirmAccount(token);
+    }
+
+    @PatchMapping("/changePassword")
+    public ResponseEntity<StatusResponseDTO> changePassword(@RequestParam UUID id, PasswordResetDTO newPassword) {
+        AuthenticableDTO response = authenticableService.findUserById(id);
+        String message = authenticableService.changePassword(response, id, newPassword.password());
+        return ResponseEntity.ok().body(new StatusResponseDTO("success", message));
     }
 
     @PostMapping(value = "/createAccount/{token}")

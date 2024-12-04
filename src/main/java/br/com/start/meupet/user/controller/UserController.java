@@ -1,38 +1,32 @@
 package br.com.start.meupet.user.controller;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
-
 import br.com.start.meupet.auth.dto.StatusResponseDTO;
+import br.com.start.meupet.common.exceptions.EntityNotFoundException;
+import br.com.start.meupet.common.utils.BirthDayUtils;
+import br.com.start.meupet.common.valueobjects.PhoneNumber;
+import br.com.start.meupet.user.dto.UserRequestDTO;
+import br.com.start.meupet.user.dto.UserResponseDTO;
+import br.com.start.meupet.user.dto.UserUpdateDTO;
+import br.com.start.meupet.user.facade.UserFacade;
 import br.com.start.meupet.user.model.User;
 import br.com.start.meupet.user.repository.UserRepository;
-import br.com.start.meupet.user.facade.UserFacade;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import br.com.start.meupet.user.dto.UserRequestDTO;
-import br.com.start.meupet.user.dto.UserResponseDTO;
-import jakarta.validation.Valid;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping(value = "/user")
@@ -97,6 +91,30 @@ public class UserController {
         } catch (IOException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new StatusResponseDTO("error", "Erro ao enviar imagem"));
         }
+    }
+
+    @PatchMapping("/{userId}")
+    public ResponseEntity<Void> updateUser(@PathVariable UUID userId, @RequestBody UserUpdateDTO userRequest) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("Usuario não encontrado com ID: " + userId));
+
+
+        // Atualiza apenas os campos não nulos do DTO
+        if (userRequest.getName() != null) {
+            user.setName(userRequest.getName());
+        }
+        if (userRequest.getSocialName() != null) {
+            user.setSocialName(userRequest.getSocialName());
+        }
+        if (userRequest.getPhoneNumber() != null) {
+            user.setPhoneNumber(new PhoneNumber(userRequest.getPhoneNumber()));
+        }
+        if (userRequest.getDateOfBirth() != null) {
+            user.setDateOfBirth(BirthDayUtils.convertToDate(userRequest.getDateOfBirth()));
+        }
+        userRepository.save(user); // Persistindo as alterações no banco
+        log.info("Requisicao PATCH: updateUser - {}", user);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/image")

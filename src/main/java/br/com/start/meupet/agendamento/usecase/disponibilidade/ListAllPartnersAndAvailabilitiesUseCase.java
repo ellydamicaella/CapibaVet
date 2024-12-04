@@ -9,11 +9,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class ListAllPartnersAndAvailabilities {
+public class ListAllPartnersAndAvailabilitiesUseCase {
 
     private final PartnerRepository partnerRepository;
 
-    public ListAllPartnersAndAvailabilities(PartnerRepository partnerRepository) {
+    public ListAllPartnersAndAvailabilitiesUseCase(PartnerRepository partnerRepository) {
         this.partnerRepository = partnerRepository;
     }
 

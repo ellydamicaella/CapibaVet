@@ -6,16 +6,12 @@ import br.com.start.meupet.agendamento.facade.DisponibilidadeFacade;
 import br.com.start.meupet.agendamento.model.Disponibilidade;
 import br.com.start.meupet.agendamento.repository.DisponibilidadeRepository;
 import br.com.start.meupet.auth.dto.StatusResponseDTO;
-import br.com.start.meupet.common.utils.DateTimeUtils;
 import br.com.start.meupet.partner.model.Partner;
 import br.com.start.meupet.partner.repository.PartnerRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.DayOfWeek;
-import java.time.LocalTime;
-import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -47,49 +43,7 @@ public class DisponibilidadeController {
 
     @PostMapping("/{partnerId}")
     public ResponseEntity<StatusResponseDTO> adicionaDisponibilidadeAoParceiro(@PathVariable UUID partnerId, @RequestBody DisponibilidadeRequestDTO disponibilidadeRequest) {
-        Optional<Partner> partner = partnerRepository.findById(partnerId);
-
-        if(partner.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new StatusResponseDTO("error", "Parceiro nao encontrado"));
-        }
-
-        List<DayOfWeek> dias = disponibilidadeRequest.dias();
-        LocalTime startTime;
-        LocalTime endTime;
-
-        try {
-            startTime = DateTimeUtils.convertToDateTime(disponibilidadeRequest.horaDeInicio());
-            endTime = DateTimeUtils.convertToDateTime(disponibilidadeRequest.horaDeFim());
-            if (endTime.isBefore(startTime)) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                        .body(new StatusResponseDTO("error", "Horário de fim não pode ser antes do horário de início"));
-            }
-        } catch (DateTimeParseException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(new StatusResponseDTO("error", "Formato de horário inválido. Use HH:mm"));
-        }
-
-        // Verificar conflitos de uma vez
-        List<DayOfWeek> conflictingDays = disponibilidadeRepository.findConflictingDays(
-                partnerId, disponibilidadeRequest.dias(), startTime, endTime);
-
-        if (!conflictingDays.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.CONFLICT)
-                    .body(new StatusResponseDTO("error",
-                            String.format("Conflitos detectados nos dias: %s", conflictingDays)));
-        }
-
-        List<Disponibilidade> disponibilidades = disponibilidadeRequest.dias().stream().map(dia -> {
-            Disponibilidade disponibilidade = new Disponibilidade();
-            disponibilidade.setPartner(partner.get());
-            disponibilidade.setDayOfWeek(dia);
-            disponibilidade.setStartTime(LocalTime.parse(disponibilidadeRequest.horaDeInicio()));
-            disponibilidade.setEndTime(DateTimeUtils.convertToDateTime(disponibilidadeRequest.horaDeFim()));
-            return disponibilidade;
-        }).toList();
-
-        disponibilidadeRepository.saveAll(disponibilidades);
-
+        disponibilidadeFacade.adicionaDisponibilidadeAoParceiro(partnerId, disponibilidadeRequest);
         return ResponseEntity.ok().body(new StatusResponseDTO("success", "Disponibilidade adicionado ao parceiro com sucesso!"));
     }
 
