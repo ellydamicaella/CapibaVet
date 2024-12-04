@@ -16,21 +16,18 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.times;
 
 public class FindUserByIdUseCaseTest {
 
     @Mock
     private UserRepository userRepository;
 
-    @Autowired
     @InjectMocks
     private FindUserByIdUseCase findUserByIdUseCase;
 

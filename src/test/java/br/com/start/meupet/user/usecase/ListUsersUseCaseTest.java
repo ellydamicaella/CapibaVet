@@ -5,9 +5,7 @@ import br.com.start.meupet.common.utils.BirthDayUtils;
 import br.com.start.meupet.common.valueobjects.Email;
 import br.com.start.meupet.common.valueobjects.PersonalRegistration;
 import br.com.start.meupet.common.valueobjects.PhoneNumber;
-import br.com.start.meupet.user.dto.UserRequestDTO;
 import br.com.start.meupet.user.dto.UserResponseDTO;
-import br.com.start.meupet.user.mapper.UserMapper;
 import br.com.start.meupet.user.model.User;
 import br.com.start.meupet.user.repository.UserRepository;
 import org.junit.jupiter.api.Assertions;
@@ -17,7 +15,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -34,7 +31,6 @@ public class ListUsersUseCaseTest {
     @Mock
     private UserRepository userRepository;
 
-    @Autowired
     @InjectMocks
     private ListUsersUseCase listUsersUseCase;
 
