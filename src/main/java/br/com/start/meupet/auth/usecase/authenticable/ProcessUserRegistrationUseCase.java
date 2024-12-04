@@ -1,6 +1,6 @@
 package br.com.start.meupet.auth.usecase.authenticable;
 
-import br.com.start.meupet.auth.interfaces.AuthenticableResponseDTO;
+import br.com.start.meupet.auth.interfaces.AbstractAuthenticableResponseDTO;
 import br.com.start.meupet.common.security.jwt.JwtUtils;
 import br.com.start.meupet.partner.mapper.PartnerMapper;
 import br.com.start.meupet.partner.model.Partner;
@@ -26,7 +26,7 @@ public class ProcessUserRegistrationUseCase {
     }
 
     @Transactional
-    public AuthenticableResponseDTO execute(String token) {
+    public AbstractAuthenticableResponseDTO execute(String token) {
         Claims parsedToken = jwtUtils.getParsedToken(token);
         String typeUser = parsedToken.get("typeUser", String.class);
 

@@ -13,7 +13,7 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class PartnerResponseDTOAbstract extends AbstractAuthenticableResponseDTO {
+public class PartnerResponseDTO extends AbstractAuthenticableResponseDTO {
 
     private UUID id;
 
@@ -27,7 +27,7 @@ public class PartnerResponseDTOAbstract extends AbstractAuthenticableResponseDTO
 
     private String phoneNumber;
 
-    public PartnerResponseDTOAbstract(Partner partner) {
+    public PartnerResponseDTO(Partner partner) {
         this.id = partner.getId();
         this.name = partner.getName();
         this.email = partner.getEmail().toString();

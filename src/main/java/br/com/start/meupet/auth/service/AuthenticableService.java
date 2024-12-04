@@ -2,15 +2,12 @@ package br.com.start.meupet.auth.service;
 
 import br.com.start.meupet.auth.dto.AuthenticableDTO;
 import br.com.start.meupet.auth.interfaces.Authenticable;
-import br.com.start.meupet.auth.interfaces.AuthenticableResponseDTO;
 import br.com.start.meupet.auth.usecase.authenticable.FindAuthenticableUseCase;
 import br.com.start.meupet.auth.usecase.authenticable.ProcessUserRegistrationUseCase;
 import br.com.start.meupet.common.valueobjects.Email;
 import br.com.start.meupet.partner.dto.PartnerDTO;
-import br.com.start.meupet.partner.dto.PartnerResponseDTO;
 import br.com.start.meupet.partner.model.Partner;
 import br.com.start.meupet.user.dto.UserDTO;
-import br.com.start.meupet.user.dto.UserResponseDTO;
 import br.com.start.meupet.user.model.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.ClassPathResource;

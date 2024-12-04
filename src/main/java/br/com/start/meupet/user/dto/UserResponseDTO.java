@@ -11,7 +11,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @ToString
-public class UserResponseDTOAbstract extends AbstractAuthenticableResponseDTO {
+public class UserResponseDTO extends AbstractAuthenticableResponseDTO {
 
     private UUID id;
     private String name;
@@ -22,7 +22,7 @@ public class UserResponseDTOAbstract extends AbstractAuthenticableResponseDTO {
     private String birthDate;
     private int moedaCapiba;
 
-    public UserResponseDTOAbstract(User user) {
+    public UserResponseDTO(User user) {
         this.id = user.getId();
         this.name = user.getName();
         this.email = user.getEmail().toString();

@@ -5,7 +5,7 @@ import lombok.Getter;
 import java.util.UUID;
 
 @Getter
-public abstract class AuthenticableResponseDTO {
+public abstract class AbstractAuthenticableResponseDTO {
     private UUID id;
 
     private String name;
