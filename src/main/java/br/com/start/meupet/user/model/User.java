@@ -100,12 +100,12 @@ public class User implements Authenticable {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", socialName='" + socialName + '\'' +
-                ", email=" + email +
+                ", email=" + email.toString() +
                 ", password='" + password + '\'' +
-                ", phoneNumber=" + phoneNumber +
+                ", phoneNumber=" + phoneNumber.toString() +
                 ", document=" + personalRegistration.getDocument() +
                 ", documentType=" + personalRegistration.getDocumentType().toString() +
-                ", dateOfBirth=" + dateOfBirth +
+                ", dateOfBirth=" + dateOfBirth.toString() +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
                 ", moedaCapiba=" + moedaCapiba +

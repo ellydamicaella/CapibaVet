@@ -111,7 +111,7 @@ public class UserController {
             user.setName(userRequest.getName());
         }
         if (userRequest.getSocialName() != null) {
-            user.setName(userRequest.getSocialName());
+            user.setSocialName(userRequest.getSocialName());
         }
         if (userRequest.getDocument() != null) {
             user.setPersonalRegistration(new PersonalRegistration(userRequest.getDocument(), DocumentType.valueOf(userRequest.getDocumentType().toUpperCase())));

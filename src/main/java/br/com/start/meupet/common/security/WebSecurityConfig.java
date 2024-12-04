@@ -67,7 +67,8 @@ public class WebSecurityConfig {
                                 "/agendamento/partner/**",
                                 "/agendamento/user/**",
                                 "/agendamento/atendimento/**",
-                                "/agendamento/atendimento/user/**"
+                                "/agendamento/atendimento/user/**",
+                                "/authenticable/changePassword/**"
                                     ).permitAll()
                         .requestMatchers("/agendamento/**").authenticated()
                         .anyRequest().authenticated());
