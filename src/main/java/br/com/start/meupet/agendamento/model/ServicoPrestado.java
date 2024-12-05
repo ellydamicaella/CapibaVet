@@ -4,13 +4,10 @@ import br.com.start.meupet.agendamento.enums.ServicoType;
 import br.com.start.meupet.partner.model.Partner;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.math.BigDecimal;
 
 @Entity
 @Table(name = "servico")
@@ -29,8 +26,7 @@ public class ServicoPrestado {
 
 
     @NotNull(message = "O preço do serviço é obrigatório.")
-    @DecimalMin(value = "0.0", inclusive = false, message = "O preço deve ser maior que zero.")
-    private BigDecimal price;
+    private String price;
 
     @ManyToOne
     @JoinColumn(name = "id_partner", referencedColumnName = "id")
@@ -40,9 +36,19 @@ public class ServicoPrestado {
     public ServicoPrestado() {
     }
 
-    public ServicoPrestado(ServicoType name, BigDecimal price, Partner partner) {
+    public ServicoPrestado(ServicoType name, String price, Partner partner) {
         this.name = name;
         this.price = price;
         this.partner = partner;
+    }
+
+    @Override
+    public String toString() {
+        return "ServicoPrestado{" +
+                "id=" + id +
+                ", name=" + name.getServicoType() +
+                ", price=" + price +
+                ", partner=" + partner.getName() +
+                '}';
     }
 }

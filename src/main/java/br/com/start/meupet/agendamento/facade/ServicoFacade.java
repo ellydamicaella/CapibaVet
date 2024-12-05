@@ -2,6 +2,7 @@ package br.com.start.meupet.agendamento.facade;
 
 import br.com.start.meupet.agendamento.dto.servico.PartnerServicoDTO;
 import br.com.start.meupet.agendamento.dto.servico.ServicoPrestadoRequestDTO;
+import br.com.start.meupet.agendamento.dto.servico.ServicosListRequestDTO;
 import br.com.start.meupet.agendamento.usecase.servico.*;
 
 import org.springframework.stereotype.Component;
@@ -34,8 +35,9 @@ public class ServicoFacade {
         return getServicesAndPartnerUseCase.execute(partnerId);
     }
 
-    public void adidionaServicoAoParceiro(UUID partnerId, ServicoPrestadoRequestDTO servicoPrestado) {
-        addServiceToPartnerUseCase.execute(partnerId, servicoPrestado);
+    public void adidionaServicoAoParceiro(UUID partnerId, ServicosListRequestDTO servicoPrestado) {
+        List<ServicoPrestadoRequestDTO> list = servicoPrestado.services();
+        addServiceToPartnerUseCase.execute(partnerId, list);
     }
 
     public void atualizaServico(UUID partnerId, Long servicoId, ServicoPrestadoRequestDTO servicoPrestadoDTO) {

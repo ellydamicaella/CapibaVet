@@ -47,7 +47,6 @@ public class DisponibilidadeController {
         return ResponseEntity.ok().body(new StatusResponseDTO("success", "Disponibilidade adicionado ao parceiro com sucesso!"));
     }
 
-
     @DeleteMapping("/{partnerId}/{disponibilidadeId}")
     public ResponseEntity<StatusResponseDTO> deleteServico(@PathVariable UUID partnerId, @PathVariable Long disponibilidadeId) {
         Optional<Partner> partnerOpt = partnerRepository.findById(partnerId);

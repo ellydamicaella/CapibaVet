@@ -7,17 +7,17 @@ import br.com.start.meupet.common.exceptions.ProblemDetailsException;
 import br.com.start.meupet.common.utils.DateTimeUtils;
 import br.com.start.meupet.partner.model.Partner;
 import br.com.start.meupet.partner.repository.PartnerRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
-import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 @Component
+@Slf4j
 public class AddAvailabilityToPartnerUseCase {
 
     private final PartnerRepository partnerRepository;
@@ -34,13 +34,15 @@ public class AddAvailabilityToPartnerUseCase {
         if(partner.isEmpty()) {
             throw new ProblemDetailsException("Parceiro nao encontrado", "Parceiro nao existe", HttpStatus.NOT_FOUND);
         }
+        log.info("Apagando as antigas disponibilidades do parceiro: {}", partner.get().getName());
+        partner.get().getDisponibilidades().clear();
 
         LocalTime startTime;
         LocalTime endTime;
 
         try {
-            startTime = DateTimeUtils.convertToDateTime(disponibilidadeRequest.horaDeInicio());
-            endTime = DateTimeUtils.convertToDateTime(disponibilidadeRequest.horaDeFim());
+            startTime = DateTimeUtils.convertToDateTime(disponibilidadeRequest.openingHour());
+            endTime = DateTimeUtils.convertToDateTime(disponibilidadeRequest.closingHour());
             if (endTime.isBefore(startTime)) {
                 throw new ProblemDetailsException("Invalid argument", "Horário de fim não pode ser antes do horário de início", HttpStatus.BAD_REQUEST);
             }
@@ -48,24 +50,21 @@ public class AddAvailabilityToPartnerUseCase {
             throw new ProblemDetailsException("Invalid argument", "Formato de horário inválido. Use HH:mm", HttpStatus.BAD_REQUEST);
         }
 
-        // Verificar conflitos de uma vez
-        List<DayOfWeek> conflictingDays = disponibilidadeRepository.findConflictingDays(
-                partnerId, disponibilidadeRequest.dias(), startTime, endTime);
+//        if (!conflictingDays.isEmpty()) {
+//            throw new ProblemDetailsException("Conflicts", String.format("Conflitos detectados nos dias: %s", conflictingDays), HttpStatus.CONFLICT);
+//        }
 
-        if (!conflictingDays.isEmpty()) {
-            throw new ProblemDetailsException("Conflicts", String.format("Conflitos detectados nos dias: %s", conflictingDays), HttpStatus.CONFLICT);
-        }
-
-        List<Disponibilidade> disponibilidades = disponibilidadeRequest.dias().stream().map(dia -> {
+//        List<Disponibilidade> disponibilidades = disponibilidadeRequest.dias().stream().map(dia -> {
             Disponibilidade disponibilidade = new Disponibilidade();
             disponibilidade.setPartner(partner.get());
-            disponibilidade.setDayOfWeek(dia);
-            disponibilidade.setStartTime(LocalTime.parse(disponibilidadeRequest.horaDeInicio()));
-            disponibilidade.setEndTime(DateTimeUtils.convertToDateTime(disponibilidadeRequest.horaDeFim()));
-            return disponibilidade;
-        }).toList();
+//            disponibilidade.setDayOfWeek(dia);
+            disponibilidade.setStartTime(LocalTime.parse(disponibilidadeRequest.openingHour()));
+            disponibilidade.setEndTime(DateTimeUtils.convertToDateTime(disponibilidadeRequest.closingHour()));
+//            return disponibilidade;
+//        }).toList();
 
-        disponibilidadeRepository.saveAll(disponibilidades);
+        log.info("Adicionado disponibilidade: {}, ao parceiro: {}", disponibilidade, partner.get().getName());
+        disponibilidadeRepository.save(disponibilidade);
 
     }
 }

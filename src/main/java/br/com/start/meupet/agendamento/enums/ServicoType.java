@@ -7,16 +7,18 @@ public enum ServicoType {
     CASTRACAO("Castração"),
     VACINAS("Vacinas"),
     PETSHOP("Pet Shop"),
-    TOSA_E_BANHO("Tosa e Banho"),
+    TOSABANHO("Tosa e Banho"),
     EXAMES("Exames"),
     CIRURGIAS("Cirurgias"),
-    EMERGÊNCIAS("Emergências"),
-    NUTRICIONISTA("Nutricionista"),
-    CUIDADOS_GERIATRICOS("Cuidados Geriátricos");
+    EMERGENCIAS("Emergências"),
+    NUTRICIONISTA("Nutricionista");
 
     private final String servicoType;
 
     ServicoType(String servicoType) {
         this.servicoType = servicoType;
+    }
+    public boolean equalsIgnoreCase(String name) {
+        return name.equalsIgnoreCase(servicoType);
     }
 }

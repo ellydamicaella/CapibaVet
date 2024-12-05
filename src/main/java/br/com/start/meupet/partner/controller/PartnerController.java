@@ -1,10 +1,13 @@
 package br.com.start.meupet.partner.controller;
 
+import br.com.start.meupet.agendamento.usecase.disponibilidade.AddAvailabilityToPartnerUseCase;
+import br.com.start.meupet.agendamento.usecase.servico.AddServiceToPartnerUseCase;
 import br.com.start.meupet.common.exceptions.EntityNotFoundException;
 import br.com.start.meupet.common.valueobjects.PhoneNumber;
 import br.com.start.meupet.partner.dto.PartnerRequestDTO;
 import br.com.start.meupet.partner.dto.PartnerResponseDTO;
 import br.com.start.meupet.partner.dto.PartnerUpdateDTO;
+import br.com.start.meupet.partner.dto.ServicoListAndAvailabilityRequestDTO;
 import br.com.start.meupet.partner.facade.PartnerFacade;
 import br.com.start.meupet.partner.model.Partner;
 import br.com.start.meupet.partner.repository.PartnerRepository;
@@ -27,10 +30,14 @@ public class PartnerController {
 
     private final PartnerFacade partnerFacade;
     private final PartnerRepository partnerRepository;
+    private final AddServiceToPartnerUseCase addServiceToPartnerUseCase;
+    private final AddAvailabilityToPartnerUseCase addAvailabilityToPartnerUseCase;
 
-    public PartnerController(PartnerFacade partnerFacade, PartnerRepository partnerRepository) {
+    public PartnerController(PartnerFacade partnerFacade, PartnerRepository partnerRepository, AddServiceToPartnerUseCase addServiceToPartnerUseCase, AddAvailabilityToPartnerUseCase addAvailabilityToPartnerUseCase) {
         this.partnerFacade = partnerFacade;
         this.partnerRepository = partnerRepository;
+        this.addServiceToPartnerUseCase = addServiceToPartnerUseCase;
+        this.addAvailabilityToPartnerUseCase = addAvailabilityToPartnerUseCase;
     }
 
     @GetMapping
@@ -80,8 +87,8 @@ public class PartnerController {
         if (partnerRequest.getPhoneNumber() != null) {
             partner.setPhoneNumber(new PhoneNumber(partnerRequest.getPhoneNumber()));
         }
-        if (partnerRequest.getStreetAnNumber() != null) {
-            partner.setStreetAndNumber(partnerRequest.getStreetAnNumber());
+        if (partnerRequest.getStreetAndNumber() != null) {
+            partner.setStreetAndNumber(partnerRequest.getStreetAndNumber());
         }
         if (partnerRequest.getNeighborhood() != null) {
             partner.setNeighborhood(partnerRequest.getNeighborhood());
@@ -104,6 +111,13 @@ public class PartnerController {
         partnerFacade.delete(id);
         log.info("Requisicao DELETE: deletando um parceiro");
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/service/disponibilidade/{partnerId}")
+    public ResponseEntity<Void> addServicesAndAvailability(@PathVariable UUID partnerId, @RequestBody ServicoListAndAvailabilityRequestDTO request) {
+        addServiceToPartnerUseCase.execute(partnerId, request.services());
+        addAvailabilityToPartnerUseCase.execute(partnerId, request.disponibilidade());
+        return ResponseEntity.ok().build();
     }
 
 

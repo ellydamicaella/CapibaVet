@@ -1,5 +1,5 @@
 package br.com.start.meupet.agendamento.dto.servico;
 
 
-public record ServicoPrestadoResponseDTO(String name) {
+public record ServicoPrestadoResponseDTO(String name, String price) {
 }

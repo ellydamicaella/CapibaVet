@@ -37,11 +37,11 @@ public class PartnerDisponibilidadeDTO {
         this.documentType = partner.getPersonalRegistration().getDocumentType().toString();
         this.phoneNumber = partner.getPhoneNumber().toString();
         this.disponibilidades = partner.getDisponibilidades().stream()
-                .map(servico -> new DisponibilidadeResponseDTO(
-                        servico.getId(),
-                        servico.getDayOfWeek(),
-                        servico.getStartTime(),
-                        servico.getEndTime()
+                .map(disponibilidade -> new DisponibilidadeResponseDTO(
+//                        disponibilidade.getId(),
+//                        disponibilidade.getDayOfWeek(),
+                        disponibilidade.getStartTime(),
+                        disponibilidade.getEndTime()
                 )).collect(Collectors.toList());
     }
 }

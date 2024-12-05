@@ -9,6 +9,6 @@ import lombok.Setter;
 public class PartnerUpdateDTO {
     private String name;
     private String phoneNumber;
-    private String streetAnNumber;
+    private String streetAndNumber;
     private String neighborhood;
 }

@@ -6,7 +6,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.DayOfWeek;
 import java.time.LocalTime;
 
 @Entity
@@ -24,8 +23,16 @@ public class Disponibilidade {
     @JsonIgnore
     private Partner partner;
 
-    @Enumerated(EnumType.STRING)
-    private DayOfWeek dayOfWeek;
+//    @Enumerated(EnumType.STRING)
+//    private DayOfWeek dayOfWeek;
     private LocalTime startTime;
     private LocalTime endTime;
+
+    @Override
+    public String toString() {
+        return "Disponibilidade{" +
+                "startTime=" + startTime.toString() +
+                ", endTime=" + endTime.toString() +
+                '}';
+    }
 }

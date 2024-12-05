@@ -2,6 +2,7 @@ package br.com.start.meupet.agendamento.controller;
 
 import br.com.start.meupet.agendamento.dto.servico.PartnerServicoDTO;
 import br.com.start.meupet.agendamento.dto.servico.ServicoPrestadoRequestDTO;
+import br.com.start.meupet.agendamento.dto.servico.ServicosListRequestDTO;
 import br.com.start.meupet.agendamento.facade.ServicoFacade;
 import br.com.start.meupet.auth.dto.StatusResponseDTO;
 import org.springframework.http.HttpStatus;
@@ -33,7 +34,7 @@ public class ServicoController {
     }
 
     @PostMapping("/{partnerId}")
-    public ResponseEntity<StatusResponseDTO> adicionaServicoAoParceiro(@PathVariable UUID partnerId, @RequestBody ServicoPrestadoRequestDTO servicoPrestado) {
+    public ResponseEntity<StatusResponseDTO> adicionaServicosAoParceiro(@PathVariable UUID partnerId, @RequestBody ServicosListRequestDTO servicoPrestado) {
         servicoFacade.adidionaServicoAoParceiro(partnerId, servicoPrestado);
         return ResponseEntity.ok().body(new StatusResponseDTO("success", "Servico adicionado ao parceiro com sucesso!"));
     }

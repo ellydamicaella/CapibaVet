@@ -23,7 +23,7 @@ public class PartnerServicoDTO {
 
     private String phoneNumber;
 
-    private List<String> servicoPrestados;
+    private List<ServicoPrestadoResponseDTO> servicoPrestados;
 
     public PartnerServicoDTO(Partner partner) {
         this.id = partner.getId();
@@ -31,6 +31,6 @@ public class PartnerServicoDTO {
         this.email = partner.getEmail().toString();
         this.phoneNumber = partner.getPhoneNumber().toString();
         this.servicoPrestados = partner.getServicoPrestados().stream()
-                .map(Object::toString).collect(Collectors.toList());
+                .map(servico -> new ServicoPrestadoResponseDTO(servico.getName().getServicoType(), servico.getPrice())).collect(Collectors.toList());
     }
 }
