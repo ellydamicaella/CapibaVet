@@ -23,6 +23,10 @@ public class PartnerServicoDTO {
 
     private String phoneNumber;
 
+    private String streetAndNumber;
+
+    private String neighborhood;
+
     private List<ServicoPrestadoResponseDTO> servicoPrestados;
 
     public PartnerServicoDTO(Partner partner) {
@@ -30,7 +34,9 @@ public class PartnerServicoDTO {
         this.name = partner.getName();
         this.email = partner.getEmail().toString();
         this.phoneNumber = partner.getPhoneNumber().toString();
+        this.streetAndNumber = partner.getStreetAndNumber();
+        this.neighborhood = partner.getNeighborhood();
         this.servicoPrestados = partner.getServicoPrestados().stream()
-                .map(servico -> new ServicoPrestadoResponseDTO(servico.getName().getServicoType(), servico.getPrice())).collect(Collectors.toList());
+                .map(servico -> new ServicoPrestadoResponseDTO(servico.getId(), servico.getName().getServicoType(), servico.getPrice())).collect(Collectors.toList());
     }
 }

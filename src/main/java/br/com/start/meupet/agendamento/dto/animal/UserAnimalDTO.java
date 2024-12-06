@@ -41,7 +41,9 @@ public class UserAnimalDTO {
                 .map(animal -> new AnimalResponseDTO(
                         animal.getId(),
                         animal.getName(),
-                        animal.getPorte(),
+                        animal.getAge(),
+                        animal.getHistory(),
+//                        animal.getPorte(),
                         animal.getType(),
                         animal.getSexo()
                 )).collect(Collectors.toList());

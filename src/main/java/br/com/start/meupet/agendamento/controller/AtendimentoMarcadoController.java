@@ -9,12 +9,14 @@ import br.com.start.meupet.agendamento.model.ServicoPrestado;
 import br.com.start.meupet.agendamento.repository.AnimalRepository;
 import br.com.start.meupet.agendamento.repository.AtendimentoMarcadoRepository;
 import br.com.start.meupet.agendamento.repository.ServicoPrestadoRepository;
+import br.com.start.meupet.agendamento.usecase.animal.AddNewAnimalToUserUseCase;
 import br.com.start.meupet.auth.dto.StatusResponseDTO;
 import br.com.start.meupet.common.exceptions.EntityNotFoundException;
 import br.com.start.meupet.partner.model.Partner;
 import br.com.start.meupet.partner.repository.PartnerRepository;
 import br.com.start.meupet.user.model.User;
 import br.com.start.meupet.user.repository.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,6 +29,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/agendamento/atendimento")
 @CrossOrigin
+@Slf4j
 public class AtendimentoMarcadoController {
 
     private final AtendimentoMarcadoRepository atendimentoMarcadoRepository;
@@ -34,13 +37,15 @@ public class AtendimentoMarcadoController {
     private final AnimalRepository animalRepository;
     private final ServicoPrestadoRepository servicoPrestadoRepository;
     private final PartnerRepository partnerRepository;
+    private final AddNewAnimalToUserUseCase addNewAnimalToUserUseCase;
 
-    public AtendimentoMarcadoController(AtendimentoMarcadoRepository atendimentoMarcadoRepository, UserRepository userRepository, AnimalRepository animalRepository, ServicoPrestadoRepository servicoPrestadoRepository, PartnerRepository partnerRepository) {
+    public AtendimentoMarcadoController(AtendimentoMarcadoRepository atendimentoMarcadoRepository, UserRepository userRepository, AnimalRepository animalRepository, ServicoPrestadoRepository servicoPrestadoRepository, PartnerRepository partnerRepository, AddNewAnimalToUserUseCase addNewAnimalToUserUseCase) {
         this.atendimentoMarcadoRepository = atendimentoMarcadoRepository;
         this.userRepository = userRepository;
         this.animalRepository = animalRepository;
         this.servicoPrestadoRepository = servicoPrestadoRepository;
         this.partnerRepository = partnerRepository;
+        this.addNewAnimalToUserUseCase = addNewAnimalToUserUseCase;
     }
 
     //usado pelas clinicas para mostrar os dias, e horarios disponiveis para atendimento
@@ -83,14 +88,15 @@ public class AtendimentoMarcadoController {
     public ResponseEntity<StatusResponseDTO> adicionaAtendimentoMarcado(@RequestBody AtendimentoMarcadoRequestDTO request) {
         try {
             // Valida se as entidades existem
+
+            log.info("serviceId, {}", request.serviceId());
             Partner partner = partnerRepository.findById(request.partnerId())
                     .orElseThrow(() -> new EntityNotFoundException("Parceiro não encontrado"));
             ServicoPrestado servico = servicoPrestadoRepository.findById(request.serviceId())
                     .orElseThrow(() -> new EntityNotFoundException("Serviço não encontrado"));
             User user = userRepository.findById(request.userId())
                     .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado"));
-            Animal animal = animalRepository.findById(request.animalId())
-                    .orElseThrow(() -> new EntityNotFoundException("Animal não encontrado"));
+            Animal animal = addNewAnimalToUserUseCase.execute(request.userId(), request.animal());
 
             // Valida conflitos de horários
             boolean hasConflict = atendimentoMarcadoRepository.existsConflict(

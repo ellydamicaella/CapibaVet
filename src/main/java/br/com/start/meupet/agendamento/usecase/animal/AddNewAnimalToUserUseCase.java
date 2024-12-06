@@ -1,7 +1,6 @@
 package br.com.start.meupet.agendamento.usecase.animal;
 
 import br.com.start.meupet.agendamento.dto.animal.AnimalRequestDTO;
-import br.com.start.meupet.agendamento.enums.AnimalPorte;
 import br.com.start.meupet.agendamento.enums.AnimalSexo;
 import br.com.start.meupet.agendamento.enums.AnimalType;
 import br.com.start.meupet.agendamento.model.Animal;
@@ -26,7 +25,7 @@ public class AddNewAnimalToUserUseCase {
         this.userRepository = userRepository;
     }
 
-    public void execute(UUID userId, AnimalRequestDTO animalRequest) {
+    public Animal execute(UUID userId, AnimalRequestDTO animalRequest) {
         Optional<User> user = userRepository.findById(userId);
         Animal animal = new Animal();
 
@@ -36,7 +35,9 @@ public class AddNewAnimalToUserUseCase {
 
         try {
             animal.setName(animalRequest.name());
-            animal.setPorte(AnimalPorte.valueOf(animalRequest.porte()));
+//            animal.setPorte(AnimalPorte.valueOf(animalRequest.porte()));
+            animal.setAge(animalRequest.age());
+            animal.setHistory(animalRequest.history());
             animal.setType(AnimalType.valueOf(animalRequest.type()));
             animal.setSexo(AnimalSexo.valueOf(animalRequest.sexo()));
             animal.setOwner(user.get());
@@ -44,6 +45,6 @@ public class AddNewAnimalToUserUseCase {
             throw new ProblemDetailsException("Argumento inválido", "Algum argumento está incorreto", HttpStatus.BAD_REQUEST);
         }
 
-        animalRepository.save(animal);
+        return animalRepository.save(animal);
     }
 }

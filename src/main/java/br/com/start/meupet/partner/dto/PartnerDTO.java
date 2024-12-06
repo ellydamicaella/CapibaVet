@@ -1,5 +1,6 @@
 package br.com.start.meupet.partner.dto;
 
+import br.com.start.meupet.agendamento.dto.disponibilidade.DisponibilidadeResponseDTO;
 import br.com.start.meupet.agendamento.dto.servico.ServicoPrestadoResponseDTO;
 import br.com.start.meupet.auth.dto.AuthenticableDTO;
 import br.com.start.meupet.partner.model.Partner;
@@ -36,6 +37,8 @@ public class PartnerDTO extends AuthenticableDTO {
 
     private List<ServicoPrestadoResponseDTO> services;
 
+    private List<DisponibilidadeResponseDTO> disponibilidades;
+
 
     public PartnerDTO(Partner partner) {
         this.id = partner.getId();
@@ -47,7 +50,10 @@ public class PartnerDTO extends AuthenticableDTO {
         this.streetAndNumber = partner.getStreetAndNumber();
         this.neighborhood = partner.getNeighborhood();
         this.services = partner.getServicoPrestados().stream()
-                .map(servico -> new ServicoPrestadoResponseDTO(servico.getName().getServicoType(), servico.getPrice()))
+                .map(servico -> new ServicoPrestadoResponseDTO(servico.getId(), servico.getName().getServicoType(), servico.getPrice()))
+                .collect(Collectors.toList());
+        this.disponibilidades = partner.getDisponibilidades().stream()
+                .map(disponibilidade -> new DisponibilidadeResponseDTO(disponibilidade.getStartTime(), disponibilidade.getEndTime()))
                 .collect(Collectors.toList());
     }
 

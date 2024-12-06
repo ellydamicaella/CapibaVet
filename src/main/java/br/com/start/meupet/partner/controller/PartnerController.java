@@ -4,10 +4,7 @@ import br.com.start.meupet.agendamento.usecase.disponibilidade.AddAvailabilityTo
 import br.com.start.meupet.agendamento.usecase.servico.AddServiceToPartnerUseCase;
 import br.com.start.meupet.common.exceptions.EntityNotFoundException;
 import br.com.start.meupet.common.valueobjects.PhoneNumber;
-import br.com.start.meupet.partner.dto.PartnerRequestDTO;
-import br.com.start.meupet.partner.dto.PartnerResponseDTO;
-import br.com.start.meupet.partner.dto.PartnerUpdateDTO;
-import br.com.start.meupet.partner.dto.ServicoListAndAvailabilityRequestDTO;
+import br.com.start.meupet.partner.dto.*;
 import br.com.start.meupet.partner.facade.PartnerFacade;
 import br.com.start.meupet.partner.model.Partner;
 import br.com.start.meupet.partner.repository.PartnerRepository;
@@ -120,5 +117,11 @@ public class PartnerController {
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping("/agendamento/{partnerId}")
+    public ResponseEntity<PartnerDTO> getAllForAgendamento(@PathVariable UUID partnerId) {
+        Partner partner = partnerRepository.findById(partnerId).orElseThrow();
+        PartnerDTO partnerDTO = new PartnerDTO(partner);
+        return ResponseEntity.ok().body(partnerDTO);
+    }
 
 }

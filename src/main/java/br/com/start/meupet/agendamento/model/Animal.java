@@ -1,6 +1,5 @@
 package br.com.start.meupet.agendamento.model;
 
-import br.com.start.meupet.agendamento.enums.AnimalPorte;
 import br.com.start.meupet.agendamento.enums.AnimalSexo;
 import br.com.start.meupet.agendamento.enums.AnimalType;
 import br.com.start.meupet.user.model.User;
@@ -23,8 +22,12 @@ public class Animal {
 
     private String name;
 
-    @Enumerated(EnumType.STRING)
-    private AnimalPorte porte;
+    private String age;
+
+    private String history;
+
+//    @Enumerated(EnumType.STRING)
+//    private AnimalPorte porte;
 
     @Enumerated(EnumType.STRING)
     private AnimalType type;
@@ -43,9 +46,10 @@ public class Animal {
     public Animal() {
     }
 
-    public Animal(String name, AnimalPorte porte, AnimalType type, AnimalSexo sexo, User owner) {
+    public Animal(String name, String age, String history, AnimalType type, AnimalSexo sexo, User owner) {
         this.name = name;
-        this.porte = porte;
+        this.age = age;
+        this.history = history;
         this.type = type;
         this.sexo = sexo;
         this.owner = owner;
