@@ -1,8 +1,7 @@
-package br.com.start.meupet.agendamento.usecase;
+package br.com.start.meupet.agendamento.usecase.animal;
 
 import br.com.start.meupet.agendamento.dto.animal.UserAnimalDTO;
 import br.com.start.meupet.agendamento.model.Animal;
-import br.com.start.meupet.agendamento.usecase.animal.ListAllUsersAndAnimalsUseCase;
 import br.com.start.meupet.common.enums.DocumentType;
 import br.com.start.meupet.common.utils.BirthDayUtils;
 import br.com.start.meupet.common.valueobjects.Email;
@@ -20,8 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -96,6 +94,19 @@ public class ListAllUsersAndAnimalsUseCaseTest {
         assertEquals("Fluffy", result.get(1).getAnimais().get(0).name());
         assertEquals("Buddy", result.get(1).getAnimais().get(1).name());
 
+        verify(userRepository, times(1)).findAll();
+    }
+    @Test
+    void shouldReturnEmptyListWhenNoUsersExist() {
+        // Arrange
+        when(userRepository.findAll()).thenReturn(new ArrayList<>());
+
+        // Act
+        List<UserAnimalDTO> result = listAllUsersAndAnimalsUseCase.execute();
+
+        // Assert
+        assertNotNull(result);
+        assertTrue(result.isEmpty());
         verify(userRepository, times(1)).findAll();
     }
 }
