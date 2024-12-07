@@ -1,11 +1,10 @@
-package br.com.start.meupet.agendamento.usecase;
+package br.com.start.meupet.agendamento.usecase.animal;
 
 import br.com.start.meupet.agendamento.dto.animal.AnimalRequestDTO;
 import br.com.start.meupet.agendamento.enums.AnimalSexo;
 import br.com.start.meupet.agendamento.enums.AnimalType;
 import br.com.start.meupet.agendamento.model.Animal;
 import br.com.start.meupet.agendamento.repository.AnimalRepository;
-import br.com.start.meupet.agendamento.usecase.animal.AddNewAnimalToUserUseCase;
 import br.com.start.meupet.common.exceptions.ProblemDetailsException;
 import br.com.start.meupet.user.model.User;
 import br.com.start.meupet.user.repository.UserRepository;
