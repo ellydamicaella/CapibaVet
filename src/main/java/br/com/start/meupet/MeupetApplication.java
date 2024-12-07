@@ -4,10 +4,12 @@ import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Info;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.ConfigurableApplicationContext;
 
 @SpringBootApplication
 @OpenAPIDefinition(info = @Info(title = "MeuPet", version = "1", description = "Api desenvolvida para o funcionamento da plataforma MeuPet"))
+@EnableCaching
 public class MeupetApplication {
 
     public static void main(String[] args) {

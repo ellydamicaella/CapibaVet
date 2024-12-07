@@ -17,17 +17,17 @@ services:
       timeout: 5s
       retries: 5
 
-#  redis:
-#    image: redis:alpine
-#    container_name: redis
-#    networks:
-#      - mynetwork
-#    ports:
-#      - "6379:6379"
-#    command: [ "redis-server", "--appendonly", "yes" ]
-#    volumes:
-#      - redis_data:/data
-#
+  redis:
+    image: redis:alpine
+    container_name: redis
+    networks:
+      - mynetwork
+    ports:
+      - "6379:6379"
+    command: [ "redis-server", "--appendonly", "yes" ]
+    volumes:
+      - redis_data:/data
+
 #  api:
 #    depends_on:
 #      db:
@@ -52,5 +52,5 @@ networks:
   mynetwork:
     driver: bridge
 
-#volumes:
-#  redis_data:
+volumes:
+  redis_data:

@@ -1,17 +1,19 @@
 package br.com.start.meupet.user.facade;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.UUID;
-
+import br.com.start.meupet.user.dto.UserRequestDTO;
+import br.com.start.meupet.user.dto.UserResponseDTO;
 import br.com.start.meupet.user.usecase.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
-
-import br.com.start.meupet.user.dto.UserRequestDTO;
-import br.com.start.meupet.user.dto.UserResponseDTO;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.UUID;
 
 @Component
 public class UserFacade {
@@ -39,14 +41,21 @@ public class UserFacade {
         this.uploadImageUserUseCase = uploadImageUserUseCase;
     }
 
+    @Cacheable(value = "user", key = "'SimpleKey ' + '[' + #page + ', ' + #pageSize + ']'")
     public List<UserResponseDTO> listAll(int page, int pageSize) {
         return listUsersUseCase.execute(page, pageSize);
+    }
+
+    @CacheEvict(value = "user", key = "'SimpleKey ' + '[' + #page + ', ' + #pageSize + ']'")
+    public String cancelaCache(int page, int pageSize) {
+        return "cancela cache";
     }
 
     public UserResponseDTO getUserById(UUID id) {
         return findUserByIdUseCase.execute(id);
     }
 
+    @CachePut(value = "user", key = "'SimpleKey ' + #userRequest.email")
     public void insert(UserRequestDTO userRequest) {
         initUserRegistrationUseCase.execute(userRequest);
     }

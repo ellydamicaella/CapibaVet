@@ -52,8 +52,17 @@ public class UserController {
     })
     @GetMapping
     public ResponseEntity<List<UserResponseDTO>> listAll(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int items) {
+        log.info("Com cache");
         log.info("Requisicao GET: listando todos usuarios");
-        return ResponseEntity.ok(userFacade.listAll(page, items));
+        List<UserResponseDTO> response = userFacade.listAll(page, items);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/cancel")
+    public ResponseEntity<String> teste(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int items) {
+        String message = userFacade.cancelaCache(page, items);
+        log.info("{}", message);
+        return ResponseEntity.ok(message);
     }
 
     @Operation(summary = "lista usuario por id", method = "GET")

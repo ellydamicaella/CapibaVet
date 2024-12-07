@@ -28,6 +28,12 @@ import java.util.UUID;
 @NoArgsConstructor
 public class User implements Authenticable {
 
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     UUID id;
