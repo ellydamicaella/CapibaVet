@@ -2,6 +2,7 @@ package br.com.start.meupet.agendamento.controller;
 
 import br.com.start.meupet.agendamento.dto.atendimento.AtendimentoMarcadoDTO;
 import br.com.start.meupet.agendamento.dto.atendimento.AtendimentoMarcadoRequestDTO;
+import br.com.start.meupet.agendamento.dto.atendimento.AtendimentoStatusDTO;
 import br.com.start.meupet.agendamento.enums.AtendimentoStatus;
 import br.com.start.meupet.agendamento.model.Animal;
 import br.com.start.meupet.agendamento.model.AtendimentoMarcado;
@@ -64,8 +65,28 @@ public class AtendimentoMarcadoController {
         return ResponseEntity.ok().body(atendimentoMarcadoDTO);
     }
 
+    @GetMapping("/partner/{partnerId}")
+    public ResponseEntity<List<AtendimentoMarcadoDTO>> listaAtendimentoMarcadoParaClinica(@PathVariable UUID partnerId) {
+        Partner partner = partnerRepository.findById(partnerId).orElseThrow(() -> new EntityNotFoundException("Partner not found"));
+
+        // Busca os atendimentos marcados associados ao usuário
+        List<AtendimentoMarcado> atendimentosMarcados = atendimentoMarcadoRepository.findByPartner(partner);
+
+        // Converte os atendimentos marcados para DTOs
+        List<AtendimentoMarcadoDTO> atendimentosDTO = atendimentosMarcados.stream()
+                .map(atendimento -> new AtendimentoMarcadoDTO(
+                        atendimento,
+                        atendimento.getPartner(),
+                        atendimento.getUser(),
+                        atendimento.getServicoPrestado(),
+                        atendimento.getAnimal()
+                ))
+                .toList();
+        return ResponseEntity.ok().body(atendimentosDTO);
+    }
+
     @GetMapping("/user/{userId}")
-    public ResponseEntity<List<AtendimentoMarcadoDTO>> listaAtendimentoMarcado(@PathVariable UUID userId) {
+    public ResponseEntity<List<AtendimentoMarcadoDTO>> listaAtendimentoMarcadoParaUsuario(@PathVariable UUID userId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("User not found"));
 
         // Busca os atendimentos marcados associados ao usuário
@@ -135,10 +156,10 @@ public class AtendimentoMarcadoController {
     }
 
     @PutMapping("/{partnerId}/{atendimentoMarcadoId}")
-    public ResponseEntity<StatusResponseDTO> alteraStatusDeAtendimentoMarcado(@PathVariable UUID partnerId, @PathVariable Long atendimentoMarcadoId, @RequestParam String status) {
+    public ResponseEntity<StatusResponseDTO> alteraStatusDeAtendimentoMarcado(@PathVariable UUID partnerId, @PathVariable Long atendimentoMarcadoId, @RequestBody AtendimentoStatusDTO request) {
         AtendimentoStatus novoStatus;
         try {
-            novoStatus = AtendimentoStatus.valueOf(status.toUpperCase());
+            novoStatus = AtendimentoStatus.valueOf(request.status().toUpperCase());
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new StatusResponseDTO("error", "Status inválido. Use PENDENTE, CANCELADO ou CONFIRMADO."));
@@ -163,8 +184,13 @@ public class AtendimentoMarcadoController {
         atendimentoMarcado.setStatus(novoStatus);
         atendimentoMarcadoRepository.save(atendimentoMarcado);
 
-        return ResponseEntity.ok(new StatusResponseDTO("success", "Status do atendimento atualizado com sucesso."));
+        return ResponseEntity.ok().body(new StatusResponseDTO("success", "Status do atendimento atualizado com sucesso."));
     }
 
+    @DeleteMapping("/{partnerId}/{atendimentoMarcadoId}")
+    public ResponseEntity<Void> deletaAtendimentoMarcado(@PathVariable UUID partnerId, @PathVariable Long atendimentoMarcadoId) {
 
+
+        return ResponseEntity.noContent().build();
+    }
 }
