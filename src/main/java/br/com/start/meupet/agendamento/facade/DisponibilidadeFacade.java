@@ -34,4 +34,5 @@ public class DisponibilidadeFacade {
     public void adicionaDisponibilidadeAoParceiro(UUID partnerId, DisponibilidadeRequestDTO disponibilidadeRequest) {
         addAvailabilityToPartnerUseCase.execute(partnerId, disponibilidadeRequest);
     }
+
 }
