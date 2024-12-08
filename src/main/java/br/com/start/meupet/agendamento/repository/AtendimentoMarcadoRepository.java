@@ -1,6 +1,7 @@
 package br.com.start.meupet.agendamento.repository;
 
 import br.com.start.meupet.agendamento.model.AtendimentoMarcado;
+import br.com.start.meupet.partner.model.Partner;
 import br.com.start.meupet.user.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -26,4 +27,5 @@ public interface AtendimentoMarcadoRepository extends JpaRepository<AtendimentoM
 
     List<AtendimentoMarcado> findByUser(User user);
 
+    List<AtendimentoMarcado> findByPartner(Partner partner);
 }
