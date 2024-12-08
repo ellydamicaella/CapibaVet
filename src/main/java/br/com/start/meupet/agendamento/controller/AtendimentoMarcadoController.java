@@ -167,11 +167,17 @@ public class AtendimentoMarcadoController {
 
         // Verifica se o atendimento existe
         AtendimentoMarcado atendimentoMarcado = atendimentoMarcadoRepository.findById(atendimentoMarcadoId)
-                .orElse(null);
+                .orElseThrow(() -> new EntityNotFoundException("Atendimento não encontrado"));
 
-        if (atendimentoMarcado == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(new StatusResponseDTO("error", "Atendimento não encontrado."));
+        if(atendimentoMarcado.getStatus().equals(novoStatus)) {
+            return ResponseEntity.ok().body(new StatusResponseDTO("success", "Status nao foi alterado por que já era o mesmo"));
+        }
+        User usuario = atendimentoMarcado.getUser();
+
+        if(atendimentoMarcado.getStatus() == AtendimentoStatus.PENDENTE) {
+            if(novoStatus.equals(AtendimentoStatus.CONFIRMADO)) {
+                usuario.setMoedaCapiba(usuario.getMoedaCapiba() + 10);
+            }
         }
 
         // Verifica se o parceiro é o dono do atendimento
@@ -182,6 +188,7 @@ public class AtendimentoMarcadoController {
 
         // Atualiza o status do atendimento
         atendimentoMarcado.setStatus(novoStatus);
+        atendimentoMarcado.setUser(usuario);
         atendimentoMarcadoRepository.save(atendimentoMarcado);
 
         return ResponseEntity.ok().body(new StatusResponseDTO("success", "Status do atendimento atualizado com sucesso."));
