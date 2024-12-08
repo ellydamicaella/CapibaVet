@@ -1,17 +1,17 @@
 package br.com.start.meupet.user.facade;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.UUID;
-
+import br.com.start.meupet.user.dto.UserRequestDTO;
+import br.com.start.meupet.user.dto.UserResponseDTO;
+import br.com.start.meupet.user.dto.UserUpdateDTO;
 import br.com.start.meupet.user.usecase.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-
-import br.com.start.meupet.user.dto.UserRequestDTO;
-import br.com.start.meupet.user.dto.UserResponseDTO;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.UUID;
 
 @Component
 public class UserFacade {
@@ -23,6 +23,7 @@ public class UserFacade {
     private final UpdateUserUseCase updateUserUseCase;
     private final DeleteUserUseCase deleteUserUseCase;
     private final UploadImageUserUseCase uploadImageUserUseCase;
+    private final UpdateUserPatchUseCase updateUserPatchUseCase;
 
     public UserFacade(
             ListUsersUseCase listUsersUseCase,
@@ -30,13 +31,14 @@ public class UserFacade {
             InitUserRegistrationUseCase initUserRegistrationUseCase,
             UpdateUserUseCase updateUserUseCase,
             DeleteUserUseCase deleteUserUseCase,
-            UploadImageUserUseCase uploadImageUserUseCase) {
+            UploadImageUserUseCase uploadImageUserUseCase, UpdateUserPatchUseCase updateUserPatchUseCase) {
         this.listUsersUseCase = listUsersUseCase;
         this.findUserByIdUseCase = findUserByIdUseCase;
         this.initUserRegistrationUseCase = initUserRegistrationUseCase;
         this.updateUserUseCase = updateUserUseCase;
         this.deleteUserUseCase = deleteUserUseCase;
         this.uploadImageUserUseCase = uploadImageUserUseCase;
+        this.updateUserPatchUseCase = updateUserPatchUseCase;
     }
 
     public List<UserResponseDTO> listAll(int page, int pageSize) {
@@ -61,6 +63,10 @@ public class UserFacade {
 
     public void saveUserImage(UUID id, MultipartFile file) throws IOException {
         uploadImageUserUseCase.execute(id, file);
+    }
+
+    public void atualizaUsuarioPatch(UUID userId, UserUpdateDTO userRequest) {
+        updateUserPatchUseCase.execute(userId, userRequest);
     }
 
 }
