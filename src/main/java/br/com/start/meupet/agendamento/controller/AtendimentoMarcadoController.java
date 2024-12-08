@@ -3,6 +3,7 @@ package br.com.start.meupet.agendamento.controller;
 import br.com.start.meupet.agendamento.dto.atendimento.AtendimentoMarcadoDTO;
 import br.com.start.meupet.agendamento.dto.atendimento.AtendimentoMarcadoRequestDTO;
 import br.com.start.meupet.agendamento.enums.AtendimentoStatus;
+import br.com.start.meupet.agendamento.facade.AtendimentoMarcadoFacade;
 import br.com.start.meupet.agendamento.model.Animal;
 import br.com.start.meupet.agendamento.model.AtendimentoMarcado;
 import br.com.start.meupet.agendamento.model.ServicoPrestado;
@@ -17,6 +18,7 @@ import br.com.start.meupet.partner.repository.PartnerRepository;
 import br.com.start.meupet.user.model.User;
 import br.com.start.meupet.user.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -31,6 +33,10 @@ import java.util.UUID;
 @CrossOrigin
 @Slf4j
 public class AtendimentoMarcadoController {
+
+    @Autowired
+    AtendimentoMarcadoFacade atendimentoMarcadoFacade;
+
 
     private final AtendimentoMarcadoRepository atendimentoMarcadoRepository;
     private final UserRepository userRepository;
@@ -56,32 +62,14 @@ public class AtendimentoMarcadoController {
 
     @GetMapping
     public ResponseEntity<List<AtendimentoMarcadoDTO>> listaAtendimentosMarcados() {
-        List<AtendimentoMarcado> atendimentoMarcados = atendimentoMarcadoRepository.findAll();
-        List<AtendimentoMarcadoDTO> atendimentoMarcadoDTO = new ArrayList<>();
-        atendimentoMarcados.forEach(atendimento -> {
-            atendimentoMarcadoDTO.add(new AtendimentoMarcadoDTO(atendimento, atendimento.getPartner(), atendimento.getUser(), atendimento.getServicoPrestado(), atendimento.getAnimal()));
-        });
-        return ResponseEntity.ok().body(atendimentoMarcadoDTO);
+
+        return ResponseEntity.ok().body(atendimentoMarcadoFacade.ListaTodosAtendimentosMarcado());
     }
 
     @GetMapping("/user/{userId}")
     public ResponseEntity<List<AtendimentoMarcadoDTO>> listaAtendimentoMarcado(@PathVariable UUID userId) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("User not found"));
 
-        // Busca os atendimentos marcados associados ao usuário
-        List<AtendimentoMarcado> atendimentosMarcados = atendimentoMarcadoRepository.findByUser(user);
-
-        // Converte os atendimentos marcados para DTOs
-        List<AtendimentoMarcadoDTO> atendimentosDTO = atendimentosMarcados.stream()
-                .map(atendimento -> new AtendimentoMarcadoDTO(
-                        atendimento,
-                        atendimento.getPartner(),
-                        atendimento.getUser(),
-                        atendimento.getServicoPrestado(),
-                        atendimento.getAnimal()
-                ))
-                .toList();
-        return ResponseEntity.ok().body(atendimentosDTO);
+        return ResponseEntity.ok().body(atendimentoMarcadoFacade.ListaAtendimentoUsuario(userId));
     }
 
     @PostMapping
