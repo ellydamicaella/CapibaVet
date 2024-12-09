@@ -1,5 +1,6 @@
 package br.com.start.meupet.agendamento.usecase.AtendimentoMarcado;
 
+import br.com.start.meupet.agendamento.dto.atendimento.AtendimentoStatusDTO;
 import br.com.start.meupet.agendamento.enums.AtendimentoStatus;
 import br.com.start.meupet.agendamento.model.AtendimentoMarcado;
 import br.com.start.meupet.agendamento.repository.AtendimentoMarcadoRepository;
@@ -19,10 +20,10 @@ public class AtualizaStatusDoAtendimentoMarcadoUseCase {
         this.atendimentoMarcadoRepository = atendimentoMarcadoRepository;
     }
 
-    public void execute(UUID partnerId, Long atendimentoMarcadoId, String status) {
+    public void execute(UUID partnerId, Long atendimentoMarcadoId, AtendimentoStatusDTO request) {
         AtendimentoStatus novoStatus;
         try {
-            novoStatus = AtendimentoStatus.valueOf(status.toUpperCase());
+            novoStatus = AtendimentoStatus.valueOf(request.status().toUpperCase());
         } catch (IllegalArgumentException e) {
             throw new StatusInvalidException("Status inválido. Use PENDENTE, CANCELADO ou CONFIRMADO.");
         }

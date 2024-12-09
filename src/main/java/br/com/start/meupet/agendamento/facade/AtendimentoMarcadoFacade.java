@@ -2,6 +2,7 @@ package br.com.start.meupet.agendamento.facade;
 
 import br.com.start.meupet.agendamento.dto.atendimento.AtendimentoMarcadoDTO;
 import br.com.start.meupet.agendamento.dto.atendimento.AtendimentoMarcadoRequestDTO;
+import br.com.start.meupet.agendamento.dto.atendimento.AtendimentoStatusDTO;
 import br.com.start.meupet.agendamento.usecase.AtendimentoMarcado.AdicionarAtendimentoMarcadoUseCase;
 import br.com.start.meupet.agendamento.usecase.AtendimentoMarcado.AtualizaStatusDoAtendimentoMarcadoUseCase;
 import br.com.start.meupet.agendamento.usecase.AtendimentoMarcado.ListaAtendimentoMarcadoUserIdUseCase;
@@ -43,7 +44,7 @@ public class AtendimentoMarcadoFacade {
         adicionarAtendimentoMarcadoUseCase.execute(atendimentoMarcado);
     }
 
-    public void atualizaStatusAtendimentoMarcado(UUID partnerId, Long atendimentoMarcadoId, String status) {
+    public void atualizaStatusAtendimentoMarcado(UUID partnerId, Long atendimentoMarcadoId, AtendimentoStatusDTO status) {
         atualizaStatusDoAtendimentoMarcadoUseCase.execute(partnerId, atendimentoMarcadoId, status);
     }
 }
