@@ -1,4 +1,4 @@
 package br.com.start.meupet.agendamento.usecase.AtendimentoMarcado;
 
-public class AdicionarAtendimentoMarcadoUseCase {
+public class AtualizaStatusDoAtendimentoMarcadoUseCase {
 }
