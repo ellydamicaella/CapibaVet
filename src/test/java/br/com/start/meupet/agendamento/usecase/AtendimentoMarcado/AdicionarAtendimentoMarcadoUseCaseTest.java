@@ -82,7 +82,7 @@ public class AdicionarAtendimentoMarcadoUseCaseTest {
         when(partnerRepository.findById(partnerId)).thenReturn(Optional.of(partner));
         when(servicoPrestadoRepository.findById(serviceId)).thenReturn(Optional.of(servico));
         when(userRepository.findById(userId)).thenReturn(Optional.of(user));
-        when(addNewAnimalToUserUseCase.execute(userId, null)).thenReturn(animal);
+        when(addNewAnimalToUserUseCase.execute(userId, animalRequest)).thenReturn(animal);
         when(atendimentoMarcadoRepository.existsConflict(partnerId, appointmentDate, startTime, endTime)).thenReturn(false);
 
         // Act
