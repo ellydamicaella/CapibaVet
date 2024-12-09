@@ -21,8 +21,6 @@ services:
     depends_on:
       db:
         condition: service_healthy
-      redis:
-        condition: service_started
     build:
       context: .
       dockerfile: Dockerfile
