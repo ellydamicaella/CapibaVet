@@ -42,57 +42,6 @@ public class AtendimentoMarcadoController {
         return ResponseEntity.ok().body(atendimentoMarcadoFacade.listaTodosAtendimentosMarcado());
     }
 
-    @GetMapping("/user/{userId}")
-    public ResponseEntity<List<AtendimentoMarcadoDTO>> listaAtendimentoMarcado(@PathVariable UUID userId) {
-        return ResponseEntity.ok().body(atendimentoMarcadoFacade.listaAtendimentoUsuario(userId));
-    }
-
-    @PostMapping
-    public ResponseEntity<StatusResponseDTO> adicionaAtendimentoMarcado(@RequestBody AtendimentoMarcadoRequestDTO request) {
-        atendimentoMarcadoFacade.adicionaAtendimentoMarcado(request);
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(new StatusResponseDTO("success", "Atendimento marcado com sucesso!"));
-    }
-
-    @PutMapping("/{partnerId}/{atendimentoMarcadoId}")
-    public ResponseEntity<StatusResponseDTO> alteraStatusDeAtendimentoMarcado(@PathVariable UUID partnerId, @PathVariable Long atendimentoMarcadoId, @RequestBody AtendimentoStatusDTO request) {
-        AtendimentoStatus novoStatus;
-        try {
-            novoStatus = AtendimentoStatus.valueOf(request.status().toUpperCase());
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(new StatusResponseDTO("error", "Status inválido. Use PENDENTE, CANCELADO ou CONFIRMADO."));
-        }
-
-        // Verifica se o atendimento existe
-        AtendimentoMarcado atendimentoMarcado = atendimentoMarcadoRepository.findById(atendimentoMarcadoId)
-                .orElseThrow(() -> new EntityNotFoundException("Atendimento não encontrado"));
-
-        if(atendimentoMarcado.getStatus().equals(novoStatus)) {
-            return ResponseEntity.ok().body(new StatusResponseDTO("success", "Status nao foi alterado por que já era o mesmo"));
-        }
-        User usuario = atendimentoMarcado.getUser();
-
-        if(atendimentoMarcado.getStatus() == AtendimentoStatus.PENDENTE) {
-            if(novoStatus.equals(AtendimentoStatus.CONFIRMADO)) {
-                usuario.setMoedaCapiba(usuario.getMoedaCapiba() + 10);
-            }
-        }
-
-        // Verifica se o parceiro é o dono do atendimento
-        if (!atendimentoMarcado.getPartner().getId().equals(partnerId)) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                    .body(new StatusResponseDTO("error", "Você não tem permissão para alterar este atendimento."));
-        }
-
-        // Atualiza o status do atendimento
-        atendimentoMarcado.setStatus(novoStatus);
-        atendimentoMarcado.setUser(usuario);
-        atendimentoMarcadoRepository.save(atendimentoMarcado);
-
-        return ResponseEntity.ok().body(new StatusResponseDTO("success", "Status do atendimento atualizado com sucesso."));
-    }
-
     @GetMapping("/partner/{partnerId}")
     public ResponseEntity<List<AtendimentoMarcadoDTO>> listaAtendimentoMarcadoParaClinica(@PathVariable UUID partnerId) {
         Partner partner = partnerRepository.findById(partnerId).orElseThrow(() -> new EntityNotFoundException("Partner not found"));
@@ -113,4 +62,26 @@ public class AtendimentoMarcadoController {
         return ResponseEntity.ok().body(atendimentosDTO);
     }
 
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<AtendimentoMarcadoDTO>> listaAtendimentoMarcado(@PathVariable UUID userId) {
+        return ResponseEntity.ok().body(atendimentoMarcadoFacade.listaAtendimentoUsuario(userId));
+    }
+
+    @PostMapping
+    public ResponseEntity<StatusResponseDTO> adicionaAtendimentoMarcado(@RequestBody AtendimentoMarcadoRequestDTO request) {
+        atendimentoMarcadoFacade.adicionaAtendimentoMarcado(request);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(new StatusResponseDTO("success", "Atendimento marcado com sucesso!"));
+    }
+
+    @PutMapping("/{partnerId}/{atendimentoMarcadoId}")
+    public ResponseEntity<StatusResponseDTO> alteraStatusDeAtendimentoMarcado(@PathVariable UUID partnerId, @PathVariable Long atendimentoMarcadoId, @RequestParam AtendimentoStatusDTO request) {
+        atendimentoMarcadoFacade.atualizaStatusAtendimentoMarcado(partnerId, atendimentoMarcadoId, request);
+        return ResponseEntity.ok(new StatusResponseDTO("success", "Status do atendimento atualizado com sucesso."));
+    }
+
+    @DeleteMapping("/{partnerId}/{atendimentoMarcadoId}")
+    public ResponseEntity<Void> deletaAtendimentoMarcado(@PathVariable UUID partnerId, @PathVariable Long atendimentoMarcadoId) {
+        return ResponseEntity.noContent().build();
+    }
 }

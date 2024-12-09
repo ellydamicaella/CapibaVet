@@ -68,5 +68,4 @@ public class UserFacade {
     public void finishDataUser(UUID userId, UserUpdateDTO userRequest) {
         finalizaUltimosDadosDoUsuarioUseCase.execute(userId, userRequest);
     }
-
 }

@@ -28,5 +28,4 @@ public interface AtendimentoMarcadoRepository extends JpaRepository<AtendimentoM
     List<AtendimentoMarcado> findByUser(User user);
 
     List<AtendimentoMarcado> findByPartner(Partner partner);
-
 }
