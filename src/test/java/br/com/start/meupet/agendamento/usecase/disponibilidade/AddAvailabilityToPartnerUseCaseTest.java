@@ -17,6 +17,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -76,14 +77,7 @@ public class AddAvailabilityToPartnerUseCaseTest {
     void shouldThrowExceptionWhenEndTimeIsBeforeStartTime() {
         // Arrange
         UUID partnerId = UUID.randomUUID();
-        Partner mockPartner = new Partner();
-        mockPartner.setId(partnerId);
-        mockPartner.setName("John Partner");
-        mockPartner.setEmail(new Email("aaaaa@gmail.com"));
-        mockPartner.setPassword("321312312");
-        mockPartner.setPhoneNumber(new PhoneNumber("(21) 22222-2222"));
-        mockPartner.setPersonalRegistration(new PersonalRegistration("11111111111111", DocumentType.CNPJ));
-
+        Partner mockPartner = getPartner(partnerId);
 
         DisponibilidadeRequestDTO request = new DisponibilidadeRequestDTO("17:00", "08:00");
 
@@ -98,13 +92,12 @@ public class AddAvailabilityToPartnerUseCaseTest {
         verify(partnerRepository, times(1)).findById(partnerId);
         verify(disponibilidadeRepository, never()).save(any(Disponibilidade.class));
     }
+
     @Test
     void shouldThrowExceptionWhenTimeFormatIsInvalid() {
         // Arrange
         UUID partnerId = UUID.randomUUID();
-        Partner mockPartner = new Partner();
-        mockPartner.setId(partnerId);
-        mockPartner.setName("John Partner");
+        Partner mockPartner = getPartner(partnerId);
 
         DisponibilidadeRequestDTO request = new DisponibilidadeRequestDTO("invalid", "17:00");
 
@@ -118,5 +111,18 @@ public class AddAvailabilityToPartnerUseCaseTest {
         assertEquals("Invalid argument", exception.getMessage());
         verify(partnerRepository, times(1)).findById(partnerId);
         verify(disponibilidadeRepository, never()).save(any(Disponibilidade.class));
+    }
+
+    private Partner getPartner(UUID partnerId) {
+        Partner mockPartner = new Partner();
+        mockPartner.setId(partnerId);
+        mockPartner.setName("John Partner");
+        mockPartner.setEmail(new Email("aaaaa@gmail.com"));
+        mockPartner.setPassword("321312312");
+        mockPartner.setPhoneNumber(new PhoneNumber("(21) 22222-2222"));
+        mockPartner.setPersonalRegistration(new PersonalRegistration("11111111111111", DocumentType.CNPJ));
+        List<Disponibilidade> disponibilidades = new ArrayList<>();
+        mockPartner.setDisponibilidades(disponibilidades);
+        return mockPartner;
     }
 }
