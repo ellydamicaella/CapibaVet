@@ -2,6 +2,7 @@ package br.com.start.meupet.partner.facade;
 
 import br.com.start.meupet.partner.dto.PartnerRequestDTO;
 import br.com.start.meupet.partner.dto.PartnerResponseDTO;
+import br.com.start.meupet.partner.dto.PartnerUpdateDTO;
 import br.com.start.meupet.partner.usecase.*;
 import org.springframework.stereotype.Service;
 
@@ -16,19 +17,21 @@ public class PartnerFacade {
     private final InitPartnerRegistrationUseCase initPartnerRegistrationUseCase;
     private final UpdatePartnerUseCase updatePartnerUseCase;
     private final DeletePartnerUseCase deletePartnerUseCase;
+    private final FinalizaUltimosDadosDoParceiro finalizaUltimosDadosDoParceiro;
 
     public PartnerFacade(
-           ListPartnersUseCase listPartnersUseCase,
-           FindPartnerByIdUseCase findPartnerByIdUseCase,
-           InitPartnerRegistrationUseCase initPartnerRegistrationUseCase,
-           UpdatePartnerUseCase updatePartnerUseCase,
-           DeletePartnerUseCase deletePartnerUseCase)
+            ListPartnersUseCase listPartnersUseCase,
+            FindPartnerByIdUseCase findPartnerByIdUseCase,
+            InitPartnerRegistrationUseCase initPartnerRegistrationUseCase,
+            UpdatePartnerUseCase updatePartnerUseCase,
+            DeletePartnerUseCase deletePartnerUseCase, FinalizaUltimosDadosDoParceiro finalizaUltimosDadosDoParceiro)
     {
         this.listPartnersUseCase = listPartnersUseCase;
         this.findPartnerByIdUseCase = findPartnerByIdUseCase;
         this.initPartnerRegistrationUseCase = initPartnerRegistrationUseCase;
         this.updatePartnerUseCase = updatePartnerUseCase;
         this.deletePartnerUseCase = deletePartnerUseCase;
+        this.finalizaUltimosDadosDoParceiro = finalizaUltimosDadosDoParceiro;
     }
 
     public List<PartnerResponseDTO> listAll(int page, int pageSize) {
@@ -40,7 +43,7 @@ public class PartnerFacade {
     }
 
     public PartnerResponseDTO insert(PartnerRequestDTO partnerRequest) {
-       return initPartnerRegistrationUseCase.execute(partnerRequest);
+        return initPartnerRegistrationUseCase.execute(partnerRequest);
     }
 
     public PartnerResponseDTO update(UUID id, PartnerRequestDTO newPartner) {
@@ -49,5 +52,9 @@ public class PartnerFacade {
 
     public void delete(UUID id) {
         deletePartnerUseCase.execute(id);
+    }
+
+    public void finalizaUltimosDadosDoParceiro(UUID partnerId, PartnerUpdateDTO partnerRequest) {
+        finalizaUltimosDadosDoParceiro.execute(partnerId, partnerRequest);
     }
 }

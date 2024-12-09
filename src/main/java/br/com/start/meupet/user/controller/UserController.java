@@ -91,7 +91,7 @@ public class UserController {
     }
 
     @PatchMapping("/{userId}")
-    public ResponseEntity<Void> updateUser(@PathVariable UUID userId, @RequestBody UserUpdateDTO userRequest) {
+    public ResponseEntity<Void> finilizandoOsDadosDoUsuario(@PathVariable UUID userId, @RequestBody UserUpdateDTO userRequest) {
         userFacade.atualizaUsuarioPatch(userId, userRequest);
         return ResponseEntity.ok().build();
     }

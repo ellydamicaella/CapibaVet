@@ -23,7 +23,7 @@ public class UserFacade {
     private final UpdateUserUseCase updateUserUseCase;
     private final DeleteUserUseCase deleteUserUseCase;
     private final UploadImageUserUseCase uploadImageUserUseCase;
-    private final UpdateUserPatchUseCase updateUserPatchUseCase;
+    private final FinalizaUltimosDadosDoUsuarioUseCase finalizaUltimosDadosDoUsuarioUseCase;
 
     public UserFacade(
             ListUsersUseCase listUsersUseCase,
@@ -31,14 +31,14 @@ public class UserFacade {
             InitUserRegistrationUseCase initUserRegistrationUseCase,
             UpdateUserUseCase updateUserUseCase,
             DeleteUserUseCase deleteUserUseCase,
-            UploadImageUserUseCase uploadImageUserUseCase, UpdateUserPatchUseCase updateUserPatchUseCase) {
+            UploadImageUserUseCase uploadImageUserUseCase, FinalizaUltimosDadosDoUsuarioUseCase finalizaUltimosDadosDoUsuarioUseCase) {
         this.listUsersUseCase = listUsersUseCase;
         this.findUserByIdUseCase = findUserByIdUseCase;
         this.initUserRegistrationUseCase = initUserRegistrationUseCase;
         this.updateUserUseCase = updateUserUseCase;
         this.deleteUserUseCase = deleteUserUseCase;
         this.uploadImageUserUseCase = uploadImageUserUseCase;
-        this.updateUserPatchUseCase = updateUserPatchUseCase;
+        this.finalizaUltimosDadosDoUsuarioUseCase = finalizaUltimosDadosDoUsuarioUseCase;
     }
 
     public List<UserResponseDTO> listAll(int page, int pageSize) {
@@ -54,19 +54,18 @@ public class UserFacade {
     }
 
     public UserResponseDTO update(UUID id, UserRequestDTO newUser) {
-       return updateUserUseCase.execute(id, newUser);
+        return updateUserUseCase.execute(id, newUser);
     }
 
     public void delete(UUID id) {
-       deleteUserUseCase.execute(id);
+        deleteUserUseCase.execute(id);
     }
 
     public void saveUserImage(UUID id, MultipartFile file) throws IOException {
         uploadImageUserUseCase.execute(id, file);
     }
 
-    public void atualizaUsuarioPatch(UUID userId, UserUpdateDTO userRequest) {
-        updateUserPatchUseCase.execute(userId, userRequest);
+    public void finishDataUser(UUID userId, UserUpdateDTO userRequest) {
+        finalizaUltimosDadosDoUsuarioUseCase.execute(userId, userRequest);
     }
-
 }

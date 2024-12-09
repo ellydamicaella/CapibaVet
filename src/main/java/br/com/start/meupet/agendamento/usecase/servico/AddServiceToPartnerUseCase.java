@@ -42,7 +42,8 @@ public class AddServiceToPartnerUseCase {
                 servicoPrestadoRepository.save(newServico);
 
                 log.info("Serviço {} com preço {} adicionado ao parceiro {}", servicoDTO.name(), servicoDTO.price(), partner.getName());
-                partnerRepository.save(partner);
         }
+
+        partnerRepository.save(partner);
     }
 }
