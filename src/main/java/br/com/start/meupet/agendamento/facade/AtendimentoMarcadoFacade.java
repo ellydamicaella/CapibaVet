@@ -44,7 +44,7 @@ public class AtendimentoMarcadoFacade {
         adicionarAtendimentoMarcadoUseCase.execute(atendimentoMarcado);
     }
 
-    public void atualizaStatusAtendimentoMarcado(UUID partnerId, Long atendimentoMarcadoId, AtendimentoStatusDTO status) {
-        atualizaStatusDoAtendimentoMarcadoUseCase.execute(partnerId, atendimentoMarcadoId, status);
+    public void atualizaStatusAtendimentoMarcado(UUID partnerId, Long atendimentoMarcadoId, AtendimentoStatusDTO request) {
+        atualizaStatusDoAtendimentoMarcadoUseCase.execute(partnerId, atendimentoMarcadoId, request.status());
     }
 }

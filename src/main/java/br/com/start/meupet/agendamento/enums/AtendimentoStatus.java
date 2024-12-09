@@ -6,7 +6,8 @@ import lombok.Getter;
 public enum AtendimentoStatus {
     PENDENTE("PENDENTE"),
     CONFIRMADO("CONFIRMADO"),
-    CANCELADO("CANCELADO");
+    CANCELADO("CANCELADO"),
+    CONCLUIDO("CONCLUIDO");
 
     private final String atendimentoStatus;
 

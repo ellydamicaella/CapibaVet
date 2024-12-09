@@ -75,8 +75,9 @@ public class AtendimentoMarcadoController {
     }
 
     @PutMapping("/{partnerId}/{atendimentoMarcadoId}")
-    public ResponseEntity<StatusResponseDTO> alteraStatusDeAtendimentoMarcado(@PathVariable UUID partnerId, @PathVariable Long atendimentoMarcadoId, @RequestParam AtendimentoStatusDTO request) {
-        atendimentoMarcadoFacade.atualizaStatusAtendimentoMarcado(partnerId, atendimentoMarcadoId, request);
+    public ResponseEntity<StatusResponseDTO> alteraStatusDeAtendimentoMarcado(@PathVariable UUID partnerId, @PathVariable Long atendimentoMarcadoId, @RequestBody AtendimentoStatusDTO status) {
+        log.info("{}", status.status());
+        atendimentoMarcadoFacade.atualizaStatusAtendimentoMarcado(partnerId, atendimentoMarcadoId, status);
         return ResponseEntity.ok(new StatusResponseDTO("success", "Status do atendimento atualizado com sucesso."));
     }
 
