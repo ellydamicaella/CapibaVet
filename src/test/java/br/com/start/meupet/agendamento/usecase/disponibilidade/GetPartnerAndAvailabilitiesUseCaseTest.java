@@ -41,7 +41,7 @@ public class GetPartnerAndAvailabilitiesUseCaseTest {
         mockPartner.setEmail(new Email("aaaaa@gmail.com"));
         mockPartner.setPassword("321312312");
         mockPartner.setPhoneNumber(new PhoneNumber("(21) 22222-2222"));
-        mockPartner.setPersonalRegistration(new PersonalRegistration("11111111111111", DocumentType.CNPJ));
+        mockPartner.setPersonalRegistration(new PersonalRegistration("11.111.111/1111-11", DocumentType.CNPJ));
 
         Disponibilidade disponibilidade1 = new Disponibilidade();
         disponibilidade1.setId(1L);
