@@ -8,6 +8,8 @@ import br.com.start.meupet.agendamento.model.ServicoPrestado;
 import br.com.start.meupet.agendamento.repository.AtendimentoMarcadoRepository;
 import br.com.start.meupet.agendamento.repository.ServicoPrestadoRepository;
 import br.com.start.meupet.agendamento.usecase.animal.AddNewAnimalToUserUseCase;
+import br.com.start.meupet.common.exceptions.EntityNotFoundException;
+import br.com.start.meupet.common.exceptions.SchedulingConflictException;
 import br.com.start.meupet.partner.model.Partner;
 import br.com.start.meupet.partner.repository.PartnerRepository;
 import br.com.start.meupet.user.model.User;
@@ -23,6 +25,7 @@ import java.time.LocalTime;
 import java.util.Optional;
 import java.util.UUID;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -90,5 +93,105 @@ public class AdicionarAtendimentoMarcadoUseCaseTest {
 
         // Assert
         verify(atendimentoMarcadoRepository, times(1)).save(any(AtendimentoMarcado.class));
+    }
+    @Test
+    void shouldThrowExceptionWhenPartnerNotFound() {
+        // Arrange
+        UUID partnerId = UUID.randomUUID();
+        AnimalRequestDTO animalRequest = new AnimalRequestDTO(
+                "Rex", // Nome do animal
+                "2", // Idade
+                "Nenhum histórico médico", // Histórico
+                "CACHORRO", // Tipo do animal
+                "M" // Sexo
+        );
+        AtendimentoMarcadoRequestDTO request = new AtendimentoMarcadoRequestDTO(
+                partnerId, 10L, UUID.randomUUID(), animalRequest, LocalDate.now(), LocalTime.now(), LocalTime.now().plusHours(1)
+        );
+
+        when(partnerRepository.findById(partnerId)).thenReturn(Optional.empty());
+
+        // Act & Assert
+        assertThrows(EntityNotFoundException.class, () -> adicionarAtendimentoMarcadoUseCase.execute(request));
+        verify(atendimentoMarcadoRepository, never()).save(any());
+    }
+    @Test
+    void shouldThrowExceptionWhenServiceNotFound() {
+        // Arrange
+        UUID partnerId = UUID.randomUUID();
+        Long serviceId = 10L;
+        AnimalRequestDTO animalRequest = new AnimalRequestDTO(
+                "Rex", // Nome do animal
+                "2", // Idade
+                "Nenhum histórico médico", // Histórico
+                "CACHORRO", // Tipo do animal
+                "M" // Sexo
+        );
+        AtendimentoMarcadoRequestDTO request = new AtendimentoMarcadoRequestDTO(
+                partnerId, 10L, UUID.randomUUID(), animalRequest, LocalDate.now(), LocalTime.now(), LocalTime.now().plusHours(1)
+        );
+
+        when(partnerRepository.findById(partnerId)).thenReturn(Optional.of(new Partner()));
+        when(servicoPrestadoRepository.findById(serviceId)).thenReturn(Optional.empty());
+
+        // Act & Assert
+        assertThrows(EntityNotFoundException.class, () -> adicionarAtendimentoMarcadoUseCase.execute(request));
+        verify(atendimentoMarcadoRepository, never()).save(any());
+    }
+    @Test
+    void shouldThrowExceptionWhenUserNotFound() {
+        // Arrange
+        UUID userId = UUID.randomUUID();
+        UUID partnerId = UUID.randomUUID();
+        AnimalRequestDTO animalRequest = new AnimalRequestDTO(
+                "Rex", // Nome do animal
+                "2", // Idade
+                "Nenhum histórico médico", // Histórico
+                "CACHORRO", // Tipo do animal
+                "M" // Sexo
+        );
+        AtendimentoMarcadoRequestDTO request = new AtendimentoMarcadoRequestDTO(
+                partnerId, 10L, userId, animalRequest, LocalDate.now(), LocalTime.now(), LocalTime.now().plusHours(1)
+        );
+
+        when(partnerRepository.findById(any())).thenReturn(Optional.of(new Partner()));
+        when(servicoPrestadoRepository.findById(any())).thenReturn(Optional.of(new ServicoPrestado()));
+        when(userRepository.findById(userId)).thenReturn(Optional.empty());
+
+        // Act & Assert
+        assertThrows(EntityNotFoundException.class, () -> adicionarAtendimentoMarcadoUseCase.execute(request));
+        verify(atendimentoMarcadoRepository, never()).save(any());
+    }
+    @Test
+    void shouldThrowExceptionWhenSchedulingConflictExists() {
+        // Arrange
+        UUID partnerId = UUID.randomUUID();
+        AnimalRequestDTO animalRequest = new AnimalRequestDTO(
+                "Rex", // Nome do animal
+                "2", // Idade
+                "Nenhum histórico médico", // Histórico
+                "CACHORRO", // Tipo do animal
+                "M" // Sexo
+        );
+        AtendimentoMarcadoRequestDTO request = new AtendimentoMarcadoRequestDTO(
+                partnerId, 10L, UUID.randomUUID(), animalRequest, LocalDate.now(), LocalTime.now(), LocalTime.now().plusHours(1)
+        );
+        Partner partner = new Partner();
+        partner.setId(partnerId);
+
+
+        when(partnerRepository.findById(partnerId)).thenReturn(Optional.of(partner));
+        when(servicoPrestadoRepository.findById(any())).thenReturn(Optional.of(new ServicoPrestado()));
+        when(userRepository.findById(any())).thenReturn(Optional.of(new User()));
+        when(atendimentoMarcadoRepository.existsConflict(
+                eq(request.partnerId()),
+                eq(request.appointmentDate()),
+                eq(request.startTime()),
+                eq(request.endTime())
+        )).thenReturn(true);
+
+        // Act & Assert
+        assertThrows(SchedulingConflictException.class, () -> adicionarAtendimentoMarcadoUseCase.execute(request));
+        verify(atendimentoMarcadoRepository, never()).save(any());
     }
 }
