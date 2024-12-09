@@ -1,8 +1,9 @@
 package br.com.start.meupet.common.exceptions;
 
+import org.springframework.http.HttpStatus;
+
 import java.io.Serial;
 
-import org.springframework.http.HttpStatus;
 
 public class ProblemDetailsException extends RuntimeException {
 

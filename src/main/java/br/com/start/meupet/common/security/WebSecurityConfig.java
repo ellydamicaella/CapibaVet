@@ -48,21 +48,32 @@ public class WebSecurityConfig {
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**").permitAll()
-                        .requestMatchers("authenticable/**").permitAll()
-                        .requestMatchers("/authenticable/confirmAccount/**").permitAll()
-                        .requestMatchers("/authenticable/createAccount/**").permitAll()
-                        .requestMatchers("/user/**").permitAll()
-                        .requestMatchers("/partner/**").permitAll()
-                        .requestMatchers("/password-recovery/**").permitAll()
-                        .requestMatchers("/password-recovery/page/**").permitAll()
-                        .requestMatchers("/change-password.html").permitAll()
-                        .requestMatchers("/templates/**").permitAll()
-                        .requestMatchers("/confirmacaoConta.html").permitAll()
-                        .requestMatchers("/favicon.ico").permitAll()
+                        .requestMatchers(
+                                "/auth/**", "/authenticable/**", "/authenticable/confirmAccount/**", "/authenticable/createAccount/**",
+                                "/user/**",
+                                "/partner/**",
+                                "/templates/**",
+                                "/confirmacaoConta.html",
+                                "/v3/api-docs",
+                                "/v3/api-docs/**",
+                                "/swagger-ui/**",
+                                "/swagger-ui.html",
+                                "/authenticable/getuser",
+                                "/user/upload-image/**",
+                                "/user/image/**",
+                                "/doc",
+                                "/password-recovery/**",
+                                "/agendamento/partner/**",
+                                "/agendamento/user/**",
+                                "/agendamento/atendimento/**",
+                                "/agendamento/atendimento/user/**",
+                                "/authenticable/changePassword/**",
+                                "/partner/service/disponibilidade/**",
+                                "/partner/agendamento/**"
+                                    ).permitAll()
+                        .requestMatchers("/agendamento/**").authenticated()
                         .anyRequest().authenticated());
         http.addFilterBefore(authFilterToken(), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
-
 }

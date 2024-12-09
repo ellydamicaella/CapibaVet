@@ -1,6 +1,6 @@
 package br.com.start.meupet.common.service;
 
-import br.com.start.meupet.common.usecase.authenticable.CheckIfAuthenticableAlreadyExistsUseCase;
+import br.com.start.meupet.auth.usecase.authenticable.CheckIfAuthenticableAlreadyExistsUseCase;
 import br.com.start.meupet.partner.model.Partner;
 import org.springframework.stereotype.Service;
 import br.com.start.meupet.user.model.User;

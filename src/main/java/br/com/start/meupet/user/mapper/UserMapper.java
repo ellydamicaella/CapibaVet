@@ -2,7 +2,6 @@ package br.com.start.meupet.user.mapper;
 
 import java.time.LocalDateTime;
 
-import br.com.start.meupet.common.enums.DocumentType;
 import br.com.start.meupet.common.utils.BirthDayUtils;
 import br.com.start.meupet.common.valueobjects.PersonalRegistration;
 import br.com.start.meupet.user.model.User;
@@ -38,7 +37,7 @@ public final class UserMapper {
                 newUser.getEmail(),
                 newUser.getPassword(),
                 newUser.getPhoneNumber(),
-                new PersonalRegistration(newUser.getPersonalRegistration().getDocument(), newUser.getPersonalRegistration().getType()),
+                new PersonalRegistration(newUser.getPersonalRegistration().getDocument(), newUser.getPersonalRegistration().getDocumentType()),
                 newUser.getDateOfBirth()
         );
         user.setId(oldUser.getId());

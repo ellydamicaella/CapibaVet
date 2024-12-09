@@ -21,20 +21,20 @@ public class PersonalRegistration {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "documentType", nullable = false)
-    private DocumentType type;
+    private DocumentType documentType;
 
 
     public PersonalRegistration() {}
 
-    public PersonalRegistration(String document, DocumentType type) {
-        if (type == DocumentType.CPF && !DocumentValidator.isValidCPF(document)) {
+    public PersonalRegistration(String document, DocumentType documentType) {
+        if (documentType == DocumentType.CPF && !DocumentValidator.isValidCPF(document)) {
             throw new ProblemDetailsException("CPF inválido", "Formado do cpf inválido", HttpStatus.BAD_REQUEST);
         }
-        if (type == DocumentType.CNPJ && !DocumentValidator.isValidCNPJ(document)) {
+        if (documentType == DocumentType.CNPJ && !DocumentValidator.isValidCNPJ(document)) {
             throw new ProblemDetailsException("CNPJ inválido", "Formado do cnpj inválido", HttpStatus.BAD_REQUEST);
         }
         this.document = document;
-        this.type = type;
+        this.documentType = documentType;
     }
 
     @Override
@@ -42,12 +42,12 @@ public class PersonalRegistration {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         PersonalRegistration that = (PersonalRegistration) o;
-        return Objects.equals(document, that.document) && type == that.type;
+        return Objects.equals(document, that.document) && documentType == that.documentType;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(document, type);
+        return Objects.hash(document, documentType);
     }
 
 }

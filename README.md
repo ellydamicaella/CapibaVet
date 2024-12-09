@@ -1,157 +1,3 @@
-<h1 align="center">
-  Meu Pet
-</h1>
-
-<p align="center">
- <img src="https://img.shields.io/static/v1?label=Tipo&message=Plataforma Web&color=8257E5&labelColor=000000" alt="Plataforma Web" />
-</p>
-a
-## Descrição do Projeto
-
-Com o crescimento excessivo de animais em situação de rua, viabilizamos um projeto para impactar a situação desses animais presente na Região Metropolitana do Recife.
-O projeto "Meu Pet" visa facilitar a adoção, resgate e cuidados de animais em situação de abandono. A plataforma conecta usuários, ONGs, e prestadores de serviços, criando uma rede de apoio para animais necessitados.
-
-## Tipos de Commits
-
-Os commits possuem os seguintes tipos, que informam a intenção do seu commit aos usuários do seu código:
-
-- **fix**: Indica que o código commitado está solucionando um problema (bug fix). Relaciona-se com o PATCH do versionamento semântico.
-  
-- **feat**: Indica que o código commitado está incluindo um novo recurso. Relaciona-se com o MINOR do versionamento semântico.
-
-- **docs**: Indica que houve mudanças na documentação, como por exemplo no README do seu repositório (não inclui alterações em código).
-
-- **style**: Indica que houve alterações referentes a formatações de código, como semicolons, trailing spaces, lint, etc. (não inclui alterações em código).
-
-- **refactor**: Refere-se a mudanças devido a refatorações que não alterem a funcionalidade do código. Por exemplo, uma alteração no formato de processamento de determinada parte da tela, mantendo a mesma funcionalidade, ou melhorias de performance após um code review.
-
-- **build**: Utilizado quando são realizadas modificações em arquivos de build e dependências.
-
-- **test**: Utilizado quando são realizadas alterações em testes, seja criando, alterando ou excluindo testes unitários (não inclui alterações em código).
-
-- **chore**: Indica atualizações de tarefas de build, configurações de administrador, pacotes, etc., como adicionar um pacote ao .gitignore (não inclui alterações em código).
-
-## Emojis para Commits
-
-| Tipo de Commit              | Emoji                 |
-|-----------------------------|---------------------|
-| Commit inicial              | 🎉 :tada:           |
-| Tag de versão               | 🔖 :bookmark:        |
-| Novo recurso                | ✨ :sparkles:       |
-| Lista de ideias (tasks)     | 🔜 :soon:           |
-| Bugfix                      | 🐛 :bug:            |
-| Documentação                | 📚 :books:          |
-| Testes                      | 🧪 :test_tube:      |
-| Adicionando um teste        | ✅ :white_check_mark:|
-| Teste de aprovação          | ✔️ :heavy_check_mark:|
-| Acessibilidade              | ♿ :wheelchair:     |
-| Texto                       | 📝 :pencil:         |
-| Package.json em JS         | 📦 :package:        |
-| Em progresso                | 🚧 :construction:    |
-| Arquivos de configuração    | 🔧 :wrench:        |
-| Removendo uma dependência   | ➖ :heavy_minus_sign:|
-| Adicionando uma dependência  | ➕ :heavy_plus_sign: |
-| Revertendo mudanças         | 💥 :boom:           |
-| Alterações de revisão de código | 👌 :ok_hand:   |
-| Refatoração                 | ♻️ :recycle:       |
-| Mover/Renomear             | 🚚 :truck:         |
-
-## Banco de Dados
-
-### Cadastro de Usuário
-- **Campos:**
-  - Nome completo
-  - Email
-  - Senha
-  - Telefone
-
-### Cadastro de ONG
-- **Campos:**
-  - Nome fantasia
-  - CNPJ
-  - Email
-  - Endereço
-  - Senha
-
-### Cadastro de Animais para Resgate
-- **Campos:**
-  - Foto
-  - Situação do cão
-  - Localização do cão (sem pré-requisito)
-
-### Denuncias
-- **Campos:**
-  - informacao_do_denunciante
-  - localizacao
-  - animal_envolvido
-  - qtds_animais_envolvidos
-  - descricao
-  - foto
-  - video
-  - data_denuncia
-
-### Animais para adoção
-- **Campos:**
-  - nome
-  - tipo
-  - porte
-  - personalidade
-  - vacinado
-  - castrado
-  - adotado
-  - foto
-  - localizacao
-  
-### Servicos parceiros
-- **Campos**
-  - nome
-  - localizacao
-  - latitude
-  - longitude
-  - telefone
-  - horario_atendimento
-
-## Funcionalidades
-
-- **Cadastro de ONGs:** Levantar dados de custos para a prefeitura e cadastrar animais disponíveis para adoção.
-- **Cadastro de Usuarios:** Os usuarios podem estar adotando os animais, denunciando maus tratos, solicitando resgates.
-- **Catálogo de Animais para Adoção:** Sistema de "match" entre animais e adotantes.
-- **Denúncia:** Funcionalidade para reportar maus-tratos.
-- **Resgate:** Organizar e facilitar resgates de animais em situação de risco.
-- **Serviços para Seu Pet:** Divulgação de clínicas e vetenários parceiros para consultas, castrações e vacinas.
-- **Divulgação de Eventos e Campanhas:** Informar sobre eventos de adoção, campanhas de castração, e clínicas parceiras.
-- **Visualização de Áreas Geográficas:** Melhoria na logística através do cadastro de prestadores de serviços.
-
-## Upgrades Futuros
-
-- **Cadastros para Prestação de Serviços:** Expansão das funcionalidades para incluir serviços adicionais.
-
-## Stakeholders
-
-- Prefeitura
-- ONGs
-- Voluntários
-- Prestadores de Serviços
-- Adotantes
-
-## Funcionalidades Futuras Propostas
-
-1. **Geolocalização de Animais Perdidos e Resgatados:** Registro da localização exata para facilitar buscas e resgates.
-2. **Integração com Redes Sociais:** Compartilhamento de informações sobre animais para aumentar a visibilidade.
-3. **Cadastro Completo de Animais:** Perfis detalhados incluindo histórico médico e necessidades especiais.
-4. **Sistema de Notificação em Tempo Real:** Alertas sobre novos animais e emergências de resgate.
-5. **Sistema de Denúncias de Maus-Tratos:** Registro de denúncias com opção de anexar fotos e localização.
-6. **Raçãometro e Doações Diretas:** Permitir doações de alimentos e itens diretamente para ONGs.
-7. **Campanhas de Castração e Vacinação:** Organização de mutirões com prefeituras e veterinários.
-8. **Sistema de Adoção Online:** Formalização de adoções com documentação gerada automaticamente.
-9. **Acompanhamento Pós-Adoção:** Garantir cuidados necessários e incentivar atualizações periódicas.
-10. **Mapeamento de Clínicas Veterinárias e Abrigos:** Mapa interativo para facilitar o atendimento.
-11. **Parcerias com Serviços de Transporte:** Facilitar logística para resgates e adoções.
-12. **Sistema de Apadrinhamento:** Permitir que pessoas ajudem com custos de cuidados de animais.
-13. **Classificação de Urgência para Resgates:** Classificar casos que precisam de resposta imediata.
-14. **Sistema de Busca por Características:** Filtros para ajudar na busca de animais por características específicas.
-15. **Colaboração com ONGs e Voluntários:** Gerenciamento de voluntários para apoio em resgates e cuidados.
-
 ## Contribuições
 
 Para contribuir com o projeto, por favor, envie um pull request ou abra uma issue no repositório. Agradecemos seu interesse em ajudar a melhorar a vida dos animais!
@@ -162,6 +8,8 @@ Para contribuir com o projeto, por favor, envie um pull request ou abra uma issu
 - [Spring Security](https://spring.io/projects/spring-security)
 - [Spring Data JPA](https://spring.io/projects/spring-data-jpa)
 - [Mysql](https://www.mysql.com/)
+- [Redis](https://redis.io/)
+- [Docker](https://www.docker.com/)
 
 ## Práticas adotadas
 
@@ -171,15 +19,19 @@ Para contribuir com o projeto, por favor, envie um pull request ou abra uma issu
 - API reativa na web e na camada de banco
 - Uso de DTOs para a API
 - Injeção de Dependências
-- Trello
 - Auditoria sobre criação e atualização da entidade
 
 ## Como Executar
 
 ### Localmente
-- Clonar repositório git:
+
+- Clonar repositório git por https
 ```
-git clone https://github.com/ellydamicaella/AnimalAlert.git
+git clone https://github.com/MeuPet-Start/Back_MeuPet.git
+```
+- Clonar repositório git por ssh
+```
+git clone git@github.com:MeuPet-Start/Back_MeuPet.git
 ```
 - Construir o projeto:
 ```
@@ -190,36 +42,51 @@ git clone https://github.com/ellydamicaella/AnimalAlert.git
 java -jar target/meupet-0.0.1-SNAPSHOT.jar
 ```
 
-A API poderá ser acessada em [localhost:8080](http://localhost:8080).
-O Swagger poderá ser visualizado em [localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
+- OBS: será necessário que o mysql esteja rodando na sua máquina local
+- Então altere em application.properties as seguintes configuracoes
+```
+spring.datasource.url=(url do mysql ex:jdbc:mysql://localhost:3306/meupet)
+spring.datasource.username=(seu username do mysql)
+spring.datasource.password=(sua senha do mysql)
+```
+
+A API poderá ser acessada em [localhost:8080/api/v1](http://localhost:8080/api/v1).
+O Swagger poderá ser visualizado em [localhost:8080/api/v1/doc](http://localhost:8080/api/v1/doc)
 
 ### Usando Docker
 
-- Clonar repositório git
+- Clonar repositório git por https
 ```
-git clone https://github.com/ellydamicaella/AnimalAlert.git
+git clone https://github.com/MeuPet-Start/Back_MeuPet.git
+```
+- Clonar repositório git por ssh
+```
+git clone git@github.com:MeuPet-Start/Back_MeuPet.git
 ```
 - Construir o projeto:
 ```
-./mvnw clean package
+mvn clean package
 ```
-- Construir a imagem:
+- Construir a imagem e executar o container:
 ```
-./mvnw spring-boot:build-image
+docker-compose up
 ```
-- Executar o container:
-```
-docker run --name meupet -p 8080:8080  -d meupet:0.0.1-SNAPSHOT
-```
-
-A API poderá ser acessada em [localhost:8080](http://localhost:8080).
-O Swagger poderá ser visualizado em [localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
+- Após isso basta rodar o projeto na sua IDE ou buildar com:
+````
+mvn package
+````
+- E executar o arquivo jar
+````
+java -jar target/meupet-0.0.1-SNAPSHOT.jar
+````
+A API poderá ser acessada em [localhost:8080](http://localhost:8080/api/v1).
+O Swagger poderá ser visualizado em [localhost:8080/api/v1/swagger-ui.html](http://localhost:8080/swagger-ui.html)
 
 ## Métodos
 Requisições para a API devem seguir os padrões:
 | Método | Descrição |
 |---|---|
-| `GET` | Retorna informações de um ou mais registros. |
+| `GET` | Retorna informações de um ou mais registros.|
 | `POST` | Utilizado para criar um novo registro. |
 | `PUT` | Atualiza dados de um registro ou altera sua situação. |
 | `DELETE` | Remove um registro do sistema. |
@@ -237,15 +104,522 @@ Requisições para a API devem seguir os padrões:
 | `422` | Dados informados estão fora do escopo definido para o campo.|
 | `429` | Número máximo de requisições atingido. (*aguarde alguns segundos e tente novamente*)|
 
-## Limites (Throttling)
-Existe o limite de `#` requisições por minuto por aplicação+usuário.
+[//]: # (## Limites &#40;Throttling&#41;)
 
-Você pode acompanhar esses limites nos `headers`: `X-RateLimit-Limit`, `X-RateLimit-Remaining` enviados em todas as respostas da API.
+[//]: # (Existe o limite de `#` requisições por minuto por aplicação+usuário.)
 
-Ações de `listar` exibem `#` registros por página. Não é possível alterar este número.
+[//]: # ()
+[//]: # (Você pode acompanhar esses limites nos `headers`: `X-RateLimit-Limit`, `X-RateLimit-Remaining` enviados em todas as respostas da API.)
 
-Por questões de segurança, todas as requisições serão feitas através do protocolo `HTTPS`.
+[//]: # ()
+[//]: # (Ações de `listar` exibem `#` registros por página. Não é possível alterar este número.)
 
-## API Endpoints
+[//]: # ()
+[//]: # (Por questões de segurança, todas as requisições serão feitas através do protocolo `HTTPS`.)
 
-A ser feito
+# API Endpoints
+
+## Base URL
+
+````
+http://localhost:8080/api/v1/
+````
+
+## User
+Endpoints disponíveis no **User Controller**, responsável por gerenciar operações CRUD relacionadas à entidade `User`.
+
+## Métodos Get:
+
+### 1. Listar usuarios
+
+- **Descrição**: Lista todos os usuarios com paginação.
+- **Método**: `GET`
+- **Endpoint**: `/user`
+- **Headers**:
+  - `Content-Type: application/json`
+
+Exemplo de Resposta:
+
+    Código 200 (OK):
+```` 
+[
+  {
+    "id": null,
+    "name": "John Doe",
+    "email": "jonhdoe@mail.com",
+    "phoneNumber": "(11) 11 11111-1111",
+    "document": "11111111111",
+    "documentType": "CPF",
+    "birthDate": "2005-12-22"
+  },
+  {
+    ...
+  },
+   ...
+]
+````
+### 2. Recupera usuario por ID
+
+- **Descrição**: Recupera um usuario por ID.
+- **Método**: `GET`
+- **Endpoint**: `/user/{id}`
+- **Headers**:
+  - `Content-Type: application/json`
+
+Exemplo de Resposta:
+
+    Código 200 (OK):
+````json
+{
+  "id": null,
+  "name": "John Doe",
+  "email": "jonhdoe@mail.com",
+  "phoneNumber": "(11) 11111-1111",
+  "document": "11111111111",
+  "documentType": "CPF",
+  "birthDate": "2005-12-22"
+}
+````
+### 3. Recupera imagem do perfil do usuario
+
+- **Descrição**: Recupera imagem do perfil do usuario no banco de dados.
+- **Método**: `GET`
+- **Endpoint**: `/user/image`
+- **Headers**:
+  - `Content-Type: multipart/form-data`
+- **Parâmetros da URL**: `id` (UUID): O identificador único do usuário, que será associado à imagem.
+
+Exemplo de Resposta:
+
+    Código 200 (OK):
+
+    O arquivo da imagem
+
+## Métodos Post
+
+### 1. Criar Usuário
+
+- **Descrição**: Cria um novo usuário no sistema.
+- **Método**: `POST`
+- **Endpoint**: `/user`
+- **Headers**:
+  - `Content-Type: application/json`
+
+**Corpo da Requisição**:
+```json
+{
+  "name": "John Doe",
+  "socialName": "",
+  "password": "12312323",
+  "email": "jonhdoe@mail.com",
+  "phoneNumber": "(11) 11 11111-1111",
+  "document": "11111111111",
+  "documentType": "CPF",
+  "birthDate": "2005-12-22"
+}
+````
+
+Exemplo de Resposta:
+
+    Código 201 (Created):
+````json
+{
+  "status": "success",
+  "message": "Email enviado ao usuario com sucesso, aguardando confirmação de conta"
+}
+````
+
+Após essa requisição será enviada um email para o usuário confirmar a conta.
+
+### 2. Upload da imagem para o usuário
+
+- **Descrição**: Insere a imagem referente ao usuario no banco de dados.
+- **Método**: `POST`
+- **Endpoint**: `/user/upload-image/{id}`
+- **Headers**:
+  - `Content-Type: multipart/form-data`
+
+**Corpo da Requisição**:
+  ```
+  Deve conter a imagem enviada como parte de um formulário 
+  no formato multipart/form-data.
+````
+**Exemplo da Requisição**:
+````
+POST /user/upload-image/123e4567-e89b-12d3-a456-426614174000 HTTP/1.1
+  Host: api.example.com
+  Content-Type: multipart/form-data; boundary=---boundary123
+
+-----boundary123
+Content-Disposition: form-data; name="file"; filename="profile.jpg"
+Content-Type: image/jpeg
+
+[ARQUIVO BINÁRIO DA IMAGEM]
+-----boundary123--
+````
+
+Exemplo de Resposta:
+
+    Código 201 (Created):
+
+    {
+      "status": "success"
+      "message": "Imagem enviada com sucesso"
+    }
+
+
+## Métodos Put
+
+### 1. Atualiza Usuário
+
+- **Descrição**: Atualiza um usuário no sistema.
+- **Método**: `PUT`
+- **Endpoint**: `/user/{id}`
+- **Headers**:
+  - `Content-Type: application/json`
+
+**Corpo da Requisição**:
+````json
+{
+  "name": "John Doe",
+  "socialName": "",
+  "password": "12312323",
+  "email": "jonhdoe@mail.com",
+  "phoneNumber": "(11) 11 11111-1111",
+  "document": "11111111111",
+  "documentType": "CPF",
+  "birthDate": "2005-12-22"
+}
+````
+Exemplo de Resposta:
+
+    Código 204 (No Content)
+
+## Métodos Delete
+
+### 1. Deleta Usuário
+
+- **Descrição**: Deleta um usuário no sistema.
+- **Método**: `DELETE`
+- **Endpoint**: `/user`
+- **Parâmetros da URL**: `id` (UUID): O identificador único do usuário.
+- **Headers**:
+  - `Content-Type: application/json`
+
+Exemplo de Resposta:
+
+    Código 204 (No Content)
+
+## Partner
+
+Endpoints disponíveis no **Partner Controller**, responsável por gerenciar operações CRUD relacionadas à entidade `Partner`.
+
+## Métodos Get:
+
+### 1. Listar parceiros
+
+- **Descrição**: Lista todos os parceiros com paginação.
+- **Método**: `GET`
+- **Endpoint**: `/partner`
+- **Headers**:
+  - `Content-Type: application/json`
+
+Exemplo de Resposta:
+
+    Código 200 (OK):
+```` 
+[
+  {
+    "id": null,
+    "name": "Clinica Veterinária MeuVet",
+    "email": "meuvet@mail.com",
+    "phoneNumber": "(11) 11111-1111",
+    "document": "11111111111111",
+    "documentType": "CPNJ"
+  },
+  {
+    ...
+  },
+   ...
+]
+ ````
+### 2. Recupera parceiro por ID
+
+- **Descrição**: Recupera parceiro por id.
+- **Método**: `GET`
+- **Endpoint**: `/partner/{id}`
+- **Headers**:
+  - `Content-Type: application/json`
+
+Exemplo de Resposta:
+
+    Código 200 (OK):
+
+````json
+{
+  "id": null,
+  "name": "Clinica Veterinária MeuVet",
+  "email": "meuvet@mail.com",
+  "phoneNumber": "(11) 11111-1111",
+  "document": "11111111111",
+  "documentType": "CPF"
+}
+````
+### 3. Recupera imagem do perfil do parceiro
+
+- **Descrição**: Recupera imagem do perfil do parceiro no banco de dados.
+- **Método**: `GET`
+- **Endpoint**: `/partner/image`
+- **Headers**:
+  - `Content-Type: multipart/form-data`
+- **Parâmetros da URL**: `id` (UUID): O identificador único do parceiro, que será associado à imagem.
+
+Exemplo de Resposta:
+
+    Código 200 (OK):
+
+    O arquivo da imagem
+
+## Métodos Post
+
+### 1. Criar parceiro
+
+- **Descrição**: Cria um novo parceiro no sistema.
+- **Método**: `POST`
+- **Endpoint**: `/partner`
+- **Headers**:
+  - `Content-Type: application/json`
+
+**Corpo da Requisição**:
+```json
+{
+  "name": "Clinica Veterinária MeuVet",
+  "password": "12312323",
+  "email": "jonhdoe@mail.com",
+  "phoneNumber": "(11) 11111-1111",
+  "document": "11111111111",
+  "documentType": "CNPJs"
+}
+````
+
+Exemplo de Resposta:
+
+    Código 201 (Created):
+````json
+{
+  "status": "success",
+  "message": "Email enviado ao parceiro com sucesso, aguardando confirmação de conta"
+}
+````
+
+Após essa requisição será enviada um email para o parcerio confirmar a conta.
+
+### 2. Upload da imagem para o usuário
+
+- **Descrição**: Insere a imagem referente ao usuario no banco de dados.
+- **Método**: `POST`
+- **Endpoint**: `/user/upload-image/{id}`
+- **Headers**:
+  - `Content-Type: multipart/form-data`
+
+**Corpo da Requisição**:
+```
+Deve conter a imagem enviada como parte de um formulário 
+no formato multipart/form-data.
+````
+- **Exemplo da Requisição**:
+
+````
+POST /user/upload-image/123e4567-e89b-12d3-a456-426614174000 HTTP/1.1
+  Host: api.example.com
+  Content-Type: multipart/form-data; boundary=---boundary123
+
+-----boundary123
+Content-Disposition: form-data; name="file"; filename="profile.jpg"
+Content-Type: image/jpeg
+
+[ARQUIVO BINÁRIO DA IMAGEM]
+-----boundary123--
+````
+
+Exemplo de Resposta:
+
+````
+Código 201 (Created):
+{
+  "status": "success"
+  "message": "Imagem enviada com sucesso"
+}
+````
+
+## Métodos Put
+
+### 1. Atualiza parceiro
+
+- **Descrição**: Atualiza um parceiro no sistema.
+- **Método**: `POST`
+- **Endpoint**: `/partner/{id}`
+- **Headers**:
+  - `Content-Type: application/json`
+
+**Corpo da Requisição**:
+````json
+{
+  "name": "Clinica Veterinária MeuVet",
+  "password": "12312323",
+  "email": "meuvet@mail.com",
+  "phoneNumber": "(11) 11111-1111",
+  "document": "11111111111111",
+  "documentType": "CNPJ"
+}
+````
+Exemplo de Resposta:
+
+    Código 204 (No Content)
+
+## Métodos Delete
+
+### 1. Deleta parceiro
+
+- **Descrição**: Deleta um parceiro do sistema.
+- **Método**: `DELETE`
+- **Endpoint**: `/partner`
+- **Parâmetros da URL**: `id` (UUID): O identificador único do parceiro.
+- **Headers**:
+  - `Content-Type: application/json`
+
+**Corpo da Requisição**:
+````json
+{
+  "name": "Clinica Veterinária MeuVet",
+  "password": "12312323",
+  "email": "meuvet@mail.com",
+  "phoneNumber": "(11) 11111-1111",
+  "document": "11111111111111",
+  "documentType": "CNPJ"
+}
+````
+Exemplo de Resposta:
+
+    Código 204 (No Content)
+
+## Authenticable
+
+Endpoints disponíveis no **Authenticable Controller**, responsável por gerenciar operações CRUD relacionadas à entidade `Partner, e User`.
+
+## Métodos Get:
+
+### 1. Recupera tanto usuário quanto parceiro.
+
+- **Descrição**: Recupera autenticable por email.
+- **Método**: `GET`
+- **Endpoint**: `/autenticable`
+- **Headers**:
+  - `Content-Type: application/json`
+
+Exemplo de Resposta:
+
+    Código 200 (OK):
+
+````json
+{
+  "name": "John Doe",
+  "moedaCapiba": 0
+}
+````
+
+## Métodos Post:
+
+### 1. Criar conta
+
+- **Descrição**: Cria conta tanto do usuário quanto do parceiro.
+- **Método**: `POST`
+- **Endpoint**: `/autenticable/createAccount/{token}`
+- **Headers**:
+  - `Content-Type: application/json`
+
+Exemplo de Resposta:
+
+    Código 201 (OK):
+    
+    {   
+      "status": "success",
+      "message": ""entidade criada com sucesso""
+    }
+
+# Password-recovery
+
+Endpoints disponíveis no **Password-recovery Controller**, responsável por gerenciar operações relacionadas à recuperação de senha das entidades `Partner, e User`.
+
+# Métodos Post:
+
+### 1. Solicita recuperação de senha.
+
+- **Descrição**: Solicita recuperação de senha pelo email.
+- **Método**: `POST`
+- **Endpoint**: `/password-recover/request`
+- **Parâmetros da requisição**: `email` : "string".
+- **Headers**:
+  - `Content-Type: application/json`
+
+Exemplo de Resposta:
+
+    Código 201 (OK):
+    
+    {   
+      "status": "success",
+      "message": "Email enviado com sucesso!"
+    }
+
+### 2. Altera a senha do usuario.
+
+- **Descrição**: Altera senha do usuario no sistema.
+- **Método**: `POST`
+- **Endpoint**: `/password-recover/reset`
+- **Parâmetros da requisição**: `token` "string".
+- **Headers**:
+  - `Content-Type: application/json`
+
+**Corpo da Requisição**:
+````json
+{
+  "password": "string"
+}
+````
+Exemplo de Resposta:
+
+    Código 201 (OK):
+    
+    {   
+      "status": "success",
+      "message": "Senha alterada com sucesso!"
+    }
+
+# Auth
+
+Endpoints disponíveis no **Auth Controller**, responsável por gerenciar operações relacionadas à recuperação de senha das entidades `Partner, e User`.
+
+# Métodos Post:
+
+### 1. Login.
+
+- **Descrição**: Loga o usuario.
+- **Método**: `POST`
+- **Endpoint**: `/auth/login`
+- **Headers**:
+  - `Content-Type: application/json`
+  
+**Corpo da Requisição**:
+````json
+{
+  "email": "string",
+  "password": "string"
+}
+````
+Exemplo de Resposta:
+
+    Código 201 (OK):
+    
+    {   
+      "token": "string"
+    }

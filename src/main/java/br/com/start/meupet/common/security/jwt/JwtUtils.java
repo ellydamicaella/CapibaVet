@@ -10,9 +10,10 @@ import br.com.start.meupet.partner.model.Partner;
 import br.com.start.meupet.user.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
-import br.com.start.meupet.common.service.AuthenticableDetailsImpl;
+import br.com.start.meupet.auth.service.AuthenticableDetailsImpl;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -28,13 +29,20 @@ public final class JwtUtils {
 
     private final String jwtSecret = "eyJhbGciOiJIUzUxMiJ9eyJSb2xlIjoiQWRtaW4iLCJJc3N1ZXIiOiJJc3N1ZXIiLCJVc2VybmFtZSI6IkphdmFJblVzZSIsImV4cCI6MTczMDQ5Njc4OCwiaWF0IjoxNzMwNDk2Nzg4fQPihcxN4AJlFW8EFPaSQGLL1r3ltbZBv0nOI1BqflmIU98sFMfqc0Sy9iyVHphSEuHVhwciw97OcKApEg";
 
-    private final int jwtExpirationMs = 600000;
+    private final int jwtExpirationMs = 6000000;
 
 
     public String generateTokenFromAuthenticableDetailsImpl(
             AuthenticableDetailsImpl authenticableDetails
     ) {
         return Jwts.builder().header().add("typ", "JWT").and().subject(authenticableDetails.getUsername())
+                .claim(
+                        "roles",
+                        authenticableDetails.getAuthorities()
+                                .stream()
+                                .map(GrantedAuthority::getAuthority) // Extrai o nome da role
+                                .toList() // Converte para lista de strings
+                )
                 .issuedAt(new Date())
                 .expiration(new Date(new Date().getTime() + this.jwtExpirationMs))
                 .signWith(getSigningKey(), Jwts.SIG.HS512)
@@ -51,7 +59,7 @@ public final class JwtUtils {
                 .claim("phoneNumber", user.getPhoneNumber().toString())
                 .claim("password", user.getPassword())
                 .claim("document", user.getPersonalRegistration().getDocument())
-                .claim("documentType", user.getPersonalRegistration().getType().toString())
+                .claim("documentType", user.getPersonalRegistration().getDocumentType().toString())
                 .claim("birthDate", BirthDayUtils.formatDateOfBirth(user.getDateOfBirth()))
                 .claim("typeUser", "USER")
                 .expiration(new Date(new Date().getTime() + this.jwtExpirationMs))
@@ -68,7 +76,7 @@ public final class JwtUtils {
                 .claim("phoneNumber", partnerRequest.getPhoneNumber().toString())
                 .claim("password", partnerRequest.getPassword())
                 .claim("document", partnerRequest.getPersonalRegistration().getDocument())
-                .claim("documentType", partnerRequest.getPersonalRegistration().getType().toString())
+                .claim("documentType", partnerRequest.getPersonalRegistration().getDocumentType().toString())
                 .claim("typeUser", "PARTNER")
                 .expiration(new Date(new Date().getTime() + this.jwtExpirationMs))
                 .signWith(getSigningKey(), Jwts.SIG.HS512)

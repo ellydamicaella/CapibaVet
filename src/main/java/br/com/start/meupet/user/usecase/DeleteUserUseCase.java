@@ -5,6 +5,7 @@ import br.com.start.meupet.user.model.User;
 import br.com.start.meupet.user.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
@@ -19,6 +20,7 @@ public class DeleteUserUseCase {
         this.userRepository = userRepository;
     }
 
+    @Transactional
     public void execute(UUID id) {
         User userEntity = userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User not found"));
         userRepository.delete(userEntity);

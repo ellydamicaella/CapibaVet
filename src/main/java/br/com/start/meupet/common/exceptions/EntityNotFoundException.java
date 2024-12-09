@@ -1,8 +1,10 @@
 package br.com.start.meupet.common.exceptions;
 
+import org.springframework.http.HttpStatus;
+
 import java.io.Serial;
 
-public class EntityNotFoundException extends RuntimeException {
+public class EntityNotFoundException extends ProblemDetailsException {
 
     /**
      *
@@ -10,12 +12,8 @@ public class EntityNotFoundException extends RuntimeException {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    public EntityNotFoundException() {
-        super();
-    }
-
-    public EntityNotFoundException(String message) {
-        super(message);
+    public EntityNotFoundException(String detail) {
+        super("Not found", detail, HttpStatus.NOT_FOUND);
     }
 
 }

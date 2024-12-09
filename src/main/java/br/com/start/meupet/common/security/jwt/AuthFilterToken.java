@@ -1,6 +1,6 @@
 package br.com.start.meupet.common.security.jwt;
 
-import br.com.start.meupet.user.service.AuthenticableDetailsServiceImpl;
+import br.com.start.meupet.auth.service.AuthenticableDetailsServiceImpl;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -31,7 +31,8 @@ public class AuthFilterToken extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try {
             String jwt = getToken(request);
-            if (request.getRequestURI().startsWith("partner")) {
+            log.info(request.getRequestURI());
+            if (request.getRequestURI().startsWith("partner") || request.getRequestURI().startsWith("/api/v1/swagger-ui")) {
                 filterChain.doFilter(request, response);
             }
             if (!(jwt != null && jwtUtils.validateJwtToken(jwt))) {

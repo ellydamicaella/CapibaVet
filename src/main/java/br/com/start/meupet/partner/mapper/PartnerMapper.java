@@ -25,11 +25,11 @@ public final class PartnerMapper {
 
     public static Partner partnerBeforeToNewPartner(Partner oldPartner, Partner newPartner) {
         Partner partner = new Partner(
-                oldPartner.getName(),
+                newPartner.getName(),
                 newPartner.getEmail(),
                 newPartner.getPassword(),
                 newPartner.getPhoneNumber(),
-                new PersonalRegistration(newPartner.getPersonalRegistration().getDocument(), newPartner.getPersonalRegistration().getType())
+                new PersonalRegistration(newPartner.getPersonalRegistration().getDocument(), newPartner.getPersonalRegistration().getDocumentType())
         );
         partner.setId(oldPartner.getId());
         partner.setCreatedAt(oldPartner.getCreatedAt());
