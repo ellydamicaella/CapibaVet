@@ -84,7 +84,7 @@ public class ListPartnersUseCaseTest {
         partner1.setEmail(new Email("aaaaa@gmail.com"));
         partner1.setPassword("321312312");
         partner1.setPhoneNumber(new PhoneNumber("(21) 22222-2222"));
-        partner1.setPersonalRegistration(new PersonalRegistration("11111111111", DocumentType.CPF));
+        partner1.setPersonalRegistration(new PersonalRegistration("11.111.111/1111-11", DocumentType.CNPJ));
 
         Partner partner2 = new Partner();
         partner2.setId(partnerId2);
@@ -92,7 +92,7 @@ public class ListPartnersUseCaseTest {
         partner2.setEmail(new Email("aaaaa@gmail.com"));
         partner2.setPassword("321312312");
         partner2.setPhoneNumber(new PhoneNumber("(21) 22222-2222"));
-        partner2.setPersonalRegistration(new PersonalRegistration("11111111111", DocumentType.CPF));
+        partner2.setPersonalRegistration(new PersonalRegistration("11.111.111/1111-11", DocumentType.CNPJ));
 
         return List.of(partner1, partner2);
     }

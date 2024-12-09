@@ -94,7 +94,7 @@ public class InitUserRegistrationUseCaseTest {
         newUser.setEmail("aaaaa@gmail.com");
         newUser.setBirthDate("2000-12-01");
         newUser.setPhoneNumber("(21) 22222-2222");
-        newUser.setDocument("11111111111");
+        newUser.setDocument("111.111.111-11");
         newUser.setDocumentType("CPF");
         return newUser;
     }

@@ -1,6 +1,7 @@
 package br.com.start.meupet.partner.usecase;
 
 import br.com.start.meupet.auth.service.EmailService;
+import br.com.start.meupet.common.exceptions.EntityNotFoundException;
 import br.com.start.meupet.common.security.jwt.JwtUtils;
 import br.com.start.meupet.common.service.ServiceUtils;
 import br.com.start.meupet.common.templates.TemplateNameEnum;
@@ -69,13 +70,13 @@ public class InitPartnerRegistrationUseCaseTest {
     void shouldThrowExceptionWhenUserAlreadyExists() {
         PartnerRequestDTO partnerRequestDTO = getPartnerRequestDTOAllIsOk();
 
-        Mockito.doThrow(new IllegalArgumentException("Partner already exists"))
+        Mockito.doThrow(new EntityNotFoundException("Partner already exists"))
                 .when(serviceUtils).isPartnerAlreadyExists(Mockito.any(Partner.class));
 
-        Exception exception = Assertions.assertThrows(IllegalArgumentException.class,
+        Exception exception = Assertions.assertThrows(EntityNotFoundException.class,
                 () -> initPartnerRegistrationUseCase.execute(partnerRequestDTO));
 
-        Assertions.assertEquals("Partner already exists", exception.getMessage());
+        Assertions.assertEquals("Not found", exception.getMessage());
         Mockito.verify(serviceUtils).isPartnerAlreadyExists(Mockito.any(Partner.class));
         Mockito.verifyNoInteractions(passwordEncoder, jwtUtils, emailService);
     }
@@ -86,7 +87,7 @@ public class InitPartnerRegistrationUseCaseTest {
         newPartner.setPassword("newPassword");
         newPartner.setEmail("aaaaa@gmail.com");
         newPartner.setPhoneNumber("(21) 22222-2222");
-        newPartner.setDocument("11111111111111");
+        newPartner.setDocument("11.111.111/1111-11");
         newPartner.setDocumentType("CNPJ");
         return newPartner;
     }

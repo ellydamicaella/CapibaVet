@@ -44,7 +44,7 @@ public class ListAllServicesAndPartnersUseCaseTest {
         partner.setEmail(new Email("aaaaa@gmail.com"));
         partner.setPassword("321312312");
         partner.setPhoneNumber(new PhoneNumber("(21) 22222-2222"));
-        partner.setPersonalRegistration(new PersonalRegistration("11111111111111", DocumentType.CNPJ));
+        partner.setPersonalRegistration(new PersonalRegistration("11.111.111/1111-11", DocumentType.CNPJ));
 
         ServicoPrestado service1 = new ServicoPrestado();
         service1.setName(ServicoType.CASTRACAO);
