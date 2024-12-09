@@ -26,7 +26,7 @@ public class AtendimentoMarcado {
     @JsonIgnore
     private Partner partner;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "id_service", referencedColumnName = "id", nullable = false)
     @JsonIgnore
     private ServicoPrestado servicoPrestado;

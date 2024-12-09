@@ -23,10 +23,13 @@ public class PartnerAtendimentoDTO {
 
     private String phone;
 
+    private String address;
+
     public PartnerAtendimentoDTO(Partner partner) {
         this.id = partner.getId();
         this.name = partner.getName();
         this.email = partner.getEmail().toString();
         this.phone = partner.getPhoneNumber().toString();
+        this.address = String.format("%s, %s", partner.getStreetAndNumber(), partner.getNeighborhood());
     }
 }
