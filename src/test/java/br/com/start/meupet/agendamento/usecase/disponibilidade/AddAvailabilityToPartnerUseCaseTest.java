@@ -120,7 +120,7 @@ public class AddAvailabilityToPartnerUseCaseTest {
         mockPartner.setEmail(new Email("aaaaa@gmail.com"));
         mockPartner.setPassword("321312312");
         mockPartner.setPhoneNumber(new PhoneNumber("(21) 22222-2222"));
-        mockPartner.setPersonalRegistration(new PersonalRegistration("11111111111111", DocumentType.CNPJ));
+        mockPartner.setPersonalRegistration(new PersonalRegistration("11.111.111/1111-11", DocumentType.CNPJ));
         List<Disponibilidade> disponibilidades = new ArrayList<>();
         mockPartner.setDisponibilidades(disponibilidades);
         return mockPartner;
