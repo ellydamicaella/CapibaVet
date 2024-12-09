@@ -2,8 +2,16 @@ package br.com.start.meupet.agendamento.controller;
 
 import br.com.start.meupet.agendamento.dto.atendimento.AtendimentoMarcadoDTO;
 import br.com.start.meupet.agendamento.dto.atendimento.AtendimentoMarcadoRequestDTO;
+import br.com.start.meupet.agendamento.dto.atendimento.AtendimentoStatusDTO;
+import br.com.start.meupet.agendamento.enums.AtendimentoStatus;
 import br.com.start.meupet.agendamento.facade.AtendimentoMarcadoFacade;
+import br.com.start.meupet.agendamento.model.AtendimentoMarcado;
+import br.com.start.meupet.agendamento.repository.AtendimentoMarcadoRepository;
 import br.com.start.meupet.auth.dto.StatusResponseDTO;
+import br.com.start.meupet.common.exceptions.EntityNotFoundException;
+import br.com.start.meupet.partner.model.Partner;
+import br.com.start.meupet.partner.repository.PartnerRepository;
+import br.com.start.meupet.user.model.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,9 +28,13 @@ import java.util.UUID;
 public class AtendimentoMarcadoController {
 
     private final AtendimentoMarcadoFacade atendimentoMarcadoFacade;
+    private final PartnerRepository partnerRepository;
+    private final AtendimentoMarcadoRepository atendimentoMarcadoRepository;
 
-    public AtendimentoMarcadoController(AtendimentoMarcadoFacade atendimentoMarcadoFacade) {
+    public AtendimentoMarcadoController(AtendimentoMarcadoFacade atendimentoMarcadoFacade, PartnerRepository partnerRepository, AtendimentoMarcadoRepository atendimentoMarcadoRepository) {
         this.atendimentoMarcadoFacade = atendimentoMarcadoFacade;
+        this.partnerRepository = partnerRepository;
+        this.atendimentoMarcadoRepository = atendimentoMarcadoRepository;
     }
 
     @GetMapping
@@ -43,9 +55,62 @@ public class AtendimentoMarcadoController {
     }
 
     @PutMapping("/{partnerId}/{atendimentoMarcadoId}")
-    public ResponseEntity<StatusResponseDTO> alteraStatusDeAtendimentoMarcado(@PathVariable UUID partnerId, @PathVariable Long atendimentoMarcadoId, @RequestParam String status) {
-        atendimentoMarcadoFacade.atualizaStatusAtendimentoMarcado(partnerId, atendimentoMarcadoId, status);
-        return ResponseEntity.ok(new StatusResponseDTO("success", "Status do atendimento atualizado com sucesso."));
+    public ResponseEntity<StatusResponseDTO> alteraStatusDeAtendimentoMarcado(@PathVariable UUID partnerId, @PathVariable Long atendimentoMarcadoId, @RequestBody AtendimentoStatusDTO request) {
+        AtendimentoStatus novoStatus;
+        try {
+            novoStatus = AtendimentoStatus.valueOf(request.status().toUpperCase());
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(new StatusResponseDTO("error", "Status inválido. Use PENDENTE, CANCELADO ou CONFIRMADO."));
+        }
+
+        // Verifica se o atendimento existe
+        AtendimentoMarcado atendimentoMarcado = atendimentoMarcadoRepository.findById(atendimentoMarcadoId)
+                .orElseThrow(() -> new EntityNotFoundException("Atendimento não encontrado"));
+
+        if(atendimentoMarcado.getStatus().equals(novoStatus)) {
+            return ResponseEntity.ok().body(new StatusResponseDTO("success", "Status nao foi alterado por que já era o mesmo"));
+        }
+        User usuario = atendimentoMarcado.getUser();
+
+        if(atendimentoMarcado.getStatus() == AtendimentoStatus.PENDENTE) {
+            if(novoStatus.equals(AtendimentoStatus.CONFIRMADO)) {
+                usuario.setMoedaCapiba(usuario.getMoedaCapiba() + 10);
+            }
+        }
+
+        // Verifica se o parceiro é o dono do atendimento
+        if (!atendimentoMarcado.getPartner().getId().equals(partnerId)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                    .body(new StatusResponseDTO("error", "Você não tem permissão para alterar este atendimento."));
+        }
+
+        // Atualiza o status do atendimento
+        atendimentoMarcado.setStatus(novoStatus);
+        atendimentoMarcado.setUser(usuario);
+        atendimentoMarcadoRepository.save(atendimentoMarcado);
+
+        return ResponseEntity.ok().body(new StatusResponseDTO("success", "Status do atendimento atualizado com sucesso."));
+    }
+
+    @GetMapping("/partner/{partnerId}")
+    public ResponseEntity<List<AtendimentoMarcadoDTO>> listaAtendimentoMarcadoParaClinica(@PathVariable UUID partnerId) {
+        Partner partner = partnerRepository.findById(partnerId).orElseThrow(() -> new EntityNotFoundException("Partner not found"));
+
+        // Busca os atendimentos marcados associados ao usuário
+        List<AtendimentoMarcado> atendimentosMarcados = atendimentoMarcadoRepository.findByPartner(partner);
+
+        // Converte os atendimentos marcados para DTOs
+        List<AtendimentoMarcadoDTO> atendimentosDTO = atendimentosMarcados.stream()
+                .map(atendimento -> new AtendimentoMarcadoDTO(
+                        atendimento,
+                        atendimento.getPartner(),
+                        atendimento.getUser(),
+                        atendimento.getServicoPrestado(),
+                        atendimento.getAnimal()
+                ))
+                .toList();
+        return ResponseEntity.ok().body(atendimentosDTO);
     }
 
 }
