@@ -108,7 +108,7 @@ public class UpdateUserUseCaseTest {
         existingUser.setEmail(new Email("aaaaa@gmail.com"));
         existingUser.setDateOfBirth(BirthDayUtils.convertToDate("2000-12-01"));
         existingUser.setPhoneNumber(new PhoneNumber("(21) 22222-2222"));
-        existingUser.setPersonalRegistration(new PersonalRegistration("11111111111", DocumentType.CPF));
+        existingUser.setPersonalRegistration(new PersonalRegistration("111.111.111-11", DocumentType.CPF));
         return existingUser;
     }
 
@@ -120,7 +120,7 @@ public class UpdateUserUseCaseTest {
         newUser.setEmail("aaaaa@gmail.com");
         newUser.setBirthDate("2000-12-01");
         newUser.setPhoneNumber("(21) 22222-2222");
-        newUser.setDocument("11111111111");
+        newUser.setDocument("111.111.111-11");
         newUser.setDocumentType("CPF");
         return newUser;
     }

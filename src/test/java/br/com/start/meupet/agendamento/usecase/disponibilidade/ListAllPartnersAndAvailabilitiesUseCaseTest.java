@@ -39,7 +39,7 @@ public class ListAllPartnersAndAvailabilitiesUseCaseTest {
         partner1.setEmail(new Email("aaaaa@gmail.com"));
         partner1.setPassword("321312312");
         partner1.setPhoneNumber(new PhoneNumber("(21) 22222-2222"));
-        partner1.setPersonalRegistration(new PersonalRegistration("11111111111111", DocumentType.CNPJ));
+        partner1.setPersonalRegistration(new PersonalRegistration("11.111.111/1111-11", DocumentType.CNPJ));
         Disponibilidade disponibilidade1 = new Disponibilidade();
         disponibilidade1.setId(1L);
         disponibilidade1.setStartTime(LocalTime.of(8, 0));
@@ -52,7 +52,7 @@ public class ListAllPartnersAndAvailabilitiesUseCaseTest {
         partner2.setEmail(new Email("aaaaa@gmail.com"));
         partner2.setPassword("321312312");
         partner2.setPhoneNumber(new PhoneNumber("(21) 22222-2222"));
-        partner2.setPersonalRegistration(new PersonalRegistration("11111111111111", DocumentType.CNPJ));
+        partner2.setPersonalRegistration(new PersonalRegistration("11.111.111/1111-11", DocumentType.CNPJ));
         Disponibilidade disponibilidade2 = new Disponibilidade();
         disponibilidade2.setId(2L);
         disponibilidade2.setStartTime(LocalTime.of(10, 0));

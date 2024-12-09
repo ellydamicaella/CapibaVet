@@ -43,7 +43,7 @@ public class ListAllUsersAndAnimalsUseCaseTest {
         user1.setPassword("321312312");
         user1.setDateOfBirth(BirthDayUtils.convertToDate("2000-12-01"));
         user1.setPhoneNumber(new PhoneNumber("(21) 22222-2222"));
-        user1.setPersonalRegistration(new PersonalRegistration("11111111111", DocumentType.CPF));
+        user1.setPersonalRegistration(new PersonalRegistration("111.111.111-11", DocumentType.CPF));
 
 
         Animal animal1 = new Animal();
@@ -59,7 +59,7 @@ public class ListAllUsersAndAnimalsUseCaseTest {
         user2.setPassword("321312312");
         user2.setDateOfBirth(BirthDayUtils.convertToDate("2000-12-01"));
         user2.setPhoneNumber(new PhoneNumber("(21) 22222-2222"));
-        user2.setPersonalRegistration(new PersonalRegistration("11111111111", DocumentType.CPF));
+        user2.setPersonalRegistration(new PersonalRegistration("111.111.111-11", DocumentType.CPF));
 
 
 

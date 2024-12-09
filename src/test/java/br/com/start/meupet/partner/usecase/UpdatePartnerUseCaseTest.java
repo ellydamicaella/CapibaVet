@@ -105,7 +105,7 @@ public class UpdatePartnerUseCaseTest {
         existingPartner.setPassword("oldPassword");
         existingPartner.setEmail(new Email("aaaaa@gmail.com"));
         existingPartner.setPhoneNumber(new PhoneNumber("(21) 22222-2222"));
-        existingPartner.setPersonalRegistration(new PersonalRegistration("11111111111111", DocumentType.CNPJ));
+        existingPartner.setPersonalRegistration(new PersonalRegistration("11.111.111/1111-11", DocumentType.CNPJ));
         return existingPartner;
     }
 
@@ -115,7 +115,7 @@ public class UpdatePartnerUseCaseTest {
         newPartner.setPassword("newPassword");
         newPartner.setEmail("aaaaa@gmail.com");
         newPartner.setPhoneNumber("(21) 22222-2222");
-        newPartner.setDocument("11111111111111");
+        newPartner.setDocument("11.111.111/1111-11");
         newPartner.setDocumentType("CNPJ");
         return newPartner;
     }

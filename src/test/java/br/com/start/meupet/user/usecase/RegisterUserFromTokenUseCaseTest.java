@@ -41,7 +41,7 @@ public class RegisterUserFromTokenUseCaseTest {
         when(claims.get("socialName", String.class)).thenReturn("User");
         when(claims.get("phoneNumber", String.class)).thenReturn("(81) 99999-9999");
         when(claims.get("password", String.class)).thenReturn("password123");
-        when(claims.get("document", String.class)).thenReturn("11111111111");
+        when(claims.get("document", String.class)).thenReturn("111.111.111-11");
         when(claims.get("documentType", String.class)).thenReturn("CPF");
         when(claims.get("birthDate", String.class)).thenReturn("2000-01-01");
 
@@ -69,7 +69,7 @@ public class RegisterUserFromTokenUseCaseTest {
         when(claims.get("socialName", String.class)).thenReturn("User");
         when(claims.get("phoneNumber", String.class)).thenReturn("(81) 99999-9999");
         when(claims.get("password", String.class)).thenReturn("password123");
-        when(claims.get("document", String.class)).thenReturn("11111111111");
+        when(claims.get("document", String.class)).thenReturn("111.111.111-11");
         when(claims.get("documentType", String.class)).thenReturn("CPF");
         when(claims.get("birthDate", String.class)).thenReturn("2000-01-01");
 
@@ -98,7 +98,7 @@ public class RegisterUserFromTokenUseCaseTest {
         when(claims.get("socialName", String.class)).thenReturn(null);
         when(claims.get("phoneNumber", String.class)).thenReturn("(81) 99999-9999");
         when(claims.get("password", String.class)).thenReturn("password123");
-        when(claims.get("document", String.class)).thenReturn("11111111111");
+        when(claims.get("document", String.class)).thenReturn("111.111.111-11");
         when(claims.get("documentType", String.class)).thenReturn("CPF");
         when(claims.get("birthDate", String.class)).thenReturn("2000-01-01");
 

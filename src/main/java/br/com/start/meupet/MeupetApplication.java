@@ -13,13 +13,8 @@ public class MeupetApplication {
 
     public static void main(String[] args) {
         ConfigurableApplicationContext context = SpringApplication.run(MeupetApplication.class, args);
-//        Integer port = context.getEnvironment().getProperty("server.port", Integer.class, 8080);
-//
-//        System.out.println("Servidor iniciado na porta: " + port);
-        System.out.println(DocumentValidator.isValidCPF("123.456.789-09")); //true
-        System.out.println(DocumentValidator.isValidCPF("12345678909")); //false
+        Integer port = context.getEnvironment().getProperty("server.port", Integer.class, 8080);
 
-        System.out.println(DocumentValidator.isValidCNPJ("12.345.678/0001-95")); //true
-        System.out.println(DocumentValidator.isValidCNPJ("12345678000195")); //false
+        System.out.println("Servidor iniciado na porta: " + port);
     }
 }

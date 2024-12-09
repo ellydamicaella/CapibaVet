@@ -44,7 +44,7 @@ public class GetUserAndAnimalsUseCaseTest {
         mockUser.setPassword("321312312");
         mockUser.setDateOfBirth(BirthDayUtils.convertToDate("2000-12-01"));
         mockUser.setPhoneNumber(new PhoneNumber("(21) 22222-2222"));
-        mockUser.setPersonalRegistration(new PersonalRegistration("11111111111", DocumentType.CPF));
+        mockUser.setPersonalRegistration(new PersonalRegistration("111.111.111-11", DocumentType.CPF));
 
 
         Animal animal1 = new Animal();

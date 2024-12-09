@@ -41,7 +41,7 @@ public class RegisterPartnerFromTokenUseCaseTest {
         when(claims.get("name", String.class)).thenReturn("Partner Example");
         when(claims.get("phoneNumber", String.class)).thenReturn("(81) 99999-9999");
         when(claims.get("password", String.class)).thenReturn("password123");
-        when(claims.get("document", String.class)).thenReturn("11111111111111");
+        when(claims.get("document", String.class)).thenReturn("11.111.111/1111-11");
         when(claims.get("documentType", String.class)).thenReturn("CNPJ");
 
         Partner partner = new Partner();
@@ -67,7 +67,7 @@ public class RegisterPartnerFromTokenUseCaseTest {
         when(claims.get("name", String.class)).thenReturn("Existing Partner");
         when(claims.get("phoneNumber", String.class)).thenReturn("(81) 99999-9999");
         when(claims.get("password", String.class)).thenReturn("password123");
-        when(claims.get("document", String.class)).thenReturn("11111111111111");
+        when(claims.get("document", String.class)).thenReturn("11.111.111/1111-11");
         when(claims.get("documentType", String.class)).thenReturn("CNPJ");
 
         doThrow(new EntityConflictException("Partner already exists"))

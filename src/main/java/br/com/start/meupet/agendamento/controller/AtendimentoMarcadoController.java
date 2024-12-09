@@ -2,8 +2,16 @@ package br.com.start.meupet.agendamento.controller;
 
 import br.com.start.meupet.agendamento.dto.atendimento.AtendimentoMarcadoDTO;
 import br.com.start.meupet.agendamento.dto.atendimento.AtendimentoMarcadoRequestDTO;
+import br.com.start.meupet.agendamento.dto.atendimento.AtendimentoStatusDTO;
+import br.com.start.meupet.agendamento.enums.AtendimentoStatus;
 import br.com.start.meupet.agendamento.facade.AtendimentoMarcadoFacade;
+import br.com.start.meupet.agendamento.model.AtendimentoMarcado;
+import br.com.start.meupet.agendamento.repository.AtendimentoMarcadoRepository;
 import br.com.start.meupet.auth.dto.StatusResponseDTO;
+import br.com.start.meupet.common.exceptions.EntityNotFoundException;
+import br.com.start.meupet.partner.model.Partner;
+import br.com.start.meupet.partner.repository.PartnerRepository;
+import br.com.start.meupet.user.model.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,9 +28,13 @@ import java.util.UUID;
 public class AtendimentoMarcadoController {
 
     private final AtendimentoMarcadoFacade atendimentoMarcadoFacade;
+    private final PartnerRepository partnerRepository;
+    private final AtendimentoMarcadoRepository atendimentoMarcadoRepository;
 
-    public AtendimentoMarcadoController(AtendimentoMarcadoFacade atendimentoMarcadoFacade) {
+    public AtendimentoMarcadoController(AtendimentoMarcadoFacade atendimentoMarcadoFacade, PartnerRepository partnerRepository, AtendimentoMarcadoRepository atendimentoMarcadoRepository) {
         this.atendimentoMarcadoFacade = atendimentoMarcadoFacade;
+        this.partnerRepository = partnerRepository;
+        this.atendimentoMarcadoRepository = atendimentoMarcadoRepository;
     }
 
     @GetMapping
